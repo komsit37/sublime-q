@@ -13,7 +13,7 @@ shows rows, column, time at status bar <br>
 <li>shift + f4 show memory usage (.Q.w)</li>
 </ul>
 
-Requires custom numpy 1.8 build for each platform/architecture. I only has osx at home, so if anyone can build numpy for those unsupported platform, please add
+Requires custom numpy 1.8 build for each platform/architecture. Support can be easily extended by adding proper numpy build to lib/[os]_[architecture]
 ###Supported
 * osx_x64
 
