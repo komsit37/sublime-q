@@ -6,6 +6,7 @@ from qpython.qtype import QException
 from socket import error as socket_error
 
 from . import chain
+from . import QCon as Q
 
 #for testing in console
 #from qpython import qconnection
@@ -15,14 +16,20 @@ from . import chain
 #d = d.decode('utf-8')
 #view.show_popup(d)
 class QSendRawCommand(chain.ChainCommand):
+
     def do(self, edit=None, input=None):
-        return self.send(input)
+        con = Q.QCon.loadFromView(self.view)
+        print()
+        if con:
+            return self.send(con, input)
+        else:
+            print('connect first!')
    
-    def send(self, s):
+    def send(self, con, s):
         try:
-            q = qconnection.QConnection(host = 'localhost', port = 5555)
+            q = con.q
             q.open()
-            self.view.set_status('q', 'OK')
+            self.view.set_status('q', 'OK: ' + con.h())
             
             #bundle all pre/post q call to save round trip time
             pre_exec = []
@@ -53,7 +60,8 @@ class QSendRawCommand(chain.ChainCommand):
         except QException as e:
             res = "error: `" + self.decode(e)
         except socket_error as serr:
-            self.view.set_status('q', 'FAIL: ' + Q.con)
+            sublime.error_message('Sublime-q cannot to connect to \n"' + con.h() + '"\n\nError message: ' + str(serr))
+            self.view.set_status('q', 'FAIL: ' + con.h())
             raise serr
         finally:
             q.close()
