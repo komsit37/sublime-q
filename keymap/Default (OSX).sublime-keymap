@@ -1,6 +1,8 @@
 [
-	{ "keys": ["super+e"], 		"command": "chain", "args": {"chain": ["q_select_text", "q_send", "q_out_panel"]}},
-	{ "keys": ["super+enter"], 	"command": "chain", "args": {"chain": ["q_select_text", "q_send", "q_out_panel"]}},
+	{ "keys": ["super+e"], 			"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_popup"]}},
+	{ "keys": ["super+enter"], 		"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_panel"]}},
+	{ "keys": ["super+j"],			"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json"]}},
+	{ "keys": ["super+shift+enter"],"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json"]}},
 
 	{ "keys": ["super+q","1"], 	"command": "q_send", "args": {"input": "til 10"}},
 	{ "keys": ["super+q","2"], 	"command": "q_send", "args": {"input": "til 10", "chain": ["q_out_panel"]}},

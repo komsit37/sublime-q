@@ -7,9 +7,15 @@ from socket import error as socket_error
 
 from . import chain
 
-
-class QSendCommand(chain.ChainCommand):
-    def do(self, edit, input=None):
+#for testing in console
+#from qpython import qconnection
+#q = qconnection.QConnection(host = 'localhost', port = 5555)
+#q.open()
+#d = q('.Q.s `a`b`c!1 2 3')
+#d = d.decode('utf-8')
+#view.show_popup(d)
+class QSendRawCommand(chain.ChainCommand):
+    def do(self, edit=None, input=None):
         return self.send(input)
    
     def send(self, s):
@@ -17,29 +23,27 @@ class QSendCommand(chain.ChainCommand):
             q = qconnection.QConnection(host = 'localhost', port = 5555)
             q.open()
             self.view.set_status('q', 'OK')
-
-            statement = self.transfrom(s)
             
             #bundle all pre/post q call to save round trip time
-            pre_cmds = []
-            #pre_cmds.append('if[not `st in key `; .st.tmp: `]')
-            pre_cmds.append('.st.start:.z.T')   #start timing
-            pre_cmd_statement = ';'.join(pre_cmds)
-            #print(pre_cmd_statement)
-            q(pre_cmd_statement)
+            pre_exec = []
+            #pre_exec.append('if[not `st in key `; .st.tmp: `]')
+            pre_exec.append('.st.start:.z.T')   #start timing
+            pre_exec = ';'.join(pre_exec)
+            #print(pre_exec)
+            q(pre_exec)
 
-            res = q(statement)
+            res = q(s)
            
-            post_cmds = []
+            post_exec = []
             #get exec time, result dimensions
-            post_cmds.append('res:`time`c!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[cols;.st.tmp;()]),count .st.tmp))')
-            post_cmds.append('delete tmp, start, execTime from `.st') #clean up .st
-            post_cmds.append('.st: ` _ .st') #clean up .st
-            post_cmds.append('res')
-            post_cmd_statement = ';'.join(post_cmds)
-            post_cmd_statement = '{' + post_cmd_statement + '}[]'   #exec in closure so we don't leave anything behind
-            #print(post_cmd_statement)
-            tc = q(post_cmd_statement)
+            post_exec.append('res:`time`c!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[cols;.st.tmp;()]),count .st.tmp))')
+            post_exec.append('delete tmp, start, execTime from `.st') #clean up .st
+            post_exec.append('.st: ` _ .st') #clean up .st
+            post_exec.append('res')
+            post_exec = ';'.join(post_exec)
+            post_exec = '{' + post_exec + '}[]'   #exec in closure so we don't leave anything behind
+            #print(post_exec)
+            tc = q(post_exec)
 
             res = self.decode(res)
             time = self.decode(tc[b'time'])
@@ -67,8 +71,19 @@ class QSendCommand(chain.ChainCommand):
         else:
             return str(s)
 
-    def transfrom(self, s):
-        if (s[0] == "\\"):
-            return "value\"\\" + s + "\""
+class QSendCommand(QSendRawCommand):
+    def do(self, edit, input=None):
+        if (input[0] == "\\"):
+            input = "value\"\\" + input + "\""
         else:
-            return ".Q.s .st.tmp:" + s  #save to temprary result, so we can get dimension later
+            input = ".Q.s .st.tmp:" + input  #save to temprary result, so we can get dimension later
+        return super().do(input=input)
+
+class QSendJsonCommand(QSendRawCommand):
+    def do(self, edit, input=None):
+        if (input[0] == "\\"):
+            input = "value\"\\" + input + "\""
+        else:
+            input = ".j.j .st.tmp:" + input  #save to temprary result, so we can get dimension later
+        return super().do(input=input)
+   
