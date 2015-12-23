@@ -3,7 +3,7 @@
 	{ "keys": ["super+e"], 			"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_popup"]}},
 	{ "keys": ["super+enter"], 		"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_panel"]}},
 	{ "keys": ["super+j"],			"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json"]}},
-	{ "keys": ["super+shift+enter"],"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json"]}},
+	{ "keys": ["super+shift+enter"],"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_panel"]}},
 
 	//connection
 	{ "keys": ["super+q", "n"], 	"command": "q_prompt_new_connection"},
@@ -14,6 +14,9 @@
 	{ "keys": ["super+q", "u"], 	"command": "q_list_connection", "args": {"action": "update"}},
 	{ "keys": ["super+q", "r"], 	"command": "q_list_connection", "args": {"action": "rename"}},
 	{ "keys": ["super+q", "t"], 	"command": "q_test_connection"},
+
+	//shortcut
+	{ "keys": ["f1"], "command": "goto_documentation", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }] },
 
 	//test
 	{ "keys": ["super+q","1"], 	"command": "q_send", "args": {"input": "til 10"}},

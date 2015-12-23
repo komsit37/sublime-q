@@ -1,0 +1,134 @@
+[
+    {
+        "id": "tools",
+        "children":
+        [{
+            "caption": "Sublime-q",
+            "mnemonic": "q",
+            "id": "SublimeQ",
+            "children":
+            [
+                {"caption": "Send",
+                 "children":
+                    [
+                        { "caption": "Send (popup)",         "command": "chain", "args": {"chain": ["q_select_text", "q_send",       "q_out_popup"]}},
+                        { "caption": "Send",                 "command": "chain", "args": {"chain": ["q_select_text", "q_send",       "q_out_panel"]}},
+                        { "caption": "-" },
+                        { "caption": "Send (JSON-popup)",    "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_popup_json"]}},
+                        { "caption": "Send (JSON output)",   "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_panel"]}},
+                ]},
+                {"caption": "Connection",
+                 "children":
+                    [
+                        {"caption": "New Connection", "command": "q_prompt_new_connection"},
+                        {"caption": "Edit Current Connection", "command": "q_prompt_edit_connection"},
+                        {"caption": "Save Current Connection", "command": "q_add_connection"},
+                        { "caption": "-" },
+                        {"caption": "Open Connection", "command": "q_list_connection", "args": {"action": "open"}},
+                        {"caption": "Delete Connection", "command": "q_list_connection", "args": {"action": "delete"}},
+                        {"caption": "Edit Connection", "command": "q_list_connection", "args": {"action": "update"}},
+                        {"caption": "Rename Connection", "command": "q_list_connection", "args": {"action": "rename"}},
+                    ]
+                },
+                {"caption": "Shortcut",
+                 "children":
+                    [
+                        {"caption": "New Connection", "command": "q_prompt_new_connection"},
+                        {"caption": "Edit Current Connection", "command": "q_prompt_edit_connection"},
+                        {"caption": "Save Current Connection", "command": "q_add_connection"},
+                        { "caption": "-" },
+                        {"caption": "Open Connection", "command": "q_list_connection", "args": {"action": "open"}},
+                        {"caption": "Delete Connection", "command": "q_list_connection", "args": {"action": "delete"}},
+                        {"caption": "Edit Connection", "command": "q_list_connection", "args": {"action": "update"}},
+                        {"caption": "Rename Connection", "command": "q_list_connection", "args": {"action": "rename"}},
+                    ]
+                }
+            ]
+        }]
+    },
+    {
+        "caption": "Preferences",
+        "mnemonic": "n",
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "mnemonic": "P",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "sublime-q",
+                        "children":
+                        [
+                            {
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/sublime-q/settings/sublime-q.sublime-settings"
+                                },
+                                "caption": "Settings – Default"
+                            },
+                            {
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/User/sublime-q.sublime-settings"
+                                },
+                                "caption": "Settings – User"
+                            },
+                            { "caption": "-" },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/sublime-q/sublime/Default (OSX).sublime-keymap",
+                                    "platform": "OSX"
+                                },
+                                "caption": "Key Bindings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/sublime-q/sublime/Default (Linux).sublime-keymap",
+                                    "platform": "Linux"
+                                },
+                                "caption": "Key Bindings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/sublime-q/sublime/Default (Windows).sublime-keymap",
+                                    "platform": "Windows"
+                                },
+                                "caption": "Key Bindings – Default"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/Default (OSX).sublime-keymap",
+                                    "platform": "OSX"
+                                },
+                                "caption": "Key Bindings – User"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/Default (Linux).sublime-keymap",
+                                    "platform": "Linux"
+                                },
+                                "caption": "Key Bindings – User"
+                            },
+                            {
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/Default (Windows).sublime-keymap",
+                                    "platform": "Windows"
+                                },
+                                "caption": "Key Bindings – User"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
