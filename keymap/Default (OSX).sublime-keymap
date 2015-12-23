@@ -1,0 +1,6 @@
+[
+	{ "keys": ["super+alt+a"], "command": "q_send", "args": {"text": "til 10"}},
+	{ "keys": ["super+alt+s"], "command": "q_select_text"},
+	{ "keys": ["super+e"], "command": "q_select_text", "args": {"chain": ["q_send", "q_out_panel"]}},
+	{ "keys": ["super+q"], "command": "q_out_panel", "args": {"text": "hello man"}}
+]
