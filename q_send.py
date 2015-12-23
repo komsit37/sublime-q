@@ -1,19 +1,16 @@
 import sublime
 import sublime_plugin
-import string
+
 from qpython import qconnection
 from qpython.qtype import QException
 from socket import error as socket_error
 
+from . import chain
 
-class QSendCommand(sublime_plugin.TextCommand):
-    def run(self, edit, text, chain=None):
-        res = self.send(text)
-        if chain is not None and len(chain) > 0:
-            self.view.run_command(chain[0], {"text": res, "chain": chain[1:]})
-        else:
-            print(res)
-        #self.view.run_command("q_out_panel", {"text": res})
+
+class QSendCommand(chain.ChainCommand):
+    def do(self, edit, input=None):
+        return self.send(input)
    
     def send(self, s):
         try:
@@ -23,6 +20,7 @@ class QSendCommand(sublime_plugin.TextCommand):
 
             statement = self.transfrom(s)
             
+            #bundle all pre/post q call to save round trip time
             pre_cmds = []
             #pre_cmds.append('if[not `st in key `; .st.tmp: `]')
             pre_cmds.append('.st.start:.z.T')   #start timing

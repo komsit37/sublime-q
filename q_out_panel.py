@@ -1,16 +1,16 @@
-import sublime, sublime_plugin
+from . import chain
 
 #show_q_output
-class QOutPanelCommand(sublime_plugin.TextCommand):
+class QOutPanelCommand(chain.ChainCommand):
 
-	def run(self, edit, text, chain=None):
-		print(text)
+	def do(self, edit, input=None):
+
 		#if not hasattr(self, 'panel'):
 		panel = self.view.window().get_output_panel("q")
 		panel.set_syntax_file("Packages/sublime-q/syntax/q_output.tmLanguage")
 		panel.settings().set("word_wrap", False)
 
 		panel.set_read_only(False)
-		panel.insert(edit, panel.size(), text)
+		panel.insert(edit, panel.size(), input)
 		panel.set_read_only(True)
 		self.view.window().run_command("show_panel", {"panel": "output.q"})

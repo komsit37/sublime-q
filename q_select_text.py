@@ -1,33 +1,28 @@
-import sublime
-import sublime_plugin
+from . import chain
 
-class QSelectTextCommand(sublime_plugin.TextCommand):
-        
-    def run(self, edit, advanceCursor=False, chain=None):
+class QSelectTextCommand(chain.ChainCommand):       
+    def do(self, edit, input=None):
         # get s
-        s = self.selectText(advanceCursor)
+        s = self.selectText()
 
         # only proceed if s is not empty
         if(s == "" or s == "\n"):
             return
-        #s = s.encode('ascii')  # qpy needs ascii
-        if chain is not None and len(chain) > 0:
-            self.view.run_command(chain[0], {"text": s, "chain": chain[1:]})
         else:
-            print(s)
-        
+            return s
 
-    def selectText(self, advanceCursor):
+    def selectText(self):
         s = ""
         for region in self.view.sel():
             if region.empty():
                 s += self.view.substr(self.view.line(region))
-                if advanceCursor:
-                    self.advanceCursor(region)
+                #if advanceCursor:
+                #    self.advanceCursor(region)
             else:
                 s += self.view.substr(region)
         return s
 
+    #not used
     def advanceCursor(self, region):
         (row, col) = self.view.rowcol(region.begin())
 
