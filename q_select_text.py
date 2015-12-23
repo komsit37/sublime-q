@@ -37,6 +37,28 @@ class QSelectTextCommand(chain.ChainCommand):
         self.view.sel().subtract(region)
         self.view.sel().add(sublime.Region(loc, loc))
 
+class QSelectWordCommand(chain.ChainCommand):       
+    def do(self, edit, input=None):
+        # grab the word or the selection from the view
+        region = self.view.sel()[0]
+        location = False
+        if region.empty():
+            # if we have no selection grab the current word
+            location = self.view.word(region)
+        else:
+            # grab the selection
+            location = region
+
+        if location and not location.empty():
+            s = self.view.substr(location)
+            scope = self.view.scope_name(location.begin()).rpartition('.')[2].strip()
+
+        # only proceed if s is not empty
+        if(s == "" or s == "\n"):
+            return
+        else:
+            return s
+
 
 
   

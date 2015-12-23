@@ -35,7 +35,8 @@ class QOutPopupBaseCommand(chain.ChainCommand):
 			QOutPopupBaseCommand.TO_CLOSE = False
 			self.view.hide_popup()
 			#wait until previous popup close and then open again
-			sublime.set_timeout(lambda x=input:self.do(input=x), 100)
+			#press same shortcut to hide popup
+			#sublime.set_timeout(lambda x=input:self.do(input=x), 100)
 
 	def eol_rowcol(self):
 		return self.view.rowcol(self.view.line(self.view.sel()[0]).end())

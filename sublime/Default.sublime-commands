@@ -10,7 +10,5 @@
     {"caption": "Q: Open Connection", "command": "q_list_connection", "args": {"action": "open"}},
     {"caption": "Q: Delete Connection", "command": "q_list_connection", "args": {"action": "delete"}},
     {"caption": "Q: Edit Connection", "command": "q_list_connection", "args": {"action": "update"}},
-    {"caption": "Q: Rename Connection", "command": "q_list_connection", "args": {"action": "rename"}},
-
-    {"caption": "Q: Help", "command": "goto_documentation"}
+    {"caption": "Q: Rename Connection", "command": "q_list_connection", "args": {"action": "rename"}}
 ]

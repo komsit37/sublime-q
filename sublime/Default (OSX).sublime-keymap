@@ -17,11 +17,20 @@
 
 	//shortcut
 	{ "keys": ["f1"], "command": "goto_documentation", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }] },
+	{ "keys": ["f2"], 		"command": "chain", "args": {"chain": ["q_select_word", "q_send", "q_out_panel"]}},
+	{ "keys": ["shift+f2"], "command": "chain", "args": {"chain": ["q_select_word", "q_send", "q_out_popup"]}},
+	{ "keys": ["f3"], 		"command": "chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_panel"]}},
+	{ "keys": ["shift+f3"], "command": "chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_popup"]}},
+	{ "keys": ["f4"], 		"command": "chain", "args": {"chain": ["q_send_table", "q_out_panel"]}},
+	{ "keys": ["shift+f4"], "command": "chain", "args": {"chain": ["q_send_table", "q_out_popup"]}},
+	{ "keys": ["f5"], 		"command": "chain", "args": {"chain": ["q_send_env", "q_out_panel"]}},
+	{ "keys": ["shift+f5"], "command": "chain", "args": {"chain": ["q_send_mem", "q_out_panel"]}},
 
 	//test
 	{ "keys": ["super+q","1"], 	"command": "q_send", "args": {"input": "til 10"}},
 	{ "keys": ["super+q","2"], 	"command": "q_send", "args": {"input": "til 10", "chain": ["q_out_panel"]}},
 	{ "keys": ["super+q","3"], 	"command": "q_select_text"},
-	{ "keys": ["super+q","4"], 	"command": "q_out_panel", "args": {"input": "hello man"}},
-	{ "keys": ["super+q","5"], 	"command": "chain", "args": {"input": "til 10", "chain": ["q_send", "q_out_panel"]}},
+	{ "keys": ["super+q","4"], 	"command": "q_select_word"},
+	{ "keys": ["super+q","5"], 	"command": "q_out_panel", "args": {"input": "hello man"}},
+	{ "keys": ["super+q","6"], 	"command": "chain", "args": {"input": "til 10", "chain": ["q_send", "q_out_panel"]}},
 ]
