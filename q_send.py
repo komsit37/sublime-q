@@ -19,11 +19,12 @@ class QSendRawCommand(chain.ChainCommand):
 
     def do(self, edit=None, input=None):
         con = Q.QCon.loadFromView(self.view)
-        print()
         if con:
             return self.send(con, input)
         else:
-            print('connect first!')
+            #connect first
+            sublime.message_dialog('Sublime-q: Choose your q connection first!')
+            self.view.window().run_command('q_list_connection', {'action': 'open'})
    
     def send(self, con, s):
         try:
