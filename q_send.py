@@ -24,13 +24,12 @@ class QSendRawCommand(chain.ChainCommand):
         else:
             #connect first
             sublime.message_dialog('Sublime-q: Choose your q connection first!')
-            self.view.window().run_command('q_list_connection', {'action': 'open'})
+            self.view.window().run_command('show_connection_list')
    
     def send(self, con, s):
         try:
             q = con.q
             q.open()
-            self.view.set_status('q', 'OK: ' + con.h())
             
             #bundle all pre/post q call to save round trip time
             pre_exec = []
@@ -62,10 +61,11 @@ class QSendRawCommand(chain.ChainCommand):
             res = "error: `" + self.decode(e)
         except socket_error as serr:
             sublime.error_message('Sublime-q cannot to connect to \n"' + con.h() + '"\n\nError message: ' + str(serr))
-            self.view.set_status('q', 'FAIL: ' + con.h())
             raise serr
         finally:
             q.close()
+
+        self.view.set_status('q', con.status())
         
         #return itself if query is define variable or function
         if res is None:

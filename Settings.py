@@ -1,40 +1,62 @@
 import sublime, sublime_plugin
+from . import QCon as Q
 
 class Settings():
-	package = sublime.load_settings('sublime-q.sublime-settings')
+	package = {}
 
 	@staticmethod
 	def save():
 		sublime.save_settings('sublime-q.sublime-settings')
 
 	@staticmethod
+	def add_connection(qcon):
+		con_dicts = Settings.get('connections')
+		if not Settings.has_connection(qcon):
+			con_dicts.insert(0, qcon.toDict())	#then add to top
+			Settings.set('connections', con_dicts)
+			Settings.save()
+
+	@staticmethod
+	def delete_connection(qcon):
+		con_dicts = Settings.get('connections')
+		con_dicts = list(filter(lambda x: not qcon.equals(x), con_dicts))
+		Settings.set('connections', con_dicts)
+		Settings.save()
+
+	@staticmethod
+	def update_connection(qcon, new_qcon):
+		con_dicts = Settings.get('connections')
+		for i, c in enumerate(con_dicts):	#modoify existing qcon
+			if qcon.equals(c):
+				con_dicts[i] = new_qcon.toDict()
+
+		Settings.package.set('connections', con_dicts)
+		Settings.save()
+
+	@staticmethod
+	def has_connection(qcon):
+		con_dicts = Settings.get('connections')
+		for c in con_dicts:	#modoify existing qcon
+			if qcon.equals(c):
+				return True
+		return False
+
+	@staticmethod
+	def get(key):
+		if not Settings.package:
+			Settings.package = sublime.load_settings('sublime-q.sublime-settings')
+
+		return Settings.package.get(key)
+
+	@staticmethod
+	def set(key, value):
+		Settings.package.set(key, value)
+
+	#actual use
+	@staticmethod
 	def default_new_connection():
-		return Settings.package.get('default_new_connection')
-
-	@staticmethod
-	def add_connection(name, h):
-		connections = Settings.package.get('connections')
-		connections = list(filter(lambda x: x['h'] != h, connections))
-		connections.append({"name": name, "h": h})
-		Settings.package.set('connections', connections)
-		Settings.save()
-
-	@staticmethod
-	def delete_connection(h):
-		connections = Settings.package.get('connections')
-		connections = list(filter(lambda x: x['h'] != h, connections))
-		Settings.package.set('connections', connections)
-		Settings.save()
-
-	@staticmethod
-	def update_connection(name, h, newh):
-		connections = Settings.package.get('connections')
-		connections = list(filter(lambda x: x['h'] != h, connections))
-		connections.append({"name": name, "h": newh})
-		print(connections)
-		Settings.package.set('connections', connections)
-		Settings.save()
+		return Settings.get('default_new_connection')
 
 	@staticmethod
 	def get_connections():
-		return Settings.package.get('connections')
+		return Settings.get('connections') or []

@@ -4,11 +4,5 @@
     { "caption": "Q: Send (JSON-popup)",    "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_popup_json"]}},
     { "caption": "Q: Send (JSON output)",          "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_panel"]}},
 
-    {"caption": "Q: New Connection", "command": "q_prompt_new_connection"},
-    {"caption": "Q: Edit Current Connection", "command": "q_prompt_edit_connection"},
-    {"caption": "Q: Save Current Connection", "command": "q_add_connection"},
-    {"caption": "Q: Open Connection", "command": "q_list_connection", "args": {"action": "open"}},
-    {"caption": "Q: Delete Connection", "command": "q_list_connection", "args": {"action": "delete"}},
-    {"caption": "Q: Edit Connection", "command": "q_list_connection", "args": {"action": "update"}},
-    {"caption": "Q: Rename Connection", "command": "q_list_connection", "args": {"action": "rename"}}
+    {"caption": "Q: Connect", "command": "show_connection_list"}
 ]

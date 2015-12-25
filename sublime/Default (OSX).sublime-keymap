@@ -6,14 +6,7 @@
 	{ "keys": ["super+shift+enter"],"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_panel"]}},
 
 	//connection
-	{ "keys": ["super+q", "n"], 	"command": "q_prompt_new_connection"},
-	{ "keys": ["super+q", "e"], 	"command": "q_prompt_edit_connection"},
-	{ "keys": ["super+q", "a"], 	"command": "q_add_connection"},
-	{ "keys": ["super+q", "o"], 	"command": "q_list_connection", "args": {"action": "open"}},
-	{ "keys": ["super+q", "d"], 	"command": "q_list_connection", "args": {"action": "delete"}},
-	{ "keys": ["super+q", "u"], 	"command": "q_list_connection", "args": {"action": "update"}},
-	{ "keys": ["super+q", "r"], 	"command": "q_list_connection", "args": {"action": "rename"}},
-	{ "keys": ["super+q", "t"], 	"command": "q_test_connection"},
+	{ "keys": ["super+q"], 	"command": "show_connection_list"},
 
 	//shortcut
 	{ "keys": ["f1"], "command": "goto_documentation", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }] },
@@ -27,10 +20,10 @@
 	{ "keys": ["shift+f5"], "command": "chain", "args": {"chain": ["q_send_mem", "q_out_panel"]}},
 
 	//test
-	{ "keys": ["super+q","1"], 	"command": "q_send", "args": {"input": "til 10"}},
-	{ "keys": ["super+q","2"], 	"command": "q_send", "args": {"input": "til 10", "chain": ["q_out_panel"]}},
-	{ "keys": ["super+q","3"], 	"command": "q_select_text"},
-	{ "keys": ["super+q","4"], 	"command": "q_select_word"},
-	{ "keys": ["super+q","5"], 	"command": "q_out_panel", "args": {"input": "hello man"}},
-	{ "keys": ["super+q","6"], 	"command": "chain", "args": {"input": "til 10", "chain": ["q_send", "q_out_panel"]}},
+	{ "keys": ["super+alt+q","1"], 	"command": "q_send", "args": {"input": "til 10"}},
+	{ "keys": ["super+alt+q","2"], 	"command": "q_send", "args": {"input": "til 10", "chain": ["q_out_panel"]}},
+	{ "keys": ["super+alt+q","3"], 	"command": "q_select_text"},
+	{ "keys": ["super+alt+q","4"], 	"command": "q_select_word"},
+	{ "keys": ["super+alt+q","5"], 	"command": "q_out_panel", "args": {"input": "hello man"}},
+	{ "keys": ["super+alt+q","6"], 	"command": "chain", "args": {"input": "til 10", "chain": ["q_send", "q_out_panel"]}},
 ]

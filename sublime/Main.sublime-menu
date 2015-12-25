@@ -8,6 +8,7 @@
             "id": "SublimeQ",
             "children":
             [
+                {"caption": "Connect", "command": "show_connection_list"},
                 {"caption": "Send",
                  "children":
                     [
@@ -17,19 +18,6 @@
                         { "caption": "Send (JSON-popup)",    "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_popup_json"]}},
                         { "caption": "Send (JSON output)",   "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_panel"]}},
                 ]},
-                {"caption": "Connection",
-                 "children":
-                    [
-                        {"caption": "New Connection", "command": "q_prompt_new_connection"},
-                        {"caption": "Edit Current Connection", "command": "q_prompt_edit_connection"},
-                        {"caption": "Save Current Connection", "command": "q_add_connection"},
-                        { "caption": "-" },
-                        {"caption": "Open Connection", "command": "q_list_connection", "args": {"action": "open"}},
-                        {"caption": "Delete Connection", "command": "q_list_connection", "args": {"action": "delete"}},
-                        {"caption": "Edit Connection", "command": "q_list_connection", "args": {"action": "update"}},
-                        {"caption": "Rename Connection", "command": "q_list_connection", "args": {"action": "rename"}},
-                    ]
-                },
                 {"caption": "Shortcut",
                  "children":
                     [
