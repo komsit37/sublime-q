@@ -7,6 +7,7 @@ class QCon():
     def __init__(self, host, port, username, password, name=None, hdb=False):
         self.init = False
         self.hdb = hdb
+        self.mem = 0
         
         self.name = name
         self.host = host
@@ -105,25 +106,24 @@ class QCon():
         status = 'OK' if self.ok() else 'FAIL'
         name = (self.name) if self.name else ''
         hdb = (' (HDB)') if self.hdb else ''
-        mem = ' [' + self.mem_str(self.mem) + ']'
+        if self.mem:
+            mem = ' [' + self.mem_str(self.mem) + ']'
+        else:
+            mem = ''
 
 
         return status + ': ' + name + hdb + '> ' + self.hstatus() + mem
 
     def mem_str(self, mem):
-        if not mem:
-            return None
+        mem = int(mem)
+        if mem > 1000000000:
+            return '{0:.2f}'.format(mem/1000000000) + 'GB'
+        elif mem > 1000000:
+            return '{0:.0f}'.format(mem/1000000) + 'MB'
+        elif mem > 1000:
+            return '{0:.0f}'.format(mem/1000) + 'KB'
         else:
-            mem = int(mem)
-            if mem > 1000000000:
-                mem = '{0:.2f}'.format(mem/1000000000) + 'GB'
-            elif mem > 1000000:
-                mem = '{0:.0f}'.format(mem/1000000) + 'MB'
-            elif mem > 1000:
-                mem = '{0:.0f}'.format(mem/1000) + 'KB'
-            else:
-                mem = '{0:.0f}'.format(mem) + 'B'
-        return mem
+            return '{0:.0f}'.format(mem) + 'B'
 
     def ok(self):
         try:
@@ -131,7 +131,6 @@ class QCon():
             if not self.init:
                 self.initCon()
             self.mem = self.q('.Q.w[][`used]')
-            print(self.mem)
         except socket_error as serr:
             return False
         finally:
