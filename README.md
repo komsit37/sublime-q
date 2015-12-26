@@ -18,7 +18,7 @@
 <li>shift + f5 show memory usage</li>
 </ul>
 
-
+![Image of screenshot](https://github.com/komsit37/sublime-q-3/blob/master/resources/showcase.gif)
 
 ###Supported
 * osx_x64
