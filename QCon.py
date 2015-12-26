@@ -105,13 +105,33 @@ class QCon():
         status = 'OK' if self.ok() else 'FAIL'
         name = (self.name) if self.name else ''
         hdb = (' (HDB)') if self.hdb else ''
-        return status + ': ' + name + hdb + '> ' + self.hstatus()
+        mem = ' [' + self.mem_str(self.mem) + ']'
+
+
+        return status + ': ' + name + hdb + '> ' + self.hstatus() + mem
+
+    def mem_str(self, mem):
+        if not mem:
+            return None
+        else:
+            mem = int(mem)
+            if mem > 1000000000:
+                mem = '{0:.2f}'.format(mem/1000000000) + 'GB'
+            elif mem > 1000000:
+                mem = '{0:.0f}'.format(mem/1000000) + 'MB'
+            elif mem > 1000:
+                mem = '{0:.0f}'.format(mem/1000) + 'KB'
+            else:
+                mem = '{0:.0f}'.format(mem) + 'B'
+        return mem
 
     def ok(self):
         try:
             self.q.open()
             if not self.init:
                 self.initCon()
+            self.mem = self.q('.Q.w[][`used]')
+            print(self.mem)
         except socket_error as serr:
             return False
         finally:

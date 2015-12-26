@@ -4,7 +4,7 @@
 * 2 result modes: output panel and inline popup
 * Cmd + q to quickly switch between connections (configured in Preferences->Package Settings->sublime-q)  
 * Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)  
-* shows rows, column, time at status bar  
+* shows rows, column, time, mem usage at status bar  
 * auto complete
 
 <ul>shortcut (hold shift to show output in inline popup)

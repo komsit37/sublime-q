@@ -36,6 +36,7 @@ class QSendRawCommand(chain.ChainCommand):
             pre_exec = []
             #pre_exec.append('if[not `st in key `; .st.tmp: `]')
             pre_exec.append('.st.start:.z.T')   #start timing
+            pre_exec.append('.st.mem:.Q.w[][`used]')   #start timing
             pre_exec = ';'.join(pre_exec)
             #print(pre_exec)
             q(pre_exec)
@@ -44,9 +45,9 @@ class QSendRawCommand(chain.ChainCommand):
            
             post_exec = []
             #get exec time, result dimensions
-            post_exec.append('res:`time`c!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[cols;.st.tmp;()]),count .st.tmp))')
+            post_exec.append('res:`time`c`mem!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[cols;.st.tmp;()]),count .st.tmp); ((.Q.w[][`used]) - .st.mem))')
             post_exec.append('delete tmp, start, execTime from `.st') #clean up .st
-            post_exec.append('.st: ` _ .st') #clean up .st
+            #post_exec.append('.st: ` _ .st') #clean up .st
             post_exec.append('res')
             post_exec = ';'.join(post_exec)
             post_exec = '{' + post_exec + '}[]'   #exec in closure so we don't leave anything behind
@@ -56,8 +57,21 @@ class QSendRawCommand(chain.ChainCommand):
             res = self.decode(res)
             time = self.decode(tc[b'time'])
             count = self.decode(tc[b'c'])
+            mem = self.decode(tc[b'mem'])
+            mem = int(mem)
+            sign = '+' if mem>0 else '-'
+            mem = abs(mem)
+            if mem > 1000000000:
+                mem = '{0:.2f}'.format(mem/1000000000) + 'GB'
+            elif mem > 1000000:
+                mem = '{0:.2f}'.format(mem/1000000) + 'MB'
+            elif mem > 1000:
+                mem = '{0:.0f}'.format(mem/1000) + 'KB'
+            else:
+                mem = '{0:.0f}'.format(mem) + 'B'
+
             #print(res)
-            self.view.set_status('result', 'Result: ' + count + ', ' + time)
+            self.view.set_status('result', 'Result: ' + count + ', ' + time + ', ' + sign + mem)
         except QException as e:
             res = "error: `" + self.decode(e)
         except socket_error as serr:

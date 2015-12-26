@@ -15,7 +15,6 @@ class QEvent(sublime_plugin.EventListener):
 	def on_query_completions(self, view, prefix, locations):
 		if not view.match_selector(locations[0], "source.q") or not S.Settings.get('use_completion'):
 			return []
-		print(prefix)
 		compl = view.settings().get('q_compl')
 		#print(compl)
 		return compl or []
