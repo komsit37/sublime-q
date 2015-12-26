@@ -24,6 +24,11 @@ class Settings():
 		Settings.save()
 
 	@staticmethod
+	def move_to_top(qcon):
+		Settings.delete_connection(qcon)
+		Settings.add_connection(qcon)
+
+	@staticmethod
 	def update_connection(qcon, new_qcon):
 		con_dicts = Settings.get('connections')
 		for i, c in enumerate(con_dicts):	#modoify existing qcon

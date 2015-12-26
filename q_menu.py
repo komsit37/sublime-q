@@ -114,14 +114,14 @@ class CommandWithQCon(PerViewCommand):
 
 class UseConnectionCommand(CommandWithQCon):
     def do(self):
-        S.Settings.add_connection(self.qcon) #this will put use connection on the top of connection list
+        S.Settings.move_to_top(self.qcon) #this will put use connection on the top of connection list
         self.qcon.useHdb(False)
         self.setConnection(self.qcon)
         self.done()
 
 class UseHdbConnectionCommand(CommandWithQCon):
     def do(self):
-        S.Settings.add_connection(self.qcon) #this will put use connection on the top of connection list
+        S.Settings.move_to_top(self.qcon) #this will put use connection on the top of connection list
         self.qcon.useHdb(True)
         self.setConnection(self.qcon)
         self.done()
