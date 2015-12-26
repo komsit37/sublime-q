@@ -12,3 +12,4 @@ class QOutPanelCommand(chain.ChainCommand):
 		panel.insert(edit, panel.size(), input)
 		panel.set_read_only(True)
 		self.view.window().run_command("show_panel", {"panel": "output.q"})
+		return '' #return something so that the chain will continue

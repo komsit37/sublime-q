@@ -4,6 +4,7 @@ import sublime_plugin
 from qpython import qconnection
 from qpython.qtype import QException
 from socket import error as socket_error
+import numpy
 
 from . import chain
 from . import QCon as Q
@@ -73,7 +74,7 @@ class QSendRawCommand(chain.ChainCommand):
         return res
 
     def decode(self, s):
-        if type(s) is bytes:
+        if type(s) is bytes or type(s) is numpy.bytes_:
             return s.decode('utf-8')
         elif type(s) is QException:
             return str(s)[2:-1] #extract error from b'xxx'

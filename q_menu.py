@@ -53,7 +53,7 @@ class ShowConnectionListCommand(PerViewCommand):
         #array of dict to array of array format as reqruired by show_quick_panel()
         current = self.getCurrentConnection()
         for qcon in qcons:
-            c = ' [Current]' if qcon.equals(current) else ''
+            c = ' [Current]' if current and qcon.equals(current) else ''
             item = [qcon.name + c, qcon.h()]
             l.append(item)
         self.window.show_quick_panel(l, self.prompt_actions, 0, 1)  #start at index 1 (so user can press up for new)

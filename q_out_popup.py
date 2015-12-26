@@ -37,6 +37,7 @@ class QOutPopupBaseCommand(chain.ChainCommand):
 			#wait until previous popup close and then open again
 			#press same shortcut to hide popup
 			#sublime.set_timeout(lambda x=input:self.do(input=x), 100)
+		return ''	#return something so that the chain can continue
 
 	def eol_rowcol(self):
 		return self.view.rowcol(self.view.line(self.view.sel()[0]).end())
@@ -77,10 +78,10 @@ class QOutPopupCommand(QOutPopupBaseCommand):
 	def do(self, edit=None, input=None):
 		input = input.replace('\n', '<br>')
 		input = input.replace(' ', '&nbsp;')
-		super().do(edit, input)
+		return super().do(edit, input)
 
 class QOutPopupJsonCommand(QOutPopupBaseCommand):
 	def do(self, edit, input=None):
 		input = sublime.decode_value(input)
-		super().do(edit, input)
+		return super().do(edit, input)
 

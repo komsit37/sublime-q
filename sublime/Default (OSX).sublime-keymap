@@ -1,9 +1,9 @@
 [
 	//send
-	{ "keys": ["super+e"], 			"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_popup"]}},
-	{ "keys": ["super+enter"], 		"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_panel"]}},
-	{ "keys": ["super+j"],			"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json"]}},
-	{ "keys": ["super+shift+enter"],"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_panel"]}},
+	{ "keys": ["super+e"], 			"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_popup", "q_update_completions"]}},
+	{ "keys": ["super+enter"], 		"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_panel", "q_update_completions"]}},
+	{ "keys": ["super+j"],			"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json", "q_update_completions"]}},
+	{ "keys": ["super+shift+enter"],"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_panel", "q_update_completions"]}},
 
 	//connection
 	{ "keys": ["super+q"], 	"command": "show_connection_list"},
@@ -20,10 +20,11 @@
 	{ "keys": ["shift+f5"], "command": "chain", "args": {"chain": ["q_send_mem", "q_out_panel"]}},
 
 	//test
-	{ "keys": ["super+alt+q","1"], 	"command": "q_send", "args": {"input": "til 10"}},
+	{ "keys": ["super+alt+q","7"], 	"command": "q_send", "args": {"input": "til 10"}},
 	{ "keys": ["super+alt+q","2"], 	"command": "q_send", "args": {"input": "til 10", "chain": ["q_out_panel"]}},
 	{ "keys": ["super+alt+q","3"], 	"command": "q_select_text"},
 	{ "keys": ["super+alt+q","4"], 	"command": "q_select_word"},
 	{ "keys": ["super+alt+q","5"], 	"command": "q_out_panel", "args": {"input": "hello man"}},
 	{ "keys": ["super+alt+q","6"], 	"command": "chain", "args": {"input": "til 10", "chain": ["q_send", "q_out_panel"]}},
+	{ "keys": ["super+alt+q","1"], 	"command": "q_update_completions"}
 ]

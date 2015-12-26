@@ -1,5 +1,5 @@
 {
 	"connections": [],
 	"default_new_connection": "localhost:5555",
-	"default_add_selection": 0
+	"use_completion": "True",
 }
