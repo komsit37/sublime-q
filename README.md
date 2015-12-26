@@ -1,13 +1,15 @@
 # q REPL for Sublime Text 3
 
 * Cmd + Enter or Cmd + e to send highlighted text or block text  
+* Cmd + j to get result as json (requires kdb 3.0+)
 * 2 result modes: output panel and inline popup
 * Cmd + q to quickly switch between connections (configured in Preferences->Package Settings->sublime-q)  
 * Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)  
 * shows rows, column, time at status bar  
 * auto complete
 
-<ul>shortcut (hold shift to show output in inline popup)
+### shortcut (hold shift to show output in inline popup)
+<ul>
 <li>f1 open help at cursor</li>
 <li>f2 print variable at cursor</li>
 <li>f3 show type at cursor</li>
@@ -17,11 +19,12 @@
 </ul>
 
 
-Requires custom numpy 1.8 build for each platform/architecture. Support can be easily extended by adding proper numpy build to lib/[os]_[architecture]
+
 ###Supported
 * osx_x64
 
 ###Not supported
+Support can be easily extended by adding proper numpy 1.8 build with python 3.3 to lib/[os]_[architecture]. Please send PR if you can build any of these
 * osx_x32
 * windows_x64
 * windows_x32
