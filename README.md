@@ -34,6 +34,7 @@ Support can be easily extended by adding proper numpy 1.8 build with python 3.3 
 ## Installation
 
 Clone this git repository into your `Sublime Text 3/Packages` directory. 
+NOTE: Dir name needs to be `sublime-q` (not `sublime-q-3`)
 
 * Windows: `%APPDATA%\Sublime Text 3\Packages`
 * OS X: `~/Library/Application Support/Sublime Text 3/Packages`
