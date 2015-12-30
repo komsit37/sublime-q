@@ -1,7 +1,9 @@
 # q REPL for Sublime Text 3
+Connect to remote q session and execute selected q statements in Sublime Text
 
+![Image of screenshot](https://github.com/komsit37/sublime-q-3/blob/master/resources/showcase.gif)
 * Cmd + Enter or Cmd + e to send highlighted text or block text  
-* Cmd + j to get result as json (requires .j.j in kdb 3.0+)
+* Cmd + j to execute text and get result as json (by calling .j.j to results - requires .j.j in kdb 3.0+)
 * 2 result modes: *output panel* and *inline popup*
 * Cmd + q to quickly switch between connections 
 * Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)  
@@ -17,8 +19,6 @@
 <li>f5 show environments</li>
 <li>shift + f5 show memory usage</li>
 </ul>
-
-![Image of screenshot](https://github.com/komsit37/sublime-q-3/blob/master/resources/showcase.gif)
 
 ###Supported
 * osx_x64
