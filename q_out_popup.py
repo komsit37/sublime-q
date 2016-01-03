@@ -1,6 +1,6 @@
 from . import chain
 import sublime
-import styled_popup
+from .lib import styled_popup
 #from qpython import qconnection
 #q = qconnection.QConnection(host = 'localhost', port = 5555)
 #q.open()
