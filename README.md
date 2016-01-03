@@ -5,10 +5,11 @@ Connect to remote q session and execute selected q statements in Sublime Text
 * Cmd + Enter or Cmd + e to send highlighted text or block text  
 * Cmd + j to execute text and get result as json (by calling .j.j to results - requires .j.j in kdb 3.0+)
 * 2 result modes: *output panel* and *inline popup*
-* Cmd + q to quickly switch between connections 
+* Cmd + alt + q to quickly switch between connections 
 * Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)  
 * shows rows, column, time, mem usage at status bar  
 * auto complete
+(change Cmd to Ctrl for windows)
 
 ### shortcut (hold shift to show output in inline popup)
 <ul>
@@ -22,11 +23,11 @@ Connect to remote q session and execute selected q statements in Sublime Text
 
 ###Supported
 * osx_x64
+* windows_x64
 
 ###Not supported
 Support can be easily extended by adding proper numpy 1.8 build with python 3.3 to lib/[os]_[architecture]. Please send PR if you can build any of these
 * osx_x32
-* windows_x64
 * windows_x32
 * linux_x32
 * linux_x64
