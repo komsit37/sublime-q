@@ -1,24 +1,24 @@
 # q REPL for Sublime Text 3
-Connect to remote q session and execute selected q statements in Sublime Text
+Connect to remote q session and execute q statements in Sublime Text
 
-![Image of screenshot](https://github.com/komsit37/sublime-q-3/blob/master/resources/showcase.gif)
-* Cmd + Enter or Cmd + e to send highlighted text or block text  
-* Cmd + j to execute text and get result as json (by calling .j.j to results - requires .j.j in kdb 3.0+)
-* 2 result modes: *output panel* and *inline popup*
-* Cmd + alt + q to quickly switch between connections 
+![Image of screenshot](https://github.com/komsit37/sublime-q/blob/master/resources/showcase.gif)
+* Cmd + alt + q to add q connections and quickly switch between them
+* Cmd + Enter or Cmd + e to send highlighted line or block text  
+* Cmd + j to execute text and get result as json (by calling .j.j to results - requires .j.j in kdb 3.x)
+* 2 result modes: **output panel* and *inline popup**
 * Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)  
 * shows rows, column, time, mem usage at status bar  
-* auto complete
+* auto complete  
 (change Cmd to Ctrl for windows)
 
 ### shortcut (hold shift to show output in inline popup)
 <ul>
-<li>f1 open help at cursor</li>
-<li>f2 print variable at cursor</li>
-<li>f3 show type at cursor</li>
-<li>f4 show table and columns</li>
-<li>f5 show environments</li>
-<li>shift + f5 show memory usage</li>
+<li>F1 open help at cursor</li>
+<li>F2 print variable at cursor</li>
+<li>F3 show type at cursor</li>
+<li>F4 show table and columns</li>
+<li>F5 show environments</li>
+<li>shift + F5 show memory usage</li>
 </ul>
 
 ###Supported
@@ -35,19 +35,18 @@ Support can be easily extended by adding proper numpy 1.8 build with python 3.3 
 ## Installation
 
 Clone this git repository into your `Sublime Text 3/Packages` directory.  
-NOTE: Dir name needs to be `sublime-q` (not `sublime-q-3`)
+NOTE: Dir name needs to be `sublime-q`
 
-* Windows: `%APPDATA%\Sublime Text 3\Packages`
+* Windows: `C:\Users\Vallapa\AppData\Roaming\Sublime Text 3\Packages`
 * OS X: `~/Library/Application Support/Sublime Text 3/Packages`
-* Linux: `~/.config/sublime-text-3`
 
 ```
-git clone https://github.com/komsit37/sublime-q-3.git sublime-q
+git clone https://github.com/komsit37/sublime-q.git
 ```
-Only tested on OSX
+Tested on OSX and Windows 8
 
 ## To build numpy
-Included numpy version should work for osx 64bit, but if you need to build numpy
+Included numpy version should work for osx and windows 64bit, but if you need to build numpy
 
 1. download python 3.3
 2. download http://sourceforge.net/projects/numpy/files/NumPy/1.8.1/
