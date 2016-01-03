@@ -1,5 +1,6 @@
 # GotoDocumentation Sublime Plugin
 # Jun 2014
+#modified from GotoDocumentation to work with q/kdb
 
 import webbrowser
 import sublime, sublime_plugin
