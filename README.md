@@ -9,9 +9,9 @@ Connect to remote q session and execute q statements in Sublime Text
 * Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)  
 * shows rows, column, time, mem usage at status bar  
 * auto complete  
-(change Cmd to Ctrl for windows)
+[change Cmd to Ctrl for windows]
 
-### shortcut (hold shift to show output in inline popup)
+### Shortcut 
 <ul>
 <li>F1 open help at cursor</li>
 <li>F2 print variable at cursor</li>
@@ -19,7 +19,8 @@ Connect to remote q session and execute q statements in Sublime Text
 <li>F4 show table and columns</li>
 <li>F5 show environments</li>
 <li>shift + F5 show memory usage</li>
-</ul>
+</ul>  
+[hold shift to show output in inline popup instead of output panel]
 
 ###Supported
 * osx_x64
