@@ -5,7 +5,7 @@ Connect to remote q session and execute q statements in Sublime Text
 * Cmd + alt + q to add q connections and quickly switch between them
 * Cmd + Enter or Cmd + e to send highlighted line or block text  
 * Cmd + j to execute text and get result as json (by calling .j.j to results - requires .j.j in kdb 3.x)
-* 2 result modes: **output panel* and *inline popup**
+* 2 result modes: **output panel** and **inline popup**
 * Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)  
 * shows rows, column, time, mem usage at status bar  
 * auto complete  
