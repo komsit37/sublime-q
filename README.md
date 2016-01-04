@@ -33,6 +33,9 @@ Support can be easily extended by adding proper numpy 1.8 build with python 3.3 
 * linux_x32
 * linux_x64
 
+For Sublime Text 2, please use https://github.com/komsit37/sublime-q-2
+
+
 ## Installation
 
 Clone this git repository into your `Sublime Text 3/Packages` directory.  
