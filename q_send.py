@@ -99,16 +99,16 @@ class QSendCommand(QSendRawCommand):
     def do(self, edit=None, input=None):
         if (input[0] == "\\"):
             input = "value\"\\" + input + "\""
-        else:
-            input = ".Q.s .st.tmp:" + input  #save to temprary result, so we can get dimension later
+
+        input = ".Q.s .st.tmp:" + input  #save to temprary result, so we can get dimension later
         return super().do(input=input)
 
 class QSendJsonCommand(QSendRawCommand):
     def do(self, edit=None, input=None):
         if (input[0] == "\\"):
             input = "value\"\\" + input + "\""
-        else:
-            input = ".j.j .st.tmp:" + input  #save to temprary result, so we can get dimension later
+
+        input = ".j.j .st.tmp:" + input  #save to temprary result, so we can get dimension later
         return super().do(input=input)
 
 class QSendTypeCommand(QSendCommand):

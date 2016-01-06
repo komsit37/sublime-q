@@ -4,6 +4,8 @@ from . import chain
 class QOutPanelCommand(chain.ChainCommand):
 
 	def do(self, edit, input=None):
+		input = input.replace('\r', '')
+		
 		panel = self.view.window().get_output_panel("q")
 		panel.set_syntax_file("Packages/sublime-q/syntax/q_output.tmLanguage")
 		panel.settings().set("word_wrap", False)
