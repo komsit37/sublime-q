@@ -140,6 +140,6 @@ class QCon():
     def initCon(self):
         #only call at first time
         print('init ' + self.h())
-        self.q('system "c 2000 2000"')  #expand output to max 2000 chars
+        #self.q('system "c 2000 2000"')  #expand output to max 2000 chars
         self.init = True
 
