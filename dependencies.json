@@ -1,7 +1,8 @@
 {
     "*": {
         "*": [
-            "StyledPopup"
+            "StyledPopup",
+            "numpy"
         ]
     }
 }
