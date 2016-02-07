@@ -3,6 +3,8 @@ from . import QCon as Q
 from . import Settings as S
 
 class PerViewCommand(sublime_plugin.WindowCommand):
+    settings = S.Settings()
+
     def view(self):
         return self.window.active_view()
 
@@ -10,7 +12,7 @@ class PerViewCommand(sublime_plugin.WindowCommand):
         return self.view().settings()
 
     def g(self):
-        return S.Settings
+        return self.settings
 
     def getCurrentConnection(self):
         qcon_dict = self.local().get('q_handle')
@@ -34,7 +36,7 @@ class PerViewCommand(sublime_plugin.WindowCommand):
             sublime.set_timeout(lambda:self.set_status(tag, ''), 3000)
 
     def loadQCons(self):
-        con_dicts = S.Settings.get_connections()
+        con_dicts = self.settings.get_connections()
         self.qcons = []
         for con_dict in con_dicts:
             self.qcons.append(Q.QCon.fromDict(con_dict))
@@ -82,7 +84,7 @@ class NewConnectionCommand(PerViewCommand):
         self.prompt_new_connection()
 
     def prompt_new_connection(self):
-        self.window.show_input_panel('New q Connectionœ', S.Settings.default_new_connection(), self.prompt_name, None, None)
+        self.window.show_input_panel('New q Connectionœ', self.settings.default_new_connection(), self.prompt_name, None, None)
 
     def prompt_name(self, h):
         self.h = h
@@ -114,21 +116,21 @@ class CommandWithQCon(PerViewCommand):
 
 class UseConnectionCommand(CommandWithQCon):
     def do(self):
-        S.Settings.move_to_top(self.qcon) #this will put use connection on the top of connection list
+        self.settings.move_to_top(self.qcon) #this will put use connection on the top of connection list
         self.qcon.useHdb(False)
         self.setConnection(self.qcon)
         self.done()
 
 class UseHdbConnectionCommand(CommandWithQCon):
     def do(self):
-        S.Settings.move_to_top(self.qcon) #this will put use connection on the top of connection list
+        self.settings.move_to_top(self.qcon) #this will put use connection on the top of connection list
         self.qcon.useHdb(True)
         self.setConnection(self.qcon)
         self.done()
 
 class DeleteConnectionCommand(CommandWithQCon):
     def do(self):
-        S.Settings.delete_connection(self.qcon)
+        self.settings.delete_connection(self.qcon)
         self.set_status('result', 'Deleted "' + self.qcon.name + '"', True)
         
 
@@ -139,7 +141,7 @@ class RenameConnectionCommand(CommandWithQCon):
     def on_done(self, new_name):
         new_qcon = self.qcon.clone()
         new_qcon.name = new_name
-        S.Settings.update_connection(self.qcon, new_qcon)
+        self.settings.update_connection(self.qcon, new_qcon)
         self.set_status('result', 'Renamed "' + new_qcon.h() + '" to "' + new_qcon.name  + '"', True)
         self.qcon = new_qcon
         self.done()
@@ -151,7 +153,7 @@ class UpdateConnectionCommand(CommandWithQCon):
     def on_done(self, new_h):
         new_qcon = self.qcon.clone()
         new_qcon.h(new_h)
-        S.Settings.update_connection(self.qcon, new_qcon)
+        self.settings.update_connection(self.qcon, new_qcon)
         self.set_status('result', 'Updated "' + self.qcon.name + '" to "' + new_qcon.h()  + '"', True)
         self.qcon = new_qcon
         self.done()

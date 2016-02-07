@@ -3,9 +3,9 @@ import sublime_plugin
 
 #chain command and parse output to next command inputs
 #example
-#view.run_command("chain", {"chain": ["q_select_text", "q_send", "q_out_panel"]})
-#view.run_command("chain", {"input": "til 10", "chain": ["q_send", "q_out_panel"]})
-#view.run_command("chain", {"input": "test output", "chain": ["q_out_panel"]})
+#view.run_command("q_chain", {"chain": ["q_select_text", "q_send", "q_out_panel"]})
+#view.run_command("q_chain", {"input": "til 10", "chain": ["q_send", "q_out_panel"]})
+#view.run_command("q_chain", {"input": "test output", "chain": ["q_out_panel"]})
 class QChainCommand(sublime_plugin.TextCommand):
     def do(self, edit, input=None):
         if input is not None:
