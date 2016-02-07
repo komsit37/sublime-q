@@ -1,7 +1,7 @@
-from . import chain
+from . import q_chain
 
 #show_q_output
-class QOutPanelCommand(chain.ChainCommand):
+class QOutPanelCommand(q_chain.QChainCommand):
 
 	def do(self, edit, input=None):
 		input = input.replace('\r', '')

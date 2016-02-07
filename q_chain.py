@@ -6,7 +6,7 @@ import sublime_plugin
 #view.run_command("chain", {"chain": ["q_select_text", "q_send", "q_out_panel"]})
 #view.run_command("chain", {"input": "til 10", "chain": ["q_send", "q_out_panel"]})
 #view.run_command("chain", {"input": "test output", "chain": ["q_out_panel"]})
-class ChainCommand(sublime_plugin.TextCommand):
+class QChainCommand(sublime_plugin.TextCommand):
     def do(self, edit, input=None):
         if input is not None:
             return input

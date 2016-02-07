@@ -1,6 +1,6 @@
-from . import chain
+from . import q_chain
 
-class QSelectTextCommand(chain.ChainCommand):       
+class QSelectTextCommand(q_chain.QChainCommand):       
     def do(self, edit, input=None):
         # get s
         s = self.selectText()
@@ -37,7 +37,7 @@ class QSelectTextCommand(chain.ChainCommand):
         self.view.sel().subtract(region)
         self.view.sel().add(sublime.Region(loc, loc))
 
-class QSelectWordCommand(chain.ChainCommand):       
+class QSelectWordCommand(q_chain.QChainCommand):       
     def do(self, edit, input=None):
         # grab the word or the selection from the view
         region = self.view.sel()[0]
