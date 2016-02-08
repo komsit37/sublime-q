@@ -130,7 +130,7 @@ class QCon():
             self.q.open()
             if not self.init:
                 self.initCon()
-            self.mem = self.q('.Q.w[][`used]')
+            self.mem = self.q('@[{.Q.w[][`used]}; (); 0]')
         except socket_error as serr:
             return False
         finally:

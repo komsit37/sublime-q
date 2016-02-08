@@ -36,7 +36,7 @@ class QSendRawCommand(chain.ChainCommand):
             pre_exec = []
             #pre_exec.append('if[not `st in key `; .st.tmp: `]')
             pre_exec.append('.st.start:.z.T')   #start timing
-            pre_exec.append('.st.mem:.Q.w[][`used]')   #start timing
+            pre_exec.append('.st.mem: @[{.Q.w[][`used]}; (); 0]')   #start timing
             pre_exec = ';'.join(pre_exec)
             #print(pre_exec)
             q(pre_exec)
@@ -45,7 +45,7 @@ class QSendRawCommand(chain.ChainCommand):
            
             post_exec = []
             #get exec time, result dimensions
-            post_exec.append('res:`time`c`mem!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[cols;.st.tmp;()]),count .st.tmp); ((.Q.w[][`used]) - .st.mem))')
+            post_exec.append('res:`time`c`mem!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[cols;.st.tmp;()]),count .st.tmp); ((@[{.Q.w[][`used]}; (); 0]) - .st.mem))')
             post_exec.append('delete tmp, start, execTime from `.st') #clean up .st
             #post_exec.append('.st: ` _ .st') #clean up .st
             post_exec.append('res')
