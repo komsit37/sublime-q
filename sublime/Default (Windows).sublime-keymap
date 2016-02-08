@@ -1,23 +1,23 @@
 [
 	//send
-	{ "keys": ["ctrl+e"], 			"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_popup", "q_update_completions"]}},
-	{ "keys": ["ctrl+enter"], 		"command": "chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_panel", "q_update_completions"]}},
-	{ "keys": ["ctrl+j"],			"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json", "q_update_completions"]}},
-	{ "keys": ["ctrl+shift+enter"],"command": "chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_panel", "q_update_completions"]}},
+	{ "keys": ["ctrl+e"], 			"command": "q_chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_popup", "q_update_completions"]}},
+	{ "keys": ["ctrl+enter"], 		"command": "q_chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_panel", "q_update_completions"]}},
+	{ "keys": ["ctrl+j"],			"command": "q_chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json", "q_update_completions"]}},
+	{ "keys": ["ctrl+shift+enter"],"command": "q_chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_panel", "q_update_completions"]}},
 
 	//connection
 	{ "keys": ["ctrl+alt+q"], 	"command": "show_connection_list"},
 
 	//shortcut
 	{ "keys": ["f1"], "command": "goto_documentation", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }] },
-	{ "keys": ["f2"], 		"command": "chain", "args": {"chain": ["q_select_word", "q_send", "q_out_panel"]}},
-	{ "keys": ["shift+f2"], "command": "chain", "args": {"chain": ["q_select_word", "q_send", "q_out_popup"]}},
-	{ "keys": ["f3"], 		"command": "chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_panel"]}},
-	{ "keys": ["shift+f3"], "command": "chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_popup"]}},
-	{ "keys": ["f4"], 		"command": "chain", "args": {"chain": ["q_send_table", "q_out_panel"]}},
-	{ "keys": ["shift+f4"], "command": "chain", "args": {"chain": ["q_send_table", "q_out_popup"]}},
-	{ "keys": ["f5"], 		"command": "chain", "args": {"chain": ["q_send_env", "q_out_panel"]}},
-	{ "keys": ["shift+f5"], "command": "chain", "args": {"chain": ["q_send_mem", "q_out_panel"]}},
+	{ "keys": ["f2"], 		"command": "q_chain", "args": {"chain": ["q_select_word", "q_send", "q_out_panel"]}},
+	{ "keys": ["shift+f2"], "command": "q_chain", "args": {"chain": ["q_select_word", "q_send", "q_out_popup"]}},
+	{ "keys": ["f3"], 		"command": "q_chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_panel"]}},
+	{ "keys": ["shift+f3"], "command": "q_chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_popup"]}},
+	{ "keys": ["f4"], 		"command": "q_chain", "args": {"chain": ["q_send_table", "q_out_panel"]}},
+	{ "keys": ["shift+f4"], "command": "q_chain", "args": {"chain": ["q_send_table", "q_out_popup"]}},
+	{ "keys": ["f5"], 		"command": "q_chain", "args": {"chain": ["q_send_env", "q_out_panel"]}},
+	{ "keys": ["shift+f5"], "command": "q_chain", "args": {"chain": ["q_send_mem", "q_out_panel"]}},
 
 	//test
 	{ "keys": ["ctrl+alt+t","7"], 	"command": "q_send", "args": {"input": "til 10"}},
@@ -25,6 +25,6 @@
 	{ "keys": ["ctrl+alt+t","3"], 	"command": "q_select_text"},
 	{ "keys": ["ctrl+alt+t","4"], 	"command": "q_select_word"},
 	{ "keys": ["ctrl+alt+t","5"], 	"command": "q_out_panel", "args": {"input": "hello man"}},
-	{ "keys": ["ctrl+alt+t","6"], 	"command": "chain", "args": {"input": "til 10", "chain": ["q_send", "q_out_panel"]}},
+	{ "keys": ["ctrl+alt+t","6"], 	"command": "q_chain", "args": {"input": "til 10", "chain": ["q_send", "q_out_panel"]}},
 	{ "keys": ["ctrl+alt+t","1"], 	"command": "q_update_completions"}
 ]

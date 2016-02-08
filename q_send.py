@@ -6,7 +6,7 @@ from qpython.qtype import QException
 from socket import error as socket_error
 import numpy
 
-from . import chain
+from . import q_chain
 from . import QCon as Q
 
 #for testing in console
@@ -16,7 +16,7 @@ from . import QCon as Q
 #d = q('.Q.s `a`b`c!1 2 3')
 #d = d.decode('utf-8')
 #view.show_popup(d)
-class QSendRawCommand(chain.ChainCommand):
+class QSendRawCommand(q_chain.QChainCommand):
 
     def do(self, edit=None, input=None):
         con = Q.QCon.loadFromView(self.view)

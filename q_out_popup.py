@@ -1,6 +1,6 @@
-from . import chain
+from . import q_chain
 import sublime
-from .lib import styled_popup
+import styled_popup
 #from qpython import qconnection
 #q = qconnection.QConnection(host = 'localhost', port = 5555)
 #q.open()
@@ -12,7 +12,7 @@ from .lib import styled_popup
 #https://github.com/huot25/StyledPopup
 #this is a mess because we need to wait for old pop un to close
 #can only show one popup at a time
-class QOutPopupBaseCommand(chain.ChainCommand):
+class QOutPopupBaseCommand(q_chain.QChainCommand):
 	TO_CLOSE = False
 	ACTUALLY_CLOSED = True
 
@@ -37,7 +37,7 @@ class QOutPopupBaseCommand(chain.ChainCommand):
 			#wait until previous popup close and then open again
 			#press same shortcut to hide popup
 			#sublime.set_timeout(lambda x=input:self.do(input=x), 100)
-		return ''	#return something so that the chain can continue
+		return ''	#return something so that the q_chain can continue
 
 	def eol_rowcol(self):
 		return self.view.rowcol(self.view.line(self.view.sel()[0]).end())
