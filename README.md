@@ -35,8 +35,11 @@ Support can be easily extended by adding proper numpy 1.8 build with python 3.3 
 
 For Sublime Text 2, please use https://github.com/komsit37/sublime-q-2
 
-
 ## Installation
+via package control https://packagecontrol.io/packages/q%20KDB
+
+
+## Contribute
 
 Clone this git repository into your `Sublime Text 3/Packages` directory.  
 NOTE: Dir name needs to be `sublime-q`
