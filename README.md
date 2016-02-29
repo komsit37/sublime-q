@@ -47,7 +47,10 @@ NOTE: Dir name needs to be `sublime-q`
 ```
 git clone https://github.com/komsit37/sublime-q.git
 ```
+From sublime text, run package control: satisfy dependencies (you may need to open package folder in sublime text first). This will install numpy as a dependency package to your packages folder
+
 Tested on OSX and Windows 8
+
 
 ## To build numpy
 Included numpy version should work for osx and windows 64bit, but if you need to build numpy
