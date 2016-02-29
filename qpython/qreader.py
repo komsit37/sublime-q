@@ -20,15 +20,15 @@ if sys.version > '3':
     from sys import intern
     unicode = str
 
-from qpython import MetaData, CONVERSION_OPTIONS
-from qpython.qtype import *  # @UnusedWildImport
-from qpython.qcollection import qlist, QDictionary, qtable, QTable, QKeyedTable
-from qpython.qtemporal import qtemporal, from_raw_qtemporal, array_from_raw_qtemporal
+from . import MetaData, CONVERSION_OPTIONS
+from .qtype import *  # @UnusedWildImport
+from .qcollection import qlist, QDictionary, qtable, QTable, QKeyedTable
+from .qtemporal import qtemporal, from_raw_qtemporal, array_from_raw_qtemporal
 
 try:
-    from qpython.fastutils import uncompress
+    from .fastutils import uncompress
 except:
-    from qpython.utils import uncompress
+    from .utils import uncompress
 
 
 

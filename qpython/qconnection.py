@@ -17,10 +17,10 @@
 import socket
 import struct
 
-from qpython import MetaData, CONVERSION_OPTIONS
-from qpython.qtype import QException
-from qpython.qreader import QReader, QReaderException
-from qpython.qwriter import QWriter, QWriterException
+from . import MetaData, CONVERSION_OPTIONS
+from .qtype import QException
+from .qreader import QReader, QReaderException
+from .qwriter import QWriter, QWriterException
 
 
 

@@ -20,10 +20,10 @@ try:
 except ImportError:
     from io import BytesIO
 
-from qpython import MetaData, CONVERSION_OPTIONS
-from qpython.qtype import *  # @UnusedWildImport
-from qpython.qcollection import qlist, QList, QTemporalList, QDictionary, QTable, QKeyedTable, get_list_qtype
-from qpython.qtemporal import QTemporal, to_raw_qtemporal, array_to_raw_qtemporal
+from . import MetaData, CONVERSION_OPTIONS
+from .qtype import *  # @UnusedWildImport
+from .qcollection import qlist, QList, QTemporalList, QDictionary, QTable, QKeyedTable, get_list_qtype
+from .qtemporal import QTemporal, to_raw_qtemporal, array_to_raw_qtemporal
 
 
 class QWriterException(Exception):

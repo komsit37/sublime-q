@@ -14,8 +14,8 @@
 #  limitations under the License.
 #
 
-from qpython import MetaData
-from qpython.qtype import *  # @UnusedWildImport
+from . import MetaData
+from .qtype import *  # @UnusedWildImport
 from numpy import longlong
 
 _MILLIS_PER_DAY = 24 * 60 * 60 * 1000

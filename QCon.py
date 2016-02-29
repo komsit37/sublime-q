@@ -1,6 +1,5 @@
 import sublime, sublime_plugin
-from qpython import qconnection
-from qpython.qtype import QException
+from .qpython import qconnection
 from socket import error as socket_error
 
 class QCon():

@@ -14,9 +14,9 @@
 #  limitations under the License.
 #
 
-from qpython.qtype import *  # @UnusedWildImport
-from qpython import MetaData
-from qpython.qtemporal import qtemporal, from_raw_qtemporal, to_raw_qtemporal
+from .qtype import *  # @UnusedWildImport
+from . import MetaData
+from .qtemporal import qtemporal, from_raw_qtemporal, to_raw_qtemporal
 
 
 class QList(numpy.ndarray):
