@@ -1,13 +1,17 @@
-from . import q_chain
+from . import chain
 
 #show_q_output
-class QOutPanelCommand(q_chain.QChainCommand):
+class QOutPanelCommand(chain.ChainCommand):
 
 	def do(self, edit, input=None):
-		input = input.replace('\r', '')
-		
 		panel = self.view.window().get_output_panel("q")
-		panel.set_syntax_file("Packages/sublime-q/syntax/q_output.tmLanguage")
+		syntax_file = "Packages/q KDB/syntax/q_output.tmLanguage"
+        try:
+            sublime.load_binary_resource(syntax_file)
+        except Exception:
+            continue
+
+		panel.set_syntax_file(syntax_file)
 		panel.settings().set("word_wrap", False)
 
 		panel.set_read_only(False)
