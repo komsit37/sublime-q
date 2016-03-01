@@ -6,10 +6,10 @@ class QOutPanelCommand(chain.ChainCommand):
 	def do(self, edit, input=None):
 		panel = self.view.window().get_output_panel("q")
 		syntax_file = "Packages/q KDB/syntax/q_output.tmLanguage"
-        try:
-            sublime.load_binary_resource(syntax_file)
-        except Exception:
-            continue
+	        try:
+	            sublime.load_binary_resource(syntax_file)
+	        except Exception:
+	            continue
 
 		panel.set_syntax_file(syntax_file)
 		panel.settings().set("word_wrap", False)
