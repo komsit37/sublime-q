@@ -4,6 +4,7 @@ from . import q_chain
 class QOutPanelCommand(q_chain.QChainCommand):
 
 	def do(self, edit, input=None):
+		input = input.replace('\r', '')
 		panel = self.view.window().get_output_panel("q")
 		syntax_file = "Packages/q KDB/syntax/q_output.tmLanguage"
 		try:
