@@ -85,3 +85,8 @@ class QOutPopupJsonCommand(QOutPopupBaseCommand):
 		input = sublime.decode_value(input)
 		return super().do(edit, input)
 
+class QOutPopupCloseCommand(QOutPopupBaseCommand):
+    def do(self, edit=None, input=None):
+        print('force close popup')
+        QOutPopupBaseCommand.TO_CLOSE = False
+        self.view.hide_popup()
