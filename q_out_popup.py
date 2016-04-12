@@ -90,3 +90,4 @@ class QOutPopupCloseCommand(QOutPopupBaseCommand):
         print('force close popup')
         QOutPopupBaseCommand.TO_CLOSE = False
         self.view.hide_popup()
+       	return ''	#return something so q_chain can continue

@@ -5,7 +5,7 @@
 	{ "keys": ["ctrl+j"],			"command": "q_chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json", "q_update_completions"]}},
 	{ "keys": ["ctrl+shift+enter"],"command": "q_chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_panel", "q_update_completions"]}},
 
-    { "keys": ["escape"],           "command": "q_chain", "args": {"chain": ["q_out_popup_close"]}},
+    { "keys": ["escape"],           "command": "q_chain", "args": {"chain": ["q_out_popup_close", "hide_auto_complete"]}},
     
 	//connection
 	{ "keys": ["ctrl+alt+q"], 	"command": "show_connection_list"},
