@@ -19,3 +19,9 @@ class QOutPanelCommand(q_chain.QChainCommand):
 		panel.set_read_only(True)
 		self.view.window().run_command("show_panel", {"panel": "output.q"})
 		return '' #return something so that the chain will continue
+
+class QHideOutPanelCommand(q_chain.QChainCommand):
+
+	def do(self, edit, input=None):
+		self.view.window().run_command("hide_panel", {"panel": "output.q"})
+		return ''	#return something so q_chain can continue

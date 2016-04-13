@@ -5,7 +5,7 @@
 	{ "keys": ["super+j"],			"command": "q_chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json", "q_update_completions"]}},
 	{ "keys": ["super+shift+enter"],"command": "q_chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_panel", "q_update_completions"]}},
 
-    { "keys": ["escape"],           "command": "q_chain", "args": {"chain": ["q_out_popup_close", "hide_auto_complete"]}},
+    { "keys": ["escape"],           "command": "q_chain", "args": {"chain": ["q_hide_out_panel", "q_out_popup_close", "hide_auto_complete"]}},
 
 	//connection
 	{ "keys": ["super+alt+q"], 	"command": "show_connection_list"},
