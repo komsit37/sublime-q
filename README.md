@@ -41,8 +41,8 @@ via package control https://packagecontrol.io/packages/q%20KDB
 
 ## Contribute
 
-Clone this git repository into your `Sublime Text 3/Packages` directory.  
-NOTE: Dir name needs to be `sublime-q`
+Clone this git repository into your `Sublime Text 3/Packages` directory.
+NOTE: You may need to change dir to `q KDB`
 
 * Windows: `C:\Users\[username]\AppData\Roaming\Sublime Text 3\Packages`
 * OS X: `~/Library/Application Support/Sublime Text 3/Packages`
