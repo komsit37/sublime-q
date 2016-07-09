@@ -61,4 +61,5 @@ Included numpy version should work for osx and windows 64bit, but if you need to
 1. download python 3.3
 2. download http://sourceforge.net/projects/numpy/files/NumPy/1.8.1/
 3. run `python3.3 setup.py install`
-4. numpy will be installed to your default python lib. copy and paste the whole folder to [sublime-q package]/lib/[os]_[architecture]
+4. numpy will be installed to your default python lib
+5. then follow steps here https://github.com/komsit37/sublime-q/issues/12
