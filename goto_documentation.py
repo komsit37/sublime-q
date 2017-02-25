@@ -126,6 +126,7 @@ class GotoDocumentationCommand(sublime_plugin.TextCommand):
             if (tscope in substitue_map and query in substitue_map[tscope]):
                 query = substitue_map[tscope][query]
 
+            query = query.replace("\\", "") # backslash causes Sublime on OSX to open all available browsers
             if ("DotQ" in query):
                 tscope = "Q"
             if ("Dotz" in query):
