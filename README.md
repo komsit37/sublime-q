@@ -22,18 +22,6 @@ Connect to remote q session and execute q statements in Sublime Text
 
 [hold shift to show output in inline popup instead of output panel]
 
-###Supported
-* osx_x64
-* windows_x64
-
-###Not supported
-Support can be easily extended by adding proper numpy 1.8 build with python 3.3 to lib/[os]_[architecture]. Please send PR if you can build any of these
-* osx_x32
-* windows_x32
-* linux_x32
-* linux_x64
-
-For Sublime Text 2, please use https://github.com/komsit37/sublime-q-2
 
 ## Installation
 via package control https://packagecontrol.io/packages/q%20KDB
@@ -52,8 +40,21 @@ git clone https://github.com/komsit37/sublime-q.git
 ```
 From sublime text, run package control: satisfy dependencies (you may need to open package folder in sublime text first). This will install numpy as a dependency package to your packages folder
 
-Tested on OSX and Windows 8
+Tested on OSX and Windows 8, 10
 
+
+### Supported OS
+* osx_x64
+* windows_x64
+* linux_x64
+
+###Not supported OS
+Support can be easily extended by adding proper numpy 1.8 build with python 3.3 (see https://github.com/komsit37/sublime-q/issues/12). Please send PR if you can build any of these:
+* osx_x32
+* windows_x32
+* linux_x32
+
+This plugin is for Sublime Text 3. For Sublime Text 2, please use https://github.com/komsit37/sublime-q-2
 
 ## To build numpy
 Included numpy version should work for osx and windows 64bit, but if you need to build numpy
