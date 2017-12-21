@@ -48,7 +48,7 @@ Tested on OSX and Windows 8, 10
 * windows_x64
 * linux_x64
 
-###Not supported OS
+### Not supported OS
 Support can be easily extended by adding proper numpy 1.8 build with python 3.3 (see https://github.com/komsit37/sublime-q/issues/12). Please send PR if you can build any of these:
 * osx_x32
 * windows_x32
