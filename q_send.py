@@ -44,7 +44,7 @@ class QSendRawCommand(q_chain.QChainCommand):
            
             post_exec = []
             #get exec time, result dimensions
-            post_exec.append('res:`time`c`mem!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[cols;.st.tmp;()]),count .st.tmp); ((@[{.Q.w[][`used]}; (); 0]) - .st.mem))')
+            post_exec.append('res:`time`c`mem!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[{$[0<=type x; cols x;()]};.st.tmp;()]),count .st.tmp); ((@[{.Q.w[][`used]}; (); 0]) - .st.mem))')
             post_exec.append('delete tmp, start, execTime from `.st') #clean up .st
             #post_exec.append('.st: ` _ .st') #clean up .st
             post_exec.append('res')
