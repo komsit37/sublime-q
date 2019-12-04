@@ -33,8 +33,6 @@ default_docs = {
         "scss": "http://devdocs.io/#q=%(scope)s+%(query)s",
         "less": "http://devdocs.io/#q=%(scope)s+%(query)s",
         "google": "https://google.com/search?q=%(scope)s+%(query)s",
-        "q": "http://code.kx.com/wiki/Reference/%(query)s",
-        "Q": "http://code.kx.com/wiki/DotQ/%(query)s",
         "python": {
             "command": ["python", "-m", "pydoc", "%(query)s"],
             "failTest": ".*no Python documentation found for.*",
@@ -42,36 +40,6 @@ default_docs = {
             "changeWith": "-------\n\\1",
             "url": "http://docs.python.org/3/search.html?q=%(query)s"
         }
-}
-substitue_map = {
-    "q": {
-        "@":    "AtSymbol",
-        "?":    "QuestionSymbol",
-        "~":    "Tilde",
-        "/":    "Slash",
-        "|":    "Bar",
-        "\\":   "BackSlash",
-        "&":    "Ampersand",
-        "_":    "Underscore",
-        ".":    "DotSymbol",
-        "\\:":  "BackSlashColon",
-        "/:":   "SlashColon",
-        "'":    "Apostrophe",
-        "Colon":"Colon",
-        "$":    "DollarSign",
-        "#":    "NumberSign",
-        "':":   "ApostropheColon",
-        "::":   "ColonColon",
-        "^":    "Caret",
-        "!":    "BangSymbol",
-
-
-        ":":    "Colon",
-        "0:":   "ZeroColon",
-        "1:":   "OneColon",
-        "2:":   "TwoColon",
-        "1":    "One"
-    }
 }
 
 def combineDicts(dictionary1, dictionary2):
@@ -96,13 +64,17 @@ class GotoDocumentationCommand(sublime_plugin.TextCommand):
 
             if location and not location.empty():
                 q = self.view.substr(location)
-                scope = self.view.scope_name(location.begin()).rpartition('.')[2].strip()
+            else:
+                # if no word, just open the reference card
+                q = '' #empty query string will open reference card
 
-                self.open_doc(q, scope)
+            scope = self.view.scope_name(location.begin()).rpartition('.')[2].strip()
+            self.open_doc(q, scope)
 
     def open_doc(self, query, scope):
 
         settings = sublime.load_settings("goto_documentation.sublime-settings")
+        substitue_map = settings.get('substitute')
 
         # attach the prefix and suffix
         query = settings.get('prefix', '') + query + settings.get('suffix', '')
@@ -110,33 +82,26 @@ class GotoDocumentationCommand(sublime_plugin.TextCommand):
         # merge the default docs with the one provided by the user
         docs = combineDicts(default_docs, settings.get('docs'))
 
-        # we use a temp scope so we don't replace the "real" scope
-        tscope = scope
+        if not scope in docs:
+            scope = settings.get('fallback_scope', 'google')
 
-        if not tscope in docs:
-            tscope = settings.get('fallback_scope', 'google')
-
-        if not tscope in docs:
+        if not scope in docs:
             self.show_status("No docs available for the current scope !")
             return
 
-        if tscope == "q":
-            print("before " + tscope + ":" + query)
-            query = query.replace(".", "Dot")
-            if (tscope in substitue_map and query in substitue_map[tscope]):
-                query = substitue_map[tscope][query]
+        if scope == "q":
+            print("before " + scope + ":" + query)
+            query = query.lower()
+
+            if (scope in substitue_map and query in substitue_map[scope]):
+                query = substitue_map[scope][query]
 
             query = query.replace("\\", "") # backslash causes Sublime on OSX to open all available browsers
-            if ("DotQ" in query):
-                tscope = "Q"
-            if ("Dotz" in query):
-                query = query.lower()
-
-            print("after " + tscope + ":" + query)
+            print("after " + scope + ":" + query)
 
         # if we have the scope defined in settings
         # build the url and open it
-        doc = docs[tscope]
+        doc = docs[scope]
 
         # if it is a dict we must have:
         #   - a command to run
