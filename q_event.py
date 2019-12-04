@@ -1,6 +1,6 @@
 import sublime, sublime_plugin
 from . import QCon as Q
-from . import q_send as QS
+from . import q_send
 from . import Settings as S
 
 class QEvent(sublime_plugin.EventListener):
@@ -20,10 +20,12 @@ class QEvent(sublime_plugin.EventListener):
 		#print(compl)
 		return compl or []
 
-class QUpdateCompletionsCommand(QS.QSendRawCommand):
+#put this class in this file because it updates view settings 'q_compl'
+class QUpdateCompletionsCommand(q_send.QSendRawCommand):
 	settings = S.Settings()
 
-	def query(self):
+  @staticmethod
+	def query():
 		t = '(tables `.)!cols each tables `.'
 		v = '(system "v") except system"a"'
 		f = 'system "f"'
@@ -37,7 +39,7 @@ class QUpdateCompletionsCommand(QS.QSendRawCommand):
 		try:
 			q = con.q
 			q.open()
-			res = q(self.query())
+			res = q(QUpdateCompletionsCommand.query())
 			#print(res)
 			compl = []
 
@@ -52,9 +54,9 @@ class QUpdateCompletionsCommand(QS.QSendRawCommand):
 					compl.append((c + '\t' + t, c))
 
 			compl.extend(self.makeCompletions(res[b'v'], 'Variable'))
-			compl.extend(self.makeCompletions(res[b'f'], 'Function'))          
-			compl.extend(self.makeCompletions(res[b'q'], 'q'))       
-			compl.extend(self.makeCompletions(['select', 'from', 'update', 'delete'], 'q'))       
+			compl.extend(self.makeCompletions(res[b'f'], 'Function'))
+			compl.extend(self.makeCompletions(res[b'q'], 'q'))
+			compl.extend(self.makeCompletions(['select', 'from', 'update', 'delete'], 'q'))
 
 			ns = res[b'ns']
 			for x in ns.iteritems():
@@ -74,7 +76,7 @@ class QUpdateCompletionsCommand(QS.QSendRawCommand):
 		out = []
 		for x in l:
 			#v = x.decode('utf-8')
-			v = self.decode(x)
+			v = q_send.QSendRawCommand.decode(x)
 			out.append((v + '\t' + t, v))
 		return out
 

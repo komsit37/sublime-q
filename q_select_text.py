@@ -1,9 +1,9 @@
 from . import q_chain
 
-class QSelectTextCommand(q_chain.QChainCommand):       
+class QSelectTextCommand(q_chain.QChainCommand):
     def do(self, edit, input=None):
         # get s
-        s = self.selectText()
+        s = QSelectTextCommand.selectText(self.view)
 
         # only proceed if s is not empty
         if(s == "" or s == "\n"):
@@ -11,15 +11,16 @@ class QSelectTextCommand(q_chain.QChainCommand):
         else:
             return s
 
-    def selectText(self):
+    @staticmethod
+    def selectText(view):
         s = ""
-        for region in self.view.sel():
+        for region in view.sel():
             if region.empty():
-                s += self.view.substr(self.view.line(region))
+                s += view.substr(view.line(region))
                 #if advanceCursor:
-                #    self.advanceCursor(region)
+                #    advanceCursor(region)
             else:
-                s += self.view.substr(region)
+                s += view.substr(region)
         return s
 
     #not used
@@ -37,7 +38,7 @@ class QSelectTextCommand(q_chain.QChainCommand):
         self.view.sel().subtract(region)
         self.view.sel().add(sublime.Region(loc, loc))
 
-class QSelectWordCommand(q_chain.QChainCommand):       
+class QSelectWordCommand(q_chain.QChainCommand):
     def do(self, edit, input=None):
         # grab the word or the selection from the view
         region = self.view.sel()[0]
@@ -61,4 +62,4 @@ class QSelectWordCommand(q_chain.QChainCommand):
 
 
 
-  
+

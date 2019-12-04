@@ -25,68 +25,84 @@ class QSendRawCommand(q_chain.QChainCommand):
             #connect first
             sublime.message_dialog('Sublime-q: Choose your q connection first!')
             self.view.window().run_command('show_connection_list')
-   
-    def send(self, con, s):
-        try:
-            q = con.q
-            q.open()
-            
-            #bundle all pre/post q call to save round trip time
-            pre_exec = []
-            #pre_exec.append('if[not `st in key `; .st.tmp: `]')
-            pre_exec.append('.st.start:.z.T')   #start timing
-            pre_exec.append('.st.mem: @[{.Q.w[][`used]}; (); 0]')   #start timing
-            pre_exec = ';'.join(pre_exec)
-            #print(pre_exec)
-            q(pre_exec)
 
-            res = q(s)
-           
-            post_exec = []
-            #get exec time, result dimensions
-            post_exec.append('res:`time`c`mem!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[{$[0<=type x; cols x;()]};.st.tmp;()]),count .st.tmp); ((@[{.Q.w[][`used]}; (); 0]) - .st.mem))')
-            post_exec.append('delete tmp, start, execTime from `.st') #clean up .st
-            #post_exec.append('.st: ` _ .st') #clean up .st
-            post_exec.append('res')
-            post_exec = ';'.join(post_exec)
-            post_exec = '{' + post_exec + '}[]'   #exec in closure so we don't leave anything behind
-            #print(post_exec)
-            tc = q(post_exec)
+    #keep this because it is overwritten in QUpdateCompletionsCommand
+    def send(self, con, input):
+      return QSendRawCommand.sendAndUpdateStatus(self.view, con, input)
 
-            res = self.decode(res)
-            time = self.decode(tc[b'time'])
-            count = self.decode(tc[b'c'])
-            mem = self.decode(tc[b'mem'])
-            mem = int(mem)
-            sign = '+' if mem>0 else '-'
-            mem = abs(mem)
-            if mem > 1000000000:
-                mem = '{0:.2f}'.format(mem/1000000000) + 'GB'
-            elif mem > 1000000:
-                mem = '{0:.2f}'.format(mem/1000000) + 'MB'
-            elif mem > 1000:
-                mem = '{0:.0f}'.format(mem/1000) + 'KB'
-            else:
-                mem = '{0:.0f}'.format(mem) + 'B'
+    @staticmethod
+    def sendAndUpdateStatus(view, con, input):
+      view.set_status('result', 'excuting...')
+      d = QSendRawCommand.executeRaw(con, input)
+      view.set_status('result', d['status'])
+      view.set_status('q', con.status())
+      return d['result']
 
-            #print(res)
-            self.view.set_status('result', 'Result: ' + count + ', ' + time + ', ' + sign + mem)
-        except QException as e:
-            res = "error: `" + self.decode(e)
-        except socket_error as serr:
-            sublime.error_message('Sublime-q cannot to connect to \n"' + con.h() + '"\n\nError message: ' + str(serr))
-            raise serr
-        finally:
-            q.close()
+    @staticmethod
+    def executeRaw(con, input):
+      try:
+          q = con.q
+          q.open()
 
-        self.view.set_status('q', con.status())
-        
-        #return itself if query is define variable or function
-        if res is None:
-            res = s
-        return res
+          #bundle all pre/post q call to save round trip time
+          pre_exec = []
+          #pre_exec.append('if[not `st in key `; .st.tmp: `]')
+          pre_exec.append('.st.start:.z.T')   #start timing
+          pre_exec.append('.st.mem: @[{.Q.w[][`used]}; (); 0]')   #start timing
+          pre_exec = ';'.join(pre_exec)
+          #print(pre_exec)
+          q(pre_exec)
 
-    def decode(self, s):
+          res = q(input)
+
+          post_exec = []
+          #get exec time, result dimensions
+          post_exec.append('res:`time`c`mem!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[{$[0<=type x; cols x;()]};.st.tmp;()]),count .st.tmp); ((@[{.Q.w[][`used]}; (); 0]) - .st.mem))')
+          post_exec.append('delete tmp, start, execTime from `.st') #clean up .st
+          #post_exec.append('.st: ` _ .st') #clean up .st
+          post_exec.append('res')
+          post_exec = ';'.join(post_exec)
+          post_exec = '{' + post_exec + '}[]'   #exec in closure so we don't leave anything behind
+          #print(post_exec)
+          tc = q(post_exec)
+
+          res = QSendRawCommand.decode(res)
+          time = QSendRawCommand.decode(tc[b'time'])
+          count = QSendRawCommand.decode(tc[b'c'])
+          mem = QSendRawCommand.decode(tc[b'mem'])
+          mem = int(mem)
+          sign = '+' if mem>0 else '-'
+          mem = abs(mem)
+          if mem > 1000000000:
+              mem = '{0:.2f}'.format(mem/1000000000) + 'GB'
+          elif mem > 1000000:
+              mem = '{0:.2f}'.format(mem/1000000) + 'MB'
+          elif mem > 1000:
+              mem = '{0:.0f}'.format(mem/1000) + 'KB'
+          else:
+              mem = '{0:.0f}'.format(mem) + 'B'
+
+          #return input itself if query is define variable or function (and return no result)
+          if res is None:
+            res = input
+
+          status = 'Result: ' + count + ', ' + time + ', ' + sign + mem
+          #self.view.set_status('result', 'Result: ' + count + ', ' + time + ', ' + sign + mem)
+      except QException as e:
+          res = "error: `" + QSendRawCommand.decode(e)
+          status = "error: `" + QSendRawCommand.decode(e)
+      except socket_error as serr:
+          sublime.error_message('Sublime-q cannot to connect to \n"' + con.h() + '"\n\nError message: ' + str(serr))
+          raise serr
+      finally:
+          q.close()
+
+      #self.view.set_status('q', con.status())
+
+      return {'result': res, 'status': status}
+
+    @staticmethod
+    def decode(s):
         if type(s) is bytes or type(s) is numpy.bytes_:
             return s.decode('utf-8')
         elif type(s) is QException:

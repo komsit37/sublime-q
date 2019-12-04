@@ -1,9 +1,12 @@
 [
 	//send
 	{ "keys": ["super+e"], 			"command": "q_chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_popup", "q_update_completions"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-	{ "keys": ["super+enter"], 		"command": "q_chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_panel", "q_update_completions"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  //uncomment this to revert to sync execution
+	//{ "keys": ["super+enter"], 		"command": "q_chain", "args": {"chain": ["q_select_text", "q_send", 		"q_out_panel", "q_update_completions"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  //replace old sync execution with new async execution
+  { "keys": ["super+enter"],"command": "q_send_async", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 	{ "keys": ["super+j"],			"command": "q_chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_popup_json", "q_update_completions"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-	{ "keys": ["super+shift+enter"],"command": "q_chain", "args": {"chain": ["q_select_text", "q_send_json", 	"q_out_panel", "q_update_completions"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+	{ "keys": ["super+shift+enter"],"command": "q_chain", "args": {"chain": ["q_select_text", "q_send_json",   "q_out_panel", "q_update_completions"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
   { "keys": ["escape"],           "command": "q_chain", "args": {"chain": ["q_hide_out_panel", "q_out_popup_close", "hide_auto_complete"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
