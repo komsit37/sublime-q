@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html style="height: 100%"> <!--need this to the div can take the whole space, see https://stackoverflow.com/questions/14545507/div-height-in-percentage-->
+<head>
+  <script type="text/javascript" src="canvasjs.min.js"></script>
+  <script type="text/javascript" src="q.js"></script>
+  <script type="text/javascript">
+    window.onload = function () {
+      var chart = new CanvasJS.Chart("chartContainer",
+      {
+        zoomEnabled: true,
+        axisX :{
+          labelAngle: -30
+        },
+        axisY :{
+          includeZero: false
+        },
+        data: data
+     });
+      chart.render();
+    }
+    var data = formatCanvasJsData({{data}})
+  </script>
+
+</head>
+  <body style="height: 94%"> <!--scroll bar will appear (a bit of a distraction) if we set the height to 100%-->
+    <!--div id="chartContainer" style="padding-bottom: 50%; width: 100%;"></div-->
+    <div id="chartContainer" style="height: 100%; width: 100%;"></div>
+  </body>
+  </html>
