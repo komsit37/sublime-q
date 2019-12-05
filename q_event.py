@@ -24,7 +24,7 @@ class QEvent(sublime_plugin.EventListener):
 class QUpdateCompletionsCommand(q_send.QSendRawCommand):
 	settings = S.Settings()
 
-  @staticmethod
+  	@staticmethod
 	def query():
 		t = '(tables `.)!cols each tables `.'
 		v = '(system "v") except system"a"'
