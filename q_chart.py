@@ -55,12 +55,13 @@ def render(template_file, data):
   fr.close()
   #print(template)
   #print(data)
-  return template.replace("{{data}}", data)
+  return template.replace("{{chart}}", data)
 
 def write_file(out_file, data):
   f = open(out_file, "w")
   f.write(data)
   f.close()
+
 
 class QChartCommand(sublime_plugin.TextCommand):
   prepData = ".j.j {c: cols x; cx: c[0]; cy: 1 _ c; cxy: cx ,/: cy;{`type`markerType`showInLegend`legendText`dataPoints!(`line; `none; 1b; (cols x)1; `x`y xcol x)} each {flip x!y[x]}[;x] each cxy} .st.tmp"
@@ -75,14 +76,21 @@ class QChartCommand(sublime_plugin.TextCommand):
       self.view.window().run_command('show_connection_list')
 
   def get_data_and_render(self, con):
+    #todo: cache template
+    #todo: no need to load chart code everytime
+    qcode = sublime.load_resource(os.path.join("Packages", "sublime-q", "chart", "canvasjs.q"))
+    #print(qcode)
     q = con.q
     try:
       q.open()
-      raw = q(QChartCommand.prepData)
+      q(qcode)
+      #raw = q(QChartCommand.prepData)
+      raw = q(".j.j .st.autoChart .st.tmp")
       data = q_send.QSendRawCommand.decode(raw)
 
       res = render("canvasjs_template.html", data)
       chart_file = cache_dir("sublime_q_chart.html")
+      print(chart_file)
       write_file(chart_file, res)
 
       url = "file://" + chart_file

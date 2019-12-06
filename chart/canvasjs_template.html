@@ -5,20 +5,11 @@
   <script type="text/javascript" src="q.js"></script>
   <script type="text/javascript">
     window.onload = function () {
-      var chart = new CanvasJS.Chart("chartContainer",
-      {
-        zoomEnabled: true,
-        axisX :{
-          labelAngle: -30
-        },
-        axisY :{
-          includeZero: false
-        },
-        data: data
-     });
+      var chart = new CanvasJS.Chart("chartContainer", chartObj);
       chart.render();
     }
-    var data = formatCanvasJsData({{data}})
+    var chartObj = {{chart}};
+    chartObj.data = formatCanvasJsData(chartObj.data);
   </script>
 
 </head>
