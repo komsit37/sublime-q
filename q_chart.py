@@ -64,7 +64,7 @@ def write_file(out_file, data):
 
 
 class QChartCommand(sublime_plugin.TextCommand):
-  prepData = ".j.j {c: cols x; cx: c[0]; cy: 1 _ c; cxy: cx ,/: cy;{`type`markerType`showInLegend`legendText`dataPoints!(`line; `none; 1b; (cols x)1; `x`y xcol x)} each {flip x!y[x]}[;x] each cxy} .st.tmp"
+  #prepData = ".j.j {c: cols x; cx: c[0]; cy: 1 _ c; cxy: cx ,/: cy;{`type`markerType`showInLegend`legendText`dataPoints!(`line; `none; 1b; (cols x)1; `x`y xcol x)} each {flip x!y[x]}[;x] each cxy} .st.tmp"
 
   def run(self, edit):
     con = QCon.QCon.loadFromView(self.view)
@@ -85,7 +85,7 @@ class QChartCommand(sublime_plugin.TextCommand):
       q.open()
       q(qcode)
       #raw = q(QChartCommand.prepData)
-      raw = q(".j.j .st.autoChart .st.tmp")
+      raw = q(".j.j .st.buildChart .st.tmp")
       data = q_send.QSendRawCommand.decode(raw)
 
       res = render("canvasjs_template.html", data)
