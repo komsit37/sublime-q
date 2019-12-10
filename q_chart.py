@@ -85,7 +85,7 @@ class QChartCommand(sublime_plugin.TextCommand):
       q.open()
       q(qcode)
       #raw = q(QChartCommand.prepData)
-      raw = q(".j.j .st.buildChart .st.tmp")
+      raw = q(".j.j .st.chart.buildChart .st.tmp")
       data = q_send.QSendRawCommand.decode(raw)
 
       res = render("canvasjs_template.html", data)
