@@ -1,13 +1,14 @@
 import sublime, sublime_plugin
 from .qpython import qconnection
 from socket import error as socket_error
+from . import util
 
 class QCon():
     def __init__(self, host, port, username, password, name=None, hdb=False):
         self.init = False
         self.hdb = hdb
         self.mem = 0
-        
+
         self.name = name
         self.host = host
         self.port = port
@@ -21,7 +22,7 @@ class QCon():
         p = h.split(':')
         for i in range(len(p), 4):
             p.append(None)
-        if not p[1].isdigit(): 
+        if not p[1].isdigit():
             sublime.error_message('port must be digit: ' + p[1])
             raise Exception('port must be digit: ' + p[1])
 
@@ -71,7 +72,7 @@ class QCon():
             p = h.split(':')
             for i in range(len(p), 4):
                 p.append(None)
-            if not p[1].isdigit(): 
+            if not p[1].isdigit():
                 sublime.error_message('port must be digit: ' + p[1])
                 raise Exception('port must be digit: ' + p[1])
             self.host = p[0]
@@ -102,33 +103,25 @@ class QCon():
         self.init = False
 
     def status(self):
-        status = 'OK' if self.ok() else 'FAIL'
+        status = 'OK' if self.checkOk() else 'FAIL'
         name = (self.name) if self.name else ''
         hdb = (' (HDB)') if self.hdb else ''
         if self.mem:
-            mem = ' [' + self.mem_str(self.mem) + ']'
+            mem = ' [' + util.format_mem(int(self.mem)) + ']'
         else:
             mem = ''
 
 
         return status + ': ' + name + hdb + '> ' + self.hstatus() + mem
 
-    def mem_str(self, mem):
-        mem = int(mem)
-        if mem > 1000000000:
-            return '{0:.2f}'.format(mem/1000000000) + 'GB'
-        elif mem > 1000000:
-            return '{0:.0f}'.format(mem/1000000) + 'MB'
-        elif mem > 1000:
-            return '{0:.0f}'.format(mem/1000) + 'KB'
-        else:
-            return '{0:.0f}'.format(mem) + 'B'
-
-    def ok(self):
+    def checkOk(self):
         try:
             self.q.open()
             if not self.init:
-                self.initCon()
+              #only call at first time
+              print('init ' + self.h())
+              #self.q('system "c 2000 2000"')  #expand output to max 2000 chars
+              self.init = True
             self.mem = self.q('@[{.Q.w[][`used]}; (); 0]')
         except socket_error as serr:
             return False
@@ -136,9 +129,5 @@ class QCon():
             self.q.close()
         return True
 
-    def initCon(self):
-        #only call at first time
-        print('init ' + self.h())
-        #self.q('system "c 2000 2000"')  #expand output to max 2000 chars
-        self.init = True
+
 

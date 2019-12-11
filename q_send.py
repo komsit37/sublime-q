@@ -7,6 +7,7 @@ import numpy
 
 from . import q_chain
 from . import QCon as Q
+from . import util
 
 #for testing in console
 #from qpython import qconnection
@@ -33,10 +34,16 @@ class QSendRawCommand(q_chain.QChainCommand):
     @staticmethod
     def sendAndUpdateStatus(view, con, input):
       view.set_status('result', 'excuting...')
-      d = QSendRawCommand.executeRaw(con, input)
-      view.set_status('result', d['status'])
-      view.set_status('q', con.status())
-      return d['result']
+      try:
+        d = QSendRawCommand.executeRaw(con, input)
+        view.set_status('result', d['status'])
+        view.set_status('q', con.status())
+        return d['result']
+      except Exception as e:
+        sublime.error_message('Error in QSendRawCommand.sendAndUpdateStatus:\n' + str(e))
+        view.set_status('result', 'ERROR')
+        view.set_status('q', con.status())
+        raise e
 
     @staticmethod
     def executeRaw(con, input):
@@ -73,15 +80,7 @@ class QSendRawCommand(q_chain.QChainCommand):
           mem = QSendRawCommand.decode(tc[b'mem'])
           mem = int(mem)
           sign = '+' if mem>0 else '-'
-          mem = abs(mem)
-          if mem > 1000000000:
-              mem = '{0:.2f}'.format(mem/1000000000) + 'GB'
-          elif mem > 1000000:
-              mem = '{0:.2f}'.format(mem/1000000) + 'MB'
-          elif mem > 1000:
-              mem = '{0:.0f}'.format(mem/1000) + 'KB'
-          else:
-              mem = '{0:.0f}'.format(mem) + 'B'
+          mem = util.format_mem(abs(int(mem)))
 
           #return input itself if query is define variable or function (and return no result)
           if res is None:
