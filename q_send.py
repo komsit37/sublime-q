@@ -74,10 +74,10 @@ class QSendRawCommand(q_chain.QChainCommand):
           #print(post_exec)
           tc = q(post_exec)
 
-          res = QSendRawCommand.decode(res)
-          time = QSendRawCommand.decode(tc[b'time'])
-          count = QSendRawCommand.decode(tc[b'c'])
-          mem = QSendRawCommand.decode(tc[b'mem'])
+          res = util.decode(res)
+          time = util.decode(tc[b'time'])
+          count = util.decode(tc[b'c'])
+          mem = util.decode(tc[b'mem'])
           mem = int(mem)
           sign = '+' if mem>0 else '-'
           mem = util.format_mem(abs(int(mem)))
@@ -89,8 +89,8 @@ class QSendRawCommand(q_chain.QChainCommand):
           status = 'Result: ' + count + ', ' + time + ', ' + sign + mem
           #self.view.set_status('result', 'Result: ' + count + ', ' + time + ', ' + sign + mem)
       except QException as e:
-          res = "error: `" + QSendRawCommand.decode(e)
-          status = "error: `" + QSendRawCommand.decode(e)
+          res = "error: `" + util.decode(e)
+          status = "error: `" + util.decode(e)
       except socket_error as serr:
           sublime.error_message('Sublime-q cannot to connect to \n"' + con.h() + '"\n\nError message: ' + str(serr))
           raise serr
@@ -98,17 +98,7 @@ class QSendRawCommand(q_chain.QChainCommand):
           q.close()
 
       #self.view.set_status('q', con.status())
-
       return {'result': res, 'status': status}
-
-    @staticmethod
-    def decode(s):
-        if type(s) is bytes or type(s) is numpy.bytes_:
-            return s.decode('utf-8')
-        elif type(s) is QException:
-            return str(s)[2:-1] #extract error from b'xxx'
-        else:
-            return str(s)
 
 class QSendCommand(QSendRawCommand):
     def do(self, edit=None, input=None):

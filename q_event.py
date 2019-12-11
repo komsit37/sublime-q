@@ -2,6 +2,7 @@ import sublime, sublime_plugin
 from . import QCon as Q
 from . import q_send
 from . import Settings as S
+from . import util
 
 class QEvent(sublime_plugin.EventListener):
   settings = S.Settings()
@@ -75,7 +76,7 @@ class QUpdateCompletionsCommand(q_send.QSendRawCommand):
     out = []
     for x in l:
       #v = x.decode('utf-8')
-      v = q_send.QSendRawCommand.decode(x)
+      v = util.decode(x)
       out.append((v + '\t' + t, v))
     return out
 
