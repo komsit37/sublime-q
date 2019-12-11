@@ -18,7 +18,7 @@
   mt: {?[x; (); (enlist y[1])!enlist y[1]; {x!x} y _ 1]}[x[`t]] cols x[`t];
   s: raze value flip key mt;
   tt: {flip x[y]}[mt] each s;
-  newt: pxcol'[s; tt];
+  newt: .st.chart.pxcol'[s; tt];
   newHints: {y!value x}[(cols first tt)#x[`hints]] each (cols each newt);
   flip (`t`hints)!(newt; newHints)};
 

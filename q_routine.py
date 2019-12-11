@@ -127,7 +127,7 @@ class QRoutineCommand(sublime_plugin.TextCommand):
         #webbrowser.open_new(url)
         #print(os.getcwd()) #/Users/pkomsit/Applications/Sublime Text.app/Contents/MacOS
     except Exception as e:
-      sublime.error_message('Error in QChartCommand.get_data_and_render:\n' + str(e))
+      sublime.error_message('Error in QRoutineCommand.run_routine:\n' + str(e))
       self.view.set_status('result', 'ERROR')
       self.view.set_status('q', con.status())
       raise e
