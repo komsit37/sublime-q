@@ -47,7 +47,7 @@ def combineDicts(dictionary1, dictionary2):
     new_dict.update(dictionary2)
     return new_dict
 
-class GotoDocumentationCommand(sublime_plugin.TextCommand):
+class QGotoDocumentationCommand(sublime_plugin.TextCommand):
     """
     Search the selected text or the current word
     """

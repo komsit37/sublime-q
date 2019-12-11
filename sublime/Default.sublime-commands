@@ -1,8 +1,8 @@
 [
-    { "caption": "Q: Send (popup)",         "command": "chain", "args": {"chain": ["q_select_text", "q_send",       "q_out_popup"]}},
-    { "caption": "Q: Send",                 "command": "chain", "args": {"chain": ["q_select_text", "q_send",       "q_out_panel"]}},
-    { "caption": "Q: Send (JSON-popup)",    "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_popup_json"]}},
-    { "caption": "Q: Send (JSON output)",          "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_panel"]}},
+  { "caption": "Q: Send - send selected statement to q session",                 "command": "q_send_async"},
+  { "caption": "Q: Send (popup) - send selected statement to q session",         "command": "q_chain", "args": {"chain": ["q_select_text", "q_send",  "q_out_popup", "q_update_completions"]}},
 
-    {"caption": "Q: Connect", "command": "show_connection_list"}
+  {"caption": "Q: Connect - connect to remote q session", "command": "q_show_connection_list"},
+  {"caption": "Q: Routine - run predefined q routines", "command": "q_show_routine_list"},
+  {"caption": "Q: Open Docs - open q docs in browser", "command": "q_goto_documentation"}
 ]

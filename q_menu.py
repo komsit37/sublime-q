@@ -42,7 +42,7 @@ class PerViewCommand(sublime_plugin.WindowCommand):
             self.qcons.append(Q.QCon.fromDict(con_dict))
         return self.qcons
 
-class ShowConnectionListCommand(PerViewCommand):
+class QShowConnectionListCommand(PerViewCommand):
     ACTIONS = ['Use', 'Use HDB', 'Update', 'Delete', 'Rename']
 
     def run(self):
@@ -62,11 +62,11 @@ class ShowConnectionListCommand(PerViewCommand):
 
     def prompt_actions(self, i):
         if i < 0:       #we get index=-1 if cancel
-            return        
+            return
         elif i == 0:    #new connection
             self.window.run_command('new_connection')
             return
-        
+
         self.qcon = self.qcons[i - 1]
         self.window.show_quick_panel(ShowConnectionListCommand.ACTIONS, self.on_done)
 
@@ -132,7 +132,7 @@ class DeleteConnectionCommand(CommandWithQCon):
     def do(self):
         self.settings.delete_connection(self.qcon)
         self.set_status('result', 'Deleted "' + self.qcon.name + '"', True)
-        
+
 
 class RenameConnectionCommand(CommandWithQCon):
     def do(self):

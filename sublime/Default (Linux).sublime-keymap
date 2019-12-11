@@ -10,7 +10,8 @@
   { "keys": ["escape"],           "command": "q_chain", "args": {"chain": ["q_hide_out_panel", "q_out_popup_close", "hide_auto_complete"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
 	//connection
-	{ "keys": ["super+alt+q"], 	"command": "show_connection_list",  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+	{ "keys": ["super+alt+q"], 	"command": "q_show_connection_list",  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  { "keys": ["super+alt+r"],  "command": "q_show_routine_list",  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
 	//shortcut
 	{ "keys": ["f2"],       "command": "q_routine", "args": {"name": "show"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},

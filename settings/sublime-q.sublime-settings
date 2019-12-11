@@ -1,8 +1,13 @@
 {
+  "connections": [],
+  "default_new_connection": "localhost:5555",
+  "use_completion": "True",
+  //this will be copied to sublime's cache when the plugin is loaded
   "scripts": [
     "Packages/sublime-q/chart/canvasjs.min.js",
     "Packages/sublime-q/chart/q.js"
   ],
+  //custom q routines - you should not edit this file directly, but add your routine to ${sublime-dir}/Packages/User/sublime-q.sublime-settings instead
   "routines": [
     {
       "name": "chart",
@@ -46,8 +51,5 @@
       "description": "list tables in q sessions",
       "command": {"qstatement": ".Q.s (tables `.)!cols each tables `.", "output": "q_out_panel"}
     }
-  ],
-	"connections": [],
-	"default_new_connection": "localhost:5555",
-	"use_completion": "True",
+  ]
 }

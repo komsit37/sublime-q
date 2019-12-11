@@ -80,7 +80,7 @@ class QRoutineCommand(sublime_plugin.TextCommand):
     else:
       #connect first
       sublime.message_dialog('Sublime-q: Choose your q connection first!')
-      self.view.window().run_command('show_connection_list')
+      self.view.window().run_command('q_show_connection_list')
 
   def run_routine(self, routine, con, input):
     #pprint.pprint(routine)

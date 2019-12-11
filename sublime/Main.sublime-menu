@@ -8,30 +8,11 @@
             "id": "SublimeQ",
             "children":
             [
-                {"caption": "Connect", "command": "show_connection_list"},
-                {"caption": "Send",
-                 "children":
-                    [
-                        { "caption": "Send (popup)",         "command": "chain", "args": {"chain": ["q_select_text", "q_send",       "q_out_popup"]}},
-                        { "caption": "Send",                 "command": "chain", "args": {"chain": ["q_select_text", "q_send",       "q_out_panel"]}},
-                        { "caption": "-" },
-                        { "caption": "Send (JSON-popup)",    "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_popup_json"]}},
-                        { "caption": "Send (JSON output)",   "command": "chain", "args": {"chain": ["q_select_text", "q_send_json",  "q_out_panel"]}},
-                ]},
-                {"caption": "Shortcut",
-                 "children":
-                    [
-                        { "caption": "Help", "command": "goto_documentation"},
-                        { "caption": "Print",      "command": "chain", "args": {"chain": ["q_select_word", "q_send", "q_out_panel"]}},
-                        { "caption": "Print (popup)", "command": "chain", "args": {"chain": ["q_select_word", "q_send", "q_out_popup"]}},
-                        { "caption": "Type",       "command": "chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_panel"]}},
-                        { "caption": "Type (popup)", "command": "chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_popup"]}},
-                        { "caption": "Table",       "command": "chain", "args": {"chain": ["q_send_table", "q_out_panel"]}},
-                        { "caption": "Table (popup)", "command": "chain", "args": {"chain": ["q_send_table", "q_out_popup"]}},
-                        { "caption": "Env",       "command": "chain", "args": {"chain": ["q_send_env", "q_out_panel"]}},
-                        { "caption": "Memory", "command": "chain", "args": {"chain": ["q_send_mem", "q_out_panel"]}}
-                    ]
-                }
+                {"caption": "Connect",       "command": "q_show_connection_list"},
+                { "caption": "Send",         "command": "q_send_async"},
+                { "caption": "Send (popup)", "command": "q_chain", "args": {"chain": ["q_select_text", "q_send",  "q_out_panel", "q_update_completions"]}},
+                {"caption": "Routine",       "command": "q_show_routine_list"},
+                {"caption": "Open Docs",     "command": "q_goto_documentation"}
             ]
         }]
     },
