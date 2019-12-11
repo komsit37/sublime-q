@@ -1,4 +1,23 @@
 {
+  "scripts": [
+    "Packages/sublime-q/chart/canvasjs.min.js",
+    "Packages/sublime-q/chart/q.js"
+  ],
+  "routines": [
+    {
+      "name": "chart",
+      "preload_qcode_file": "Packages/sublime-q/chart/canvasjs.q",
+      "qstatement": ".j.j .st.chart.buildChart .st.tmp",
+      "output_data": "False",
+      "template_file": "Packages/sublime-q/chart/canvasjs_template.html",
+      "template_string": "{{chart}}"
+    },
+    {
+      "name": "list tables",
+      "qstatement": ".Q.s (tables `.)!cols each tables `.",
+      "output_data": "True"
+    }
+  ],
 	"connections": [],
 	"default_new_connection": "localhost:5555",
 	"use_completion": "True",
