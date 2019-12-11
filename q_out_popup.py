@@ -88,6 +88,11 @@ class QOutPopupJsonCommand(QOutPopupBaseCommand):
 class QOutPopupCloseCommand(QOutPopupBaseCommand):
     def do(self, edit=None, input=None):
         print('force close popup')
-        QOutPopupBaseCommand.TO_CLOSE = False
-        self.view.hide_popup()
+
+        #only remove popup if no output panel
+        print(self.view.window().active_panel())
+        output_showing = self.view.window().active_panel() == "output.q"
+        if not output_showing:
+          QOutPopupBaseCommand.TO_CLOSE = False
+          self.view.hide_popup()
        	return ''	#return something so q_chain can continue
