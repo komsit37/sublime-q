@@ -75,5 +75,6 @@
   names: {(key flip x) 1} each series[`t];
   axisYTypes: .st.chart.axisYType[series[`t]; series[`hints]];
   dataPoints: .st.chart.xyz each series[`t];
-  data: `type xcol update showInLegend: 1b from ([] typ: types; name: names; axisYType: axisYTypes; dataPoints: dataPoints);
+  markerTypes: (`cross`none) `line = types;
+  data: `type xcol update showInLegend: 1b from ([] typ: types; markerType: markerTypes; name: names; axisYType: axisYTypes; dataPoints: dataPoints);
   .st.chart.chartOptions, (enlist `data)! enlist data};
