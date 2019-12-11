@@ -68,12 +68,12 @@ class QShowConnectionListCommand(PerViewCommand):
             return
 
         self.qcon = self.qcons[i - 1]
-        self.window.show_quick_panel(ShowConnectionListCommand.ACTIONS, self.on_done)
+        self.window.show_quick_panel(QShowConnectionListCommand.ACTIONS, self.on_done)
 
     def on_done(self, i):
         if i < 0:       #we get index=-1 if cancel
             return
-        action = ShowConnectionListCommand.ACTIONS[i]
+        action = QShowConnectionListCommand.ACTIONS[i]
         action = action.replace(' ', '_').lower()
         print(action + ' ' + str(self.qcon.h()))
         self.window.run_command(action + '_connection', {'name': self.qcon.name, 'h': self.qcon.h()})
