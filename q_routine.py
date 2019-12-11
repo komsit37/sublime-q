@@ -58,28 +58,34 @@ def write_file(out_file, data):
   f.write(data)
   f.close()
 
+def find_routine(name):
+  settings = sublime.load_settings("sublime-q.sublime-settings")
+  routine =  [x for x in settings.get('routines') if x['name'] == name]
+  if len(routine) == 0:
+    return None
+  else:
+    return routine[0]
 
 class QRoutineCommand(sublime_plugin.TextCommand):
-  #prepData = ".j.j {c: cols x; cx: c[0]; cy: 1 _ c; cxy: cx ,/: cy;{`type`markerType`showInLegend`legendText`dataPoints!(`line; `none; 1b; (cols x)1; `x`y xcol x)} each {flip x!y[x]}[;x] each cxy} .st.tmp"
 
   def run(self, edit, name):
     con = QCon.QCon.loadFromView(self.view)
     if con:
-      sublime.set_timeout_async(lambda: self.get_data_and_render(con, name), 0)
+      s = q_select_text.QSelectWordCommand.selectWord(self.view)
+      routine =  find_routine(name)
+      if routine:
+        sublime.set_timeout_async(lambda: self.run_routine(routine, con, s), 0)
+      else:
+        sublime.message_dialog('Routine "' + name + '" not found. Please add it to sublime-q.sublime-settings')
     else:
       #connect first
       sublime.message_dialog('Sublime-q: Choose your q connection first!')
       self.view.window().run_command('show_connection_list')
 
-  def get_data_and_render(self, con, name):
-    settings = sublime.load_settings("sublime-q.sublime-settings")
-    routine =  [x for x in settings.get('routines') if x['name'] == name]
-    if len(routine) == 0:
-      sublime.message_dialog('Routine "' + name + '" not found. Please add it to sublime-q.sublime-settings')
-      return
-    else:
-      routine = routine[0]
+  def run_routine(self, routine, con, input):
     #pprint.pprint(routine)
+    command = routine['command']
+    render = routine.get('render')
 
     q = con.q
     try:
@@ -89,19 +95,25 @@ class QRoutineCommand(sublime_plugin.TextCommand):
         qcode = sublime.load_resource(routine['preload_qcode_file'])
         #print(qcode)
         q(qcode)
-      #raw = q(QChartCommand.prepData)
-      raw = q(routine['qstatement'])
+
+      if command.get('qfunction'):
+        if input == "":
+          input = "[]"
+        #print(input)
+        raw = q(command['qfunction'] + " " + input)
+      else:
+        raw = q(command['qstatement'])
       data = util.decode(raw)
 
-      if routine.get('output_data', "False").lower() == 'true':
+      if command.get('output'):
         #print(data)
-        self.view.run_command("q_out_panel", {"input": data})
+        self.view.run_command(command.get('output'), {"input": data})
         #todo: show the data in output view?
 
-      if routine.get('template_file') and routine.get('template_string'):
+      if render:
         #print(template)
         #print(data)
-        res = sublime.load_resource(routine['template_file']).replace(routine['template_string'], data)
+        res = sublime.load_resource(render['template_file']).replace(render['template_string'], data)
 
         chart_file = cache_dir("sublime_q_out.html")
         print("rendered chart to " + chart_file)

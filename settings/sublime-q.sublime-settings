@@ -6,16 +6,45 @@
   "routines": [
     {
       "name": "chart",
+      "description": "plot chart from latest query result (need table)",
       "preload_qcode_file": "Packages/sublime-q/chart/canvasjs.q",
-      "qstatement": ".j.j .st.chart.buildChart .st.tmp",
-      "output_data": "False",
-      "template_file": "Packages/sublime-q/chart/canvasjs_template.html",
-      "template_string": "{{chart}}"
+      "command": {"qstatement": ".j.j .st.chart.buildChart .st.tmp"},
+      "render": {"template_file": "Packages/sublime-q/chart/canvasjs_template.html", "template_string": "{{chart}}"}
+    },
+    {
+      "name": "show",
+      "description": "show variable at cursor",
+      "command": {"qfunction": ".Q.s", "output": "q_out_panel"}
+    },
+    {
+      "name": "show (popup)",
+      "description": "show variable at cursor to popup",
+      "command": {"qfunction": ".Q.s", "output": "q_out_popup"}
+    },
+    {
+      "name": "meta",
+      "description": "show type of variable at cursor",
+      "command": {"qfunction": "{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]}", "output": "q_out_panel"}
+    },
+    {
+      "name": "meta (popup)",
+      "description": "show type of variable at cursor to popup",
+      "command": {"qfunction": "{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]}", "output": "q_out_popup"}
+    },
+    {
+      "name": "show environment",
+      "description": "show environment",
+      "command": {"qstatement": ".Q.s ((enlist `ns)!(enlist(key `) except `q`Q`h`j`o)),{(`$/:x )! system each x } \"dvabf\"", "output": "q_out_panel"}
+    },
+    {
+      "name": "show memory",
+      "description": "show memory",
+      "command": {"qstatement": ".Q.s .Q.w[]", "output": "q_out_panel"}
     },
     {
       "name": "list tables",
-      "qstatement": ".Q.s (tables `.)!cols each tables `.",
-      "output_data": "True"
+      "description": "list tables in q sessions",
+      "command": {"qstatement": ".Q.s (tables `.)!cols each tables `.", "output": "q_out_panel"}
     }
   ],
 	"connections": [],

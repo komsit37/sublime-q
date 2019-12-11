@@ -40,19 +40,7 @@ class QSelectTextCommand(q_chain.QChainCommand):
 
 class QSelectWordCommand(q_chain.QChainCommand):
     def do(self, edit, input=None):
-        # grab the word or the selection from the view
-        region = self.view.sel()[0]
-        location = False
-        if region.empty():
-            # if we have no selection grab the current word
-            location = self.view.word(region)
-        else:
-            # grab the selection
-            location = region
-
-        if location and not location.empty():
-            s = self.view.substr(location)
-            scope = self.view.scope_name(location.begin()).rpartition('.')[2].strip()
+        s = QSelectWordCommand.selectWord(self.view)
 
         # only proceed if s is not empty
         if(s == "" or s == "\n"):
@@ -60,6 +48,22 @@ class QSelectWordCommand(q_chain.QChainCommand):
         else:
             return s
 
+    @staticmethod
+    def selectWord(view):
+        # grab the word or the selection from the view
+        s = ""
+        region = view.sel()[0]
+        location = False
+        if region.empty():
+            # if we have no selection grab the current word
+            location = view.word(region)
+        else:
+            # grab the selection
+            location = region
 
+        if location and not location.empty():
+            s = view.substr(location)
+            #scope = view.scope_name(location.begin()).rpartition('.')[2].strip()
+        return s
 
 

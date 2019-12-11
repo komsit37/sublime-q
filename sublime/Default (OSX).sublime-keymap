@@ -13,17 +13,20 @@
 	{ "keys": ["super+alt+q"], 	"command": "show_connection_list",  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
 	//shortcut
-	{ "keys": ["f1"], "command": "goto_documentation", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }] },
-	{ "keys": ["f2"], 		"command": "q_chain", "args": {"chain": ["q_select_word", "q_send", "q_out_panel"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-	{ "keys": ["shift+f2"], "command": "q_chain", "args": {"chain": ["q_select_word", "q_send", "q_out_popup"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-	{ "keys": ["f3"], 		"command": "q_chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_panel"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-	{ "keys": ["shift+f3"], "command": "q_chain", "args": {"chain": ["q_select_word", "q_send_type", "q_out_popup"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-	{ "keys": ["f4"], 		"command": "q_routine", "args": {"name": "chart"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-	{ "keys": ["shift+f4"], "command": "q_chain", "args": {"chain": ["q_send_table", "q_out_popup"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-	{ "keys": ["f5"], 		"command": "q_chain", "args": {"chain": ["q_send_env", "q_out_panel"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-	{ "keys": ["shift+f5"], "command": "q_chain", "args": {"chain": ["q_send_mem", "q_out_panel"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-  //{ "keys": ["f6"],     "command": "q_chain", "args": {"chain": ["q_send_table", "q_out_panel"]},  "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-  { "keys": ["f6"],     "command": "q_routine", "args": {"name": "list tables"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]}
+	{ "keys": ["f1"],       "command": "goto_documentation", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }] },
+
+  { "keys": ["f2"],       "command": "q_routine", "args": {"name": "show"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  { "keys": ["shift+f2"], "command": "q_routine", "args": {"name": "show (popup)"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+
+  { "keys": ["f3"],       "command": "q_routine", "args": {"name": "meta"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  { "keys": ["shift+f3"], "command": "q_routine", "args": {"name": "meta (popup)"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+
+	{ "keys": ["f4"], 		  "command": "q_routine", "args": {"name": "chart"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+
+  { "keys": ["f5"],       "command": "q_routine", "args": {"name": "show environment"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  { "keys": ["shift+f5"], "command": "q_routine", "args": {"name": "show memory"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+
+  { "keys": ["f6"],       "command": "q_routine", "args": {"name": "list tables"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]}
 	//test
 	// { "keys": ["super+alt+t","7"], 	"command": "q_send", "args": {"input": "til 10"}},
 	// { "keys": ["super+alt+t","2"], 	"command": "q_send", "args": {"input": "til 10", "chain": ["q_out_panel"]}},

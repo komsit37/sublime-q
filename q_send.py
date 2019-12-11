@@ -116,22 +116,4 @@ class QSendJsonCommand(QSendRawCommand):
         input = ".j.j .st.tmp:" + input  #save to temprary result, so we can get dimension later
         return super().do(input=input)
 
-class QSendTypeCommand(QSendCommand):
-    def do(self, edit=None, input=None):
-        input = "{$[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]} " + input
-        return super().do(input=input)
 
-class QSendEnvCommand(QSendCommand):
-    def do(self, edit=None, input=None):
-        input = '((enlist `ns)!(enlist(key `) except `q`Q`h`j`o)),{(`$/:x )! system each x } \"dvabf\"'
-        return super().do(input=input)
-
-class QSendMemCommand(QSendCommand):
-    def do(self, edit=None, input=None):
-        input = '.Q.w[]'
-        return super().do(input=input)
-
-class QSendTableCommand(QSendCommand):
-    def do(self, edit=None, input=None):
-        input = '(tables `.)!cols each tables `.'
-        return super().do(input=input)
