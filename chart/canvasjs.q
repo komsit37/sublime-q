@@ -36,6 +36,7 @@
   r,: `bu`bubble!2#`bubble;
   r,: `c`col`column!3#`column;
   r,: `a`area!2#`area;
+  r,: `sa`stackedArea!2#`stackedArea;
   r,: `a100`area100!2#`stackedArea100;
   r,: `p`pie!2#`pie;
   r,: `sc`stackedColumn!2#`stackedColumn;
