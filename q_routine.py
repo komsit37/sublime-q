@@ -68,13 +68,27 @@ def find_routine(name):
 
 class QRoutineCommand(sublime_plugin.TextCommand):
 
-  def run(self, edit, name):
+  """
+  name: name of routine to lookup from settings/sublime-q.sublime-settings
+  x: additional parameter to pass to q statement
+  example routine setting
+    {
+      "name": "list tables (phantom)",
+      "description": "list tables in q sessions. show output in phantom",
+      "command": {"qstatement": ".h.jx[{1}] `{0}", "output": "q_out_phantom"}
+    }
+
+  qstatement: is a template string with optional args where {0} is input from selected text in editor, {1} is optional args
+  output: optional output command
+  render: template file to render output results and display in browser
+  """
+  def run(self, edit, name, x=None):
     con = QCon.QCon.loadFromView(self.view)
     if con:
       s = q_select_text.QSelectWordCommand.selectWord(self.view)
       routine =  find_routine(name)
       if routine:
-        sublime.set_timeout_async(lambda: self.run_routine(routine, con, s), 0)
+        sublime.set_timeout_async(lambda: self.run_routine(routine, con, s, x), 0)
       else:
         sublime.message_dialog('Routine "' + name + '" not found. Please add it to sublime-q.sublime-settings')
     else:
@@ -82,7 +96,7 @@ class QRoutineCommand(sublime_plugin.TextCommand):
       sublime.message_dialog('Sublime-q: Choose your q connection first!')
       self.view.window().run_command('q_show_connection_list')
 
-  def run_routine(self, routine, con, input):
+  def run_routine(self, routine, con, input, x):
     #pprint.pprint(routine)
     command = routine['command']
     render = routine.get('render')
@@ -96,13 +110,9 @@ class QRoutineCommand(sublime_plugin.TextCommand):
         #print(qcode)
         q(qcode)
 
-      if command.get('qfunction'):
-        if input == "":
-          input = "[]"
-        #print(input)
-        raw = q(command['qfunction'] + " " + input)
-      else:
-        raw = q(command['qstatement'])
+      statement = command['qstatement'].format(input, x)
+      #print(statement)
+      raw = q(statement)
       data = util.decode(raw)
 
       if command.get('output'):
@@ -113,7 +123,12 @@ class QRoutineCommand(sublime_plugin.TextCommand):
       if render:
         #print(template)
         #print(data)
-        res = sublime.load_resource(render['template_file']).replace(render['template_string'], data)
+        template = sublime.load_resource(render['template_file'])
+        #print(template)
+        #render data into placeholder {0} in template_file
+        #can't ue str.format because it has issue with { in js code so you need to escape it like {{ but that makes the js code invalid
+        res = template.replace('{0}', data)
+        #print(res)
 
         chart_file = cache_dir("sublime_q_out.html")
         print("rendered chart to " + chart_file)

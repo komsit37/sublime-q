@@ -14,27 +14,27 @@
       "description": "plot chart from latest query result (need table)",
       "preload_qcode_file": "Packages/sublime-q/chart/canvasjs.q",
       "command": {"qstatement": ".j.j .st.chart.buildChart .st.tmp"},
-      "render": {"template_file": "Packages/sublime-q/chart/canvasjs_template.html", "template_string": "{{chart}}"}
+      "render": {"template_file": "Packages/sublime-q/chart/canvasjs_template.html"}
     },
     {
       "name": "show",
       "description": "show variable at cursor",
-      "command": {"qfunction": ".Q.s", "output": "q_out_panel"}
+      "command": {"qstatement": ".Q.s {0}", "output": "q_out_panel"}
     },
     {
       "name": "show (popup)",
       "description": "show variable at cursor to popup",
-      "command": {"qfunction": ".Q.s", "output": "q_out_popup"}
+      "command": {"qstatement": ".Q.s {0}", "output": "q_out_popup"}
     },
     {
       "name": "meta",
       "description": "show type of variable at cursor",
-      "command": {"qfunction": "{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]}", "output": "q_out_panel"}
+      "command": {"qstatement": "{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]} {0}", "output": "q_out_panel"}
     },
     {
       "name": "meta (popup)",
       "description": "show type of variable at cursor to popup",
-      "command": {"qfunction": "{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]}", "output": "q_out_popup"}
+      "command": {"qstatement": "{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]} {0}", "output": "q_out_popup"}
     },
     {
       "name": "show environment",
