@@ -18,7 +18,7 @@ class QOutPopupBaseCommand(q_chain.QChainCommand):
 
 	def do(self, edit=None, input=None):
 		#print(input)
-		template = '<a href="close" style="display:inline;color:green;">x</a> {0}'
+		template = '<a href="close" style="display:inline;color:grey;">x</a> {0}'
 		self.html = template.format(input)
 
 		if QOutPopupBaseCommand.ACTUALLY_CLOSED:
@@ -87,8 +87,6 @@ class QOutPopupJsonCommand(QOutPopupBaseCommand):
 
 class QOutPopupCloseCommand(QOutPopupBaseCommand):
     def do(self, edit=None, input=None):
-        print('force close popup')
-
         #only remove popup if no output panel
         print(self.view.window().active_panel())
         output_showing = self.view.window().active_panel() == "output.q"
