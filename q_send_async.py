@@ -11,15 +11,11 @@ class QSendAsyncCommand(sublime_plugin.TextCommand):
 
     def run(self, edit, output=None):
       s = q_select_text.QSelectTextCommand.selectText(self.view)
-      con = QCon.QCon.loadFromView(self.view)
+      con = QCon.QCon.loadFromViewWithPrompt(self.view)
       if con:
         #do nothing if text is empty
         if s != "":
           sublime.set_timeout_async(lambda: self.send(con, s, output), 0)
-      else:
-        #connect first
-        sublime.message_dialog('Sublime-q: Choose your q connection first!')
-        self.view.window().run_command('q_show_connection_list')
 
     def send(self, con, s, output):
       #print(con.toDict())

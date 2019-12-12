@@ -40,6 +40,19 @@ class QCon():
         return QCon.fromDict(d)
 
     @classmethod
+    def loadFromViewWithPrompt(cls, view):
+        d = view.settings().get('q_handle')
+        #return QCon.fromDict(d)
+        con = QCon.fromDict(d)
+        if con:
+          return con
+        else:
+          #connect first
+          #sublime.message_dialog('Sublime-q: Choose your q connection first!')
+          view.window().run_command('q_show_connection_list')
+          return None
+
+    @classmethod
     def fromDict(cls, d):
         if d is None: return None
         return cls(d["host"], d["port"], d["username"], d["password"], d["name"], d["hdb"] if "hdb" in d else None)

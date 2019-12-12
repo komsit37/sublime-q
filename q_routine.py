@@ -83,7 +83,7 @@ class QRoutineCommand(sublime_plugin.TextCommand):
   render: template file to render output results and display in browser
   """
   def run(self, edit, name, x=None):
-    con = QCon.QCon.loadFromView(self.view)
+    con = QCon.QCon.loadFromViewWithPrompt(self.view)
     if con:
       s = q_select_text.QSelectWordCommand.selectWord(self.view)
       routine =  find_routine(name)
@@ -91,10 +91,6 @@ class QRoutineCommand(sublime_plugin.TextCommand):
         sublime.set_timeout_async(lambda: self.run_routine(routine, con, s, x), 0)
       else:
         sublime.message_dialog('Routine "' + name + '" not found. Please add it to sublime-q.sublime-settings')
-    else:
-      #connect first
-      sublime.message_dialog('Sublime-q: Choose your q connection first!')
-      self.view.window().run_command('q_show_connection_list')
 
   def run_routine(self, routine, con, input, x):
     #pprint.pprint(routine)

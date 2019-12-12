@@ -19,13 +19,9 @@ from . import util
 class QSendRawCommand(q_chain.QChainCommand):
 
     def do(self, edit=None, input=None):
-        con = Q.QCon.loadFromView(self.view)
+        con = Q.QCon.loadFromViewWithPrompt(self.view)
         if con:
             return self.send(con, input)
-        else:
-            #connect first
-            sublime.message_dialog('Sublime-q: Choose your q connection first!')
-            self.view.window().run_command('q_show_connection_list')
 
     #keep this because it is overwritten in QUpdateCompletionsCommand
     def send(self, con, input):
