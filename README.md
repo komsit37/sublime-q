@@ -1,17 +1,18 @@
 # q REPL for Sublime Text 3
 Connect to remote q session and execute q statements in Sublime Text
 
-![Image of screenshot](https://github.com/komsit37/sublime-q/blob/master/resources/showcase.gif)
+![Image of screenshot](./resources/showcase.gif)
+
 * `Cmd + alt + q` to add q connections and quickly switch between them
-* `Cmd + Enter` or `Cmd + e` to send highlighted line or block text  
+* `Cmd + Enter` or `Cmd + e` to send highlighted line or block text
 * `Cmd + j` to execute text and get result as json (by calling .j.j to results - requires .j.j in kdb 3.x)
 * 2 result modes: **output panel** and **inline popup**
-* Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)  
-* shows rows, column, time, mem usage at status bar  
-* auto complete  
+* Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)
+* shows rows, column, time, mem usage at status bar
+* auto complete
 [change Cmd to Ctrl for windows]
 
-### Shortcut 
+### Shortcut
 
 * `F1` open help at cursor</li>
 * `F2` print variable at cursor</li>
