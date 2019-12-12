@@ -18,7 +18,7 @@
   { "keys": ["f1"],       "command": "q_goto_documentation", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }] },
 
   { "keys": ["f2"],       "command": "q_routine", "args": {"name": "show"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-  { "keys": ["shift+f2"], "command": "q_routine", "args": {"name": "show (popup)"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  { "keys": ["shift+f2"], "command": "q_browse_table_phantom", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
   { "keys": ["f3"],       "command": "q_routine", "args": {"name": "meta"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
   { "keys": ["shift+f3"], "command": "q_routine", "args": {"name": "meta (popup)"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},

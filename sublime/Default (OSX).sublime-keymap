@@ -18,7 +18,7 @@
 	{ "keys": ["f1"],       "command": "q_goto_documentation", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }] },
 
   { "keys": ["f2"],       "command": "q_routine", "args": {"name": "show"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
-  { "keys": ["shift+f2"], "command": "q_routine", "args": {"name": "show (popup)"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  { "keys": ["shift+f2"], "command": "q_browse_table_phantom", "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
   { "keys": ["f3"],       "command": "q_routine", "args": {"name": "meta"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
   { "keys": ["shift+f3"], "command": "q_routine", "args": {"name": "meta (popup)"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
@@ -28,7 +28,7 @@
   { "keys": ["f5"],       "command": "q_routine", "args": {"name": "show environment"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
   { "keys": ["shift+f5"], "command": "q_routine", "args": {"name": "show memory"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
-  { "keys": ["f6"],       "command": "q_routine", "args": {"name": "list tables"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  { "keys": ["f6"],       "command": "q_routine", "args": {"name": "list tables"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]}
 
 	//test
 	// { "keys": ["super+alt+t","7"], 	"command": "q_send", "args": {"input": "til 10"}},
