@@ -4,22 +4,27 @@ Connect to remote q session and execute q statements in Sublime Text
 ![Image of screenshot](./resources/showcase.gif)
 
 * `Cmd + alt + q` to add q connections and quickly switch between them
-* `Cmd + Enter` or `Cmd + e` to send highlighted line or block text
-* `Cmd + j` to execute text and get result as json (by calling .j.j to results - requires .j.j in kdb 3.x)
-* 2 result modes: **output panel** and **inline popup**
+* `Cmd + Enter` to send highlighted line or block text to selected q session and show results in output panel
+* `Cmd + Shift + Enter` same as above, but show reult in phantom
+* `Cmd + e` same as above, but show reult in popup
+* `Cmd + j` same as above but get result as json (by calling .j.j to results - requires .j.j in kdb 3.x)
+* 3 result modes: **output panel**, **inline popup**, and **phantom** (inline block)
 * Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)
 * shows rows, column, time, mem usage at status bar
 * auto complete
+* plot table data in browser (similar to Studio for Kdb+ - with a few customizations)
 [change Cmd to Ctrl for windows]
 
 ### Shortcut
 
-* `F1` open help at cursor</li>
-* `F2` print variable at cursor</li>
-* `F3` show type at cursor</li>
-* `F4` show table and columns</li>
-* `F5` show environments</li>
-* `shift + F5` show memory usage</li>
+* `F1` open help at cursor
+* `F2` print variable at cursor
+* `Shift + F2` print variable at cursor
+* `F3` show type at cursor
+* `F4` plot latest data in browser
+* `F5` show environments
+* `shift + F5` show memory usage
+* `F6` show table and column names
 
 [hold shift to show output in inline popup instead of output panel]
 
