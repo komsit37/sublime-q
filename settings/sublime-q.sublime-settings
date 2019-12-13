@@ -29,17 +29,18 @@
     {
       "name": "meta",
       "description": "show type of variable at cursor",
-      "command": {"qstatement": "{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]} {0}", "output": "q_out_panel"}
+      "command": {"qstatement": "{{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]}} {0}", "output": "q_out_panel"}
     },
     {
       "name": "meta (popup)",
       "description": "show type of variable at cursor to popup",
-      "command": {"qstatement": "{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]} {0}", "output": "q_out_popup"}
+      "command": {"qstatement": "{{.Q.s $[.Q.qt x;meta x;100h=type x;value x;.Q.ty each x]}} {0}", "output": "q_out_phantom"}
     },
     {
       "name": "show environment",
       "description": "show environment",
-      "command": {"qstatement": ".Q.s ((enlist `ns)!(enlist(key `) except `q`Q`h`j`o)),{(`$/:x )! system each x } \"dvabf\"", "output": "q_out_panel"}
+      //need to escape { and } with {{ and }}
+      "command": {"qstatement": ".Q.s ((enlist `ns)!(enlist(key `) except `q`Q`h`j`o)),{{(`$/:x )! system each x }} \"dvabf\"", "output": "q_out_panel"}
     },
     {
       "name": "show memory",
