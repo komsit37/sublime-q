@@ -2,19 +2,19 @@
   "connections": [],
   "default_new_connection": "localhost:5555",
   "use_completion": "True",
-  //this will be copied to sublime's cache when the plugin is loaded
+  //these will be copied to sublime's cache when the plugin is loaded so that they can be used by output html generated from chart routine
   "scripts": [
-    "Packages/sublime-q/chart/canvasjs.min.js",
-    "Packages/sublime-q/chart/q.js"
+    "Packages/q KDB/chart/canvasjs.min.js",
+    "Packages/q KDB/chart/q.js"
   ],
   //custom q routines - you should not edit this file directly, but add your routine to ${sublime-dir}/Packages/User/sublime-q.sublime-settings instead
   "routines": [
     {
       "name": "chart",
       "description": "plot chart from latest query result (need table)",
-      "preload_qcode_file": "Packages/sublime-q/chart/canvasjs.q",
+      "preload_qcode_file": "Packages/q KDB/chart/canvasjs.q",
       "command": {"qstatement": ".j.j .st.chart.buildChart .st.tmp"},
-      "render": {"template_file": "Packages/sublime-q/chart/canvasjs_template.html"}
+      "render": {"template_file": "Packages/q KDB/chart/canvasjs_template.html"}
     },
     {
       "name": "show",
