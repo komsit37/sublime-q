@@ -7,6 +7,8 @@ import os
 import webbrowser
 #import pprint
 from . import util
+from .qpython.qtype import QException
+from socket import error as socket_error
 
 #copy code from https://github.com/nickjj/sublime-text-3-packages/blob/master/Packages/Gutter%20Color/gutter_color.py
 def clear_and_reload_cache(force = False):
@@ -137,6 +139,15 @@ class QRoutineCommand(sublime_plugin.TextCommand):
         webbrowser.open(url, new=1, autoraise=False)
         #webbrowser.open_new(url)
         #print(os.getcwd()) #/Users/pkomsit/Applications/Sublime Text.app/Contents/MacOS
+    #todo: these two error handlings are duplicated from QSendRaw.executeRaw. try to refactor them
+    except QException as e:
+        error = "error: `" + util.decode(e)
+        self.view.run_command(command.get('output'), {"input": error})
+    except socket_error as serr:
+        msg = 'Sublime-q cannot to connect to \n"' + con.h() + '"\n\nError message: ' + str(serr)
+        sublime.error_message(msg)
+        res = ""
+        status = "error: " + str(serr)
     except Exception as e:
       sublime.error_message('Error in QRoutineCommand.run_routine:\n' + str(e))
       self.view.set_status('result', 'ERROR')

@@ -88,8 +88,10 @@ class QSendRawCommand(q_chain.QChainCommand):
           res = "error: `" + util.decode(e)
           status = "error: `" + util.decode(e)
       except socket_error as serr:
-          sublime.error_message('Sublime-q cannot to connect to \n"' + con.h() + '"\n\nError message: ' + str(serr))
-          raise serr
+          msg = 'Sublime-q cannot to connect to \n"' + con.h() + '"\n\nError message: ' + str(serr)
+          sublime.error_message(msg)
+          res = ""
+          status = "error: " + str(serr)
       finally:
           q.close()
 
