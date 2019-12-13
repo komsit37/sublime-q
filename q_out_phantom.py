@@ -5,33 +5,27 @@ from . import q_select_text
 from . import q_send
 from . import QCon
 
-#show output in phantom
-#see https://www.sublimetext.com/docs/3/api_reference.html#sublime.Phantom
-#and example in https://forum.sublimetext.com/t/dev-build-3118/21270
+def get_preview_limit():
+  return int(sublime.load_settings("sublime-q.sublime-settings").get('phantom_preview_limit'))
+
+"""
+show output in phantom
+see https://www.sublimetext.com/docs/3/api_reference.html#sublime.Phantom
+and example in https://forum.sublimetext.com/t/dev-build-3118/21270
+"""
 class QOutPhantomCommand(q_chain.QChainCommand):
   close_template = '<a href="close[{0}" style="display:inline;color:grey;">x</a> {1}'
   def __init__(self, view):
     self.view = view
-    #a list to keep track of last phantom id pre view. This allos closing them in reverse order when pressing esc (QCloseLastPhantomCommand)
-    active_phantom_ids = self.view.settings().get('active_phantom_ids')
-    if not active_phantom_ids:
-      self.view.settings().set('active_phantom_ids', [])
-    #a dict to store phantom data per view
-    phantom_data = self.view.settings().get('phantom_data')
-    if not phantom_data:
-      self.view.settings().set('phantom_data', {})
-
+    self.phantoms = QPhantoms(view)
 
   def do(self, edit, input=None):
     location = self.view.sel()[0].end()
     phantom_data = self.render_text_result(input, location)
-    self.add_phantom(phantom_data)
-
-  def get_preview_limit(self):
-    return int(sublime.load_settings("sublime-q.sublime-settings").get('phantom_preview_limit'))
+    self.phantoms.add_or_update(phantom_data, self.on_navigate)
 
   def render_text_result(self, multi_lines_str, location):
-    preview_limit = self.get_preview_limit()
+    preview_limit = get_preview_limit()
 
     id = str(location)
     lines = multi_lines_str.split("\n")
@@ -48,87 +42,49 @@ class QOutPhantomCommand(q_chain.QChainCommand):
 
     return data
 
-  def add_phantom(self, data):
-    phantom_data = self.view.settings().get('phantom_data')
-
-    if data['id'] in phantom_data:
-      self.view.erase_phantoms(data['id'])
-    else:
-      phantom_data[data['id']] = data
-      self.view.settings().set('phantom_data', phantom_data)
-
-    #add to active phantom ids so we can remove the last one by pressing esc
-    active_phantom_ids = self.view.settings().get('active_phantom_ids')
-    if not data['id'] in active_phantom_ids:
-      active_phantom_ids.append(data['id'])
-      self.view.settings().set('active_phantom_ids', active_phantom_ids)
-
-    self.view.add_phantom(data['id'],
-      sublime.Region(data['location']),
-      data[data['display']], #selectively show preview or full data
-      data['layout'],
-      self.on_navigate
-    )
-
-  def remove_phantom(self, id):
-    phantom_data = self.view.settings().get('phantom_data')
-    if id in phantom_data:
-      del phantom_data[id]
-    else:
-      print('trying to remove non-existent phantom id: ' + id + '\n phantom_data: ' + phantom_data)
-    self.view.settings().set('phantom_data', phantom_data)
-
-    active_phantom_ids = self.view.settings().get('active_phantom_ids')
-    active_phantom_ids.remove(id)
-    self.view.settings().set('active_phantom_ids', active_phantom_ids)
-
-    self.view.erase_phantoms(id)
-
   def on_navigate(self, href):
     try:
       x = href.split('[')
       if x[0] == 'close':
         id = x[1]
-        self.remove_phantom(id)
+        self.phantoms.remove(id)
         return True
-      if x[0] == 'expand':
+      elif x[0] == 'expand':
         id = x[1]
-        phantom_data = self.view.settings().get('phantom_data')
+        data = self.phantoms.get_data(id)
 
-        if phantom_data[id]:
-          data = phantom_data[id]
-          data['preview'] = data['html']
-          data['html'] = data['full']
-          self.add_phantom(data)
+        if data:
+          data['display'] = 'full'
+          self.phantoms.add_or_update(data, self.on_navigate)
         else:
-          print('trying to expand non-existent phantom id: ' + id + '\n phantom_data: ' + phantom_data)
+          print('trying to expand non-existent phantom id: ' + id)
         return True
-      #else:
-        #print("unknown href: {0}".format(href))
+      else:
+        return False
     except Exception as e:
-      #print(active_phantom_ids)
-      #print(href)
-      sublime.error_message("Phatom navigation error\nactive_phantom_ids: {0}\nhref: {1}\nerror: {2}".format(active_phantom_ids, href, e))
-    return False
+      sublime.error_message("Phatom navigation error\nhref: {0}\nerror: {1}".format(href, e))
+      raise e
 
+"""
+show browseable html table in phantom utilizing .h.jx. input is table name (without `)
+"""
 class QBrowseTablePhantomCommand(QOutPhantomCommand):
 
   def run(self, edit):
     self.get_table(None, 0, self.view.sel()[0].end())
 
   def get_table(self, table, index, location):
-    preview_limit = self.get_preview_limit()
+    preview_limit = get_preview_limit()
     con = QCon.QCon.loadFromViewWithPrompt(self.view)
     if con:
       if not table:
         table = q_select_text.QSelectWordCommand.selectWord(self.view)
       #we need to set \C to limit table rows, but I don't want to alter existing setting, so save it first and restore it
-      statement = '{{C: system "C"; system "C {2} 2000"; res: @[.h.jx[0]; x; {{raze "error: `", string x}}]; system "C ", " " sv string C; res}} `{0}'.format(table, index, preview_limit)
+      statement = '{{C: system "C"; system "C {2} 2000"; res: @[.h.jx[{1}]; x; {{raze "error: `", string x}}]; system "C ", " " sv string C; res}} `{0}'.format(table, index, preview_limit)
       uneval_str = q_send.QSendRawCommand.sendAndUpdateStatus(self.view, con, statement)
       #print(uneval_str)
-
       data = self.render_html_result(uneval_str, location, table)
-      self.add_phantom(data)
+      self.phantoms.add_or_update(data, self.on_navigate)
 
   def render_html_result(self, uneval_str, location, table):
     id = str(location)
@@ -153,31 +109,89 @@ class QBrowseTablePhantomCommand(QOutPhantomCommand):
         if x[0] == '?':
           id = x[1]
           index = x[2]
-          phantom_data = self.view.settings().get('phantom_data')
-          if id in phantom_data:
-            table = phantom_data[id]['table']
-            self.get_table(table, index, int(id))
+          data = self.phantoms.get_data(id)
+          if data:
+            self.get_table(data['table'], index, data['location'])
           else:
-            print('trying to get table name from non-existent phantom id: ' + id + '\n phantom_data: ' + phantom_data)
+            print('trying to get table name from non-existent phantom id: ' + id)
           return True
         else:
           print("unknown href: {0}".format(href))
+          return False
       except Exception as e:
-        print("Phatom navigation error\nphantom_data: {0}\nhref: {1}\nerror: {2}".format(phantom_data, href, e))
+        print("Phatom navigation error\nhref: {0}\nerror: {1}".format(href, e))
         raise e
-    return False
+
 
 class QCloseLastPhantomCommand(QOutPhantomCommand):
-
   def do(self, edit, input=None):
     #only remove phantom if no output panel
     output_showing = self.view.window().active_panel() == "output.q"
     if not output_showing:
-      active_phantom_ids = self.view.settings().get('active_phantom_ids')
-      if active_phantom_ids:
-        last_phantom_id = active_phantom_ids.pop()
-        self.remove_phantom(last_phantom_id)
+      self.phantoms.remove_last()
     return '' #return something so q_chain may continue
+
+"""
+wrap phantom related settings and code
+"""
+class QPhantoms:
+  def __init__(self, view):
+    self.view = view
+    #a list to keep track of last phantom id pre view. This allos closing them in reverse order when pressing esc (QCloseLastPhantomCommand)
+    active_phantom_ids = self.view.settings().get('active_phantom_ids')
+    if not active_phantom_ids:
+      self.view.settings().set('active_phantom_ids', [])
+    #a dict to store phantom data per view
+    phantom_data = self.view.settings().get('phantom_data')
+    if not phantom_data:
+      self.view.settings().set('phantom_data', {})
+
+  def get_data(self, id):
+    phantom_data = self.view.settings().get('phantom_data')
+    return phantom_data.get(id, None)
+
+  def add_or_update(self, data, on_navigate):
+    phantom_data = self.view.settings().get('phantom_data')
+
+    if data['id'] in phantom_data:
+      self.view.erase_phantoms(data['id'])
+    else:
+      phantom_data[data['id']] = data
+      self.view.settings().set('phantom_data', phantom_data)
+
+    #add to active phantom ids so we can remove the last one by pressing esc
+    active_phantom_ids = self.view.settings().get('active_phantom_ids')
+    if not data['id'] in active_phantom_ids:
+      active_phantom_ids.append(data['id'])
+      self.view.settings().set('active_phantom_ids', active_phantom_ids)
+
+    self.view.add_phantom(data['id'],
+      sublime.Region(data['location']),
+      data[data['display']], #selectively show preview or full data
+      data['layout'],
+      on_navigate
+    )
+
+  def remove(self, id):
+    phantom_data = self.view.settings().get('phantom_data')
+    if id in phantom_data:
+      del phantom_data[id]
+    else:
+      print('trying to remove non-existent phantom id: ' + id + '\n phantom_data: ' + phantom_data)
+    self.view.settings().set('phantom_data', phantom_data)
+
+    active_phantom_ids = self.view.settings().get('active_phantom_ids')
+    active_phantom_ids.remove(id)
+    self.view.settings().set('active_phantom_ids', active_phantom_ids)
+
+    self.view.erase_phantoms(id)
+
+  def remove_last(self):
+    active_phantom_ids = self.view.settings().get('active_phantom_ids')
+    if active_phantom_ids:
+      last_phantom_id = active_phantom_ids.pop()
+      self.remove(last_phantom_id)
+
 
 #show output in phantom
 #LAYOUT_INLINE, LAYOUT_BLOCK, LAYOUT_BELOW
