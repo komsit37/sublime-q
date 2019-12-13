@@ -2,6 +2,7 @@
   "connections": [],
   "default_new_connection": "localhost:5555",
   "use_completion": "True",
+  "phantom_preview_limit": "20",
   //these will be copied to sublime's cache when the plugin is loaded so that they can be used by output html generated from chart routine
   "scripts": [
     "Packages/q KDB/chart/canvasjs.min.js",
