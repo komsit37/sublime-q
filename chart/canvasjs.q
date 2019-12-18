@@ -69,9 +69,15 @@
   auto: (`primary; `secondary){not x=first x} 50 < {max[x]%x} max each {max raze 1 _ flip x} each t;
   @[fromHints; autoIndex; :; auto autoIndex]};
 
+.st.chart.listOrDictToTable: {$[
+  (type x) within (0h; 19h); {flip (`x`y)!(1 + til count x; x)} x; 
+  99h=type x; {flip (`x`y)!(key x; value x)} x;
+  x]};
+
 .st.chart.chartOptions: {d: {(enlist x)!enlist y}; raze (d[`zoomEnabled; 1b]; d[`axisX; d[`labelAngle; -30]]; d[`axisY; d[`includeZero; 0b]]; d[`toolTip; d[`content; "{x}<br/><span style='\"'color: {color};'\"'>{name}</span>: <strong>{y}</strong><br/>{z}"]])}[];
 .st.chart.buildChart: {
-  series: .st.chart.prepData 0!x;
+  t: .st.chart.listOrDictToTable x;
+  series: .st.chart.prepData 0!t;
   types: .st.chart.guessType'[series[`t]; series[`hints]];
   names: {(key flip x) 1} each series[`t];
   axisYTypes: .st.chart.axisYType[series[`t]; series[`hints]];
