@@ -64,10 +64,10 @@
   flip r};
 
 .st.chart.axisYType: {[t; hints]
-  fromHints: {$[`y1 in x; `primary; `y2 in x; `secondary; `auto]} each hints;
-  autoIndex: where fromHints=`auto;
+  axisHints: {$[`y1 in x; `primary; `y2 in x; `secondary; `auto]} each hints;
+  autoIndex: where axisHints=`auto;
   auto: (`primary; `secondary){not x=first x} 50 < {max[x]%x} max each {max raze 1 _ flip x} each t;
-  @[fromHints; autoIndex; :; auto autoIndex]};
+  @[axisHints; autoIndex; :; auto autoIndex]};
 
 .st.chart.listOrDictToTable: {$[
   (type x) within (0h; 19h); {flip (`x`y)!(1 + til count x; x)} x; 
@@ -84,7 +84,7 @@
   names: {(key flip x) 1} each series[`t];
   axisYTypes: .st.chart.axisYType[series[`t]; series[`hints]];
   dataPoints: .st.chart.xyz each series[`t];
-  markerTypes: (`cross`none) `line = types;
+  markerTypes: (`circle`none) `line = types;
   data: `type xcol update showInLegend: 1b from ([] typ: types; markerType: markerTypes; name: names; axisYType: axisYTypes; dataPoints: dataPoints);
   data: .st.chart.adjustData[data];
   .st.chart.chartOptions, (enlist `data)! enlist data};
