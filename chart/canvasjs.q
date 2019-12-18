@@ -73,7 +73,9 @@
   (type x) within (0h; 19h); {flip (`x`y)!(1 + til count x; x)} x; 
   99h=type x; {flip (`x`y)!(key x; value x)} x;
   x]};
-
+.st.chart.adjustData: {
+  if[(1=count x) and `column=first x[`type]; x: update color: `$"#4f81bc" from x]; /optionally adjust color for single column chart
+  x};
 .st.chart.chartOptions: {d: {(enlist x)!enlist y}; raze (d[`zoomEnabled; 1b]; d[`axisX; d[`labelAngle; -30]]; d[`axisY; d[`includeZero; 0b]]; d[`toolTip; d[`content; "{x}<br/><span style='\"'color: {color};'\"'>{name}</span>: <strong>{y}</strong><br/>{z}"]])}[];
 .st.chart.buildChart: {
   t: .st.chart.listOrDictToTable x;
@@ -84,4 +86,5 @@
   dataPoints: .st.chart.xyz each series[`t];
   markerTypes: (`cross`none) `line = types;
   data: `type xcol update showInLegend: 1b from ([] typ: types; markerType: markerTypes; name: names; axisYType: axisYTypes; dataPoints: dataPoints);
+  data: .st.chart.adjustData[data];
   .st.chart.chartOptions, (enlist `data)! enlist data};
