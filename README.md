@@ -36,7 +36,7 @@ via package control https://packagecontrol.io/packages/q%20KDB
 ## Features
 
 ### Chart
-Shortcut `F4` will plot html/js chart from the latest REPL result (the usage is similar to Studio for Kdb+ - with a few chart customizations). See [](./chart/example.q)
+Shortcut `F4` will plot html/js chart from the latest REPL result (the usage is similar to Studio for Kdb+ - with a few chart customizations). See [chart/example.q](./chart/example.q)
 
 ```q
 /default is line chart
@@ -99,7 +99,7 @@ Where `{0}` is the variable name at cursor. You can also define shortcut by refe
 { "keys": ["f2"],       "command": "q_routine", "args": {"name": "show"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 ```
 
-See more example in [](./settings/sublime-q.sublime-settings)
+See more example in [settings/sublime-q.sublime-settings](./settings/sublime-q.sublime-settings)
 
 Please feel free to open issues for any feedback, bug, or feature requests.
 
