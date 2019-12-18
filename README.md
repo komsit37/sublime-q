@@ -14,6 +14,7 @@ Connect to remote q session and execute q statements in Sublime Text
 * shows rows, column, time, mem usage at status bar
 * auto complete
 * plot table data in html/js chart (similar to Studio for Kdb+ - with a few customizations)
+
 [change Cmd to Ctrl for windows]
 
 ### Shortcut
