@@ -29,7 +29,7 @@ class QSendRawCommand(q_chain.QChainCommand):
 
     @staticmethod
     def sendAndUpdateStatus(view, con, input):
-      view.set_status('result', 'excuting...')
+      view.set_status('result', 'executing...')
       try:
         d = QSendRawCommand.executeRaw(con, input)
         view.set_status('result', d['status'])
