@@ -24,6 +24,7 @@ Connect to remote q session and execute q statements in Sublime Text
 * `Shift + F2` browse table variable at cursor
 * `F3` show type at cursor
 * `F4` plot latest data in browser
+* `shift + F4` show latest data in browser using datatable js
 * `F5` show environments
 * `shift + F5` show memory usage
 * `F6` show table and column names

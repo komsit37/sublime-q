@@ -12,10 +12,16 @@
   "routines": [
     {
       "name": "chart",
-      "description": "plot chart from latest query result (need table)",
+      "description": "plot last query result in html/js chart (need table)",
       "preload_qcode_file": "Packages/q KDB/chart/canvasjs.q",
       "command": {"qstatement": ".j.j .st.chart.buildChart .st.tmp"},
       "render": {"template_file": "Packages/q KDB/chart/canvasjs_template.html"}
+    },
+    {
+      "name": "table",
+      "description": "show last query result in html/js table (need table)",
+      "command": {"qstatement": "{{.j.j (`pageLength`data`columns)!(25; flip value flip 0!x; {{(enlist `title)!enlist x}} each cols 0!x)}} .st.tmp"},
+      "render": {"template_file": "Packages/q KDB/js/datatable/datatable_template.html"}
     },
     {
       "name": "show",

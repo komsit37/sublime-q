@@ -24,6 +24,7 @@
   { "keys": ["shift+f3"], "command": "q_routine", "args": {"name": "meta (popup)"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
   { "keys": ["f4"],       "command": "q_routine", "args": {"name": "chart"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
+  { "keys": ["shift+f4"], "command": "q_routine", "args": {"name": "table"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
 
   { "keys": ["f5"],       "command": "q_routine", "args": {"name": "show environment"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
   { "keys": ["shift+f5"], "command": "q_routine", "args": {"name": "show memory"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
