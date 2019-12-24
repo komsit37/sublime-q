@@ -10,7 +10,7 @@ from . import util
 from .qpython.qtype import QException
 from socket import error as socket_error
 
-#fix unicode encoding issue when rendering template
+#fix unicode encoding issue when rendering template with non-ascii string
 #see https://stackoverflow.com/questions/9942594/unicodeencodeerror-ascii-codec-cant-encode-character-u-xa0-in-position-20
 import os; import locale; os.environ["PYTHONIOENCODING"] = "utf-8"; myLocale=locale.setlocale(category=locale.LC_ALL, locale="en_GB.UTF-8");
 
