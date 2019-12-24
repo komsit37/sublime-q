@@ -10,6 +10,10 @@ from . import util
 from .qpython.qtype import QException
 from socket import error as socket_error
 
+#fix unicode encoding issue when rendering template
+#see https://stackoverflow.com/questions/9942594/unicodeencodeerror-ascii-codec-cant-encode-character-u-xa0-in-position-20
+import os; import locale; os.environ["PYTHONIOENCODING"] = "utf-8"; myLocale=locale.setlocale(category=locale.LC_ALL, locale="en_GB.UTF-8");
+
 #copy code from https://github.com/nickjj/sublime-text-3-packages/blob/master/Packages/Gutter%20Color/gutter_color.py
 def clear_and_reload_cache(force = False):
   """
