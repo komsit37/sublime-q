@@ -5,17 +5,17 @@
   "phantom_preview_limit": "20",
   //these will be copied to sublime's cache when the plugin is loaded so that they can be used by output html generated from chart routine
   "scripts": [
-    "Packages/q KDB/chart/canvasjs.min.js",
-    "Packages/q KDB/chart/q.js"
+    "Packages/q KDB/js/canvasjs/canvasjs.min.js",
+    "Packages/q KDB/js/canvasjs/q.js"
   ],
   //custom q routines - you should not edit this file directly, but add your routine to ${sublime-dir}/Packages/User/sublime-q.sublime-settings instead
   "routines": [
     {
       "name": "chart",
       "description": "plot last query result in html/js chart (need table)",
-      "preload_qcode_file": "Packages/q KDB/chart/canvasjs.q",
+      "preload_qcode_file": "Packages/q KDB/js/canvasjs/canvasjs.q",
       "command": {"qstatement": ".j.j .st.chart.buildChart .st.tmp"},
-      "render": {"template_file": "Packages/q KDB/chart/canvasjs_template.html"}
+      "render": {"template_file": "Packages/q KDB/js/canvasjs/canvasjs_template.html"}
     },
     {
       "name": "table",

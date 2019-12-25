@@ -38,7 +38,7 @@ via package control https://packagecontrol.io/packages/q%20KDB
 ## Features
 
 ### Chart
-Shortcut `F4` will plot html/js chart from the latest REPL result (the usage is similar to Studio for Kdb+ - with a few chart customizations). See [chart/example.q](./chart/example.q)
+Shortcut `F4` will plot html/js chart from the latest REPL result (the usage is similar to Studio for Kdb+ - with a few chart customizations). See [js/canvasjs/example.q](./js/canvasjs/example.q)
 
 ```q
 /default is line chart
