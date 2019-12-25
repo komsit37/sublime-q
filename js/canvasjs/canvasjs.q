@@ -18,7 +18,7 @@
   mt: {?[x; (); (enlist y[1])!enlist y[1]; {x!x} y _ 1]}[x[`t]] cols x[`t];
   s: raze value flip key mt;
   tt: {flip x[y]}[mt] each s;
-  newt: .st.chart.pxcol'[s; tt];
+  newt: $[2=count flip first tt; {({x[0], y}[;x] cols y) xcol y}'[s; tt]; .st.chart.pxcol'[s; tt]]; /append column name to sym if multiple columns
   newHints: {y!value x}[(cols first tt)#x[`hints]] each (cols each newt);
   flip (`t`hints)!(newt; newHints)};
 
