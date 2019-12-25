@@ -9,8 +9,8 @@ multicolData: ([] sym: `a`b`c`d`e`f`g`h`i`j`k`l; volume: 12#100 200 300; volume2
 /use candlestick automatically if column name contains open, high, low, close. with optional volume column
 ohlcvData: ([] date: 2019.01.01 + til 5; high: 105 99 150 120 180; low: 99 84 110 110 150; close: 102 99 105 120 180; open: 100 90 110 120 140; volume: 10000 15000 9000 12000 11000)
 /multiple series - if second column type is symbol
-multiSymData: ([] date: 6#(2019.01.01 + til 3); sym: raze 3#'`a`b; price: 100 + 6?100)
-multiSymData: ([] date: 6#(2019.01.01 + til 3); sym: raze 3#'`a`b; price: 100 + 6?100; price2: 100 + 6?100)
+multiSymData: ([] date: 6#(2019.01.01 + til 3); sym: raze 3#'`a`b; price: 100 + 6?100) /sym is series name
+multiSymData2: ([] date: 6#(2019.01.01 + til 3); sym: raze 3#'`a`b; price: 100 + 6?100; price2: 100 + 6?100) /sym is append with original column name
 /auto generate 2nd axis if range is more than 50 times different 
 needAxis2Data: ([] time: "z"$2019.01.01 + til 3; a: 3?100; b: 3?1000; c: 3?100; d: 3?100000)
 /can also plot list or dict directly
