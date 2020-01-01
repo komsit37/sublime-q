@@ -7,120 +7,254 @@
 		<string>q</string>
 	</array>
 	<key>name</key>
-	<string>q</string>
+	<string>q/kdb</string>
+
 	<key>patterns</key>
 	<array>
+		<!-- Comments -->
 		<dict>
+			<key>comment</key>
+			<string>block comment</string>
+			<key>name</key>
+			<string>comment.block.q</string>
 			<key>begin</key>
-			<string>/
-</string>
-			<key>comment</key>
-			<string>comment block</string>
+			<string>^\s*/\s*$\n</string>
 			<key>end</key>
-			<string>\\
-</string>
-			<key>name</key>
-			<string>comment.block.source.q</string>
+			<string>^\s*\\\s*$\n</string>
 		</dict>
 		<dict>
 			<key>comment</key>
-			<string>comment exit</string>
-			<key>match</key>
-			<string>\s/.*|^/.*</string>
+			<string>end of script block comment</string>
 			<key>name</key>
-			<string>comment.line.source.q</string>
-		</dict>
-		<dict>
+			<string>comment.block.q</string>
 			<key>begin</key>
-			<string>\\
-</string>
-			<key>comment</key>
-			<string>string</string>
+			<string>^\\\s*\n</string>
 			<key>end</key>
-			<string>\\
-</string>
-			<key>name</key>
-			<string>comment.block.source.q</string>
+			<string>'As far as I know, there is no way to exit this kind of block comment'</string>
 		</dict>
 		<dict>
-			<key>captures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>support.function.q</string>
-				</dict>
-			</dict>
 			<key>comment</key>
-			<string>q Reserved Functions</string>
-			<key>match</key>
-			<string>(?=(\W|\b))((\.Q\.\w+)|(\.z\.\w+)|(\\\w+))(?=(\W|\b))</string>
+			<string>single line comment</string>
 			<key>name</key>
-			<string>other.source.q</string>
+			<string>comment.line.q</string>
+			<key>match</key>
+			<string>\s/.+$\n?|^/.+$\n</string>
 		</dict>
+
+		<!-- Strings (10) -->
 		<dict>
 			<key>comment</key>
 			<string>string</string>
-			<key>match</key>
-			<string>".*?"</string>
 			<key>name</key>
 			<string>string.quoted.string.source.q</string>
+			<key>begin</key>
+			<string>"</string>
+			<key>end</key>
+			<string>"</string>
+			<key>patterns</key>
+			<array>
+				<!-- special escape characters -->
+				<dict>
+					<key>name</key>
+					<string>constant.numeric.complex.source.q</string>
+					<key>match</key>
+					<string>\\[trn\\\"]</string>
+				</dict>
+				<!-- escape 3 digit numbers in strings (unicode) -->
+				<dict>
+					<key>name</key>
+					<string>constant.numeric.complex.source.q</string>
+					<key>match</key>
+					<string>\\[0-9]{3}</string>
+				</dict>
+				<!-- warn on escaped 1 or 2 digit numbers -->
+				<dict>
+					<key>name</key>
+					<string>message.error.q</string>
+					<key>match</key>
+					<string>\\[0-9]{1,2}</string>
+				</dict>
+			</array>
 		</dict>
+
+		<!-- Symbols (11) and handles -->
 		<dict>
 			<key>comment</key>
-			<string>string</string>
-			<key>match</key>
-			<string>`[:/a-zA-Z0-9_.]+</string>
+			<string>symbol</string>
 			<key>name</key>
-			<string>string.interpolated.symbol.source.q</string>
+			<string>string.interpolated.symbol.q</string>
+			<key>match</key>
+			<string>(`:[:/a-zA-Z0-9_.]*)|(`[:a-zA-Z0-9_.]*)</string>
 		</dict>
+
+		<!-- namespace + dictionary assignment -->
 		<dict>
+			<key>comment</key>
+			<string>dict_assign</string>
+			<key>begin</key>
+			<string>(?=(\W|\b))(\.[a-zA-Z]+[a-zA-Z0-9_]*)(\.[a-zA-Z0-9_]*)*\s*\[(?=.*\]\s*([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:))</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.complex.namespace_dict_assign.q</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.complex.namespace_dict_assign.q</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<!-- Recursion ooooOOOOOOooooh ⊂(･∘･⊂)∘˚˳° -->
+					<key>include</key>
+					<string>$self</string>
+				</dict>
+			</array>
+			<key>end</key>
+			<string>\]([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.assignment.q</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.assignment.q</string>
+				</dict>
+			</dict>
+		</dict>
+
+		<!-- namespace assignment -->
+		<dict>
+			<key>comment</key>
+			<string>namespace assignment</string>
+			<key>name</key>
+			<string>variable.parameter.complex.namespace_assignment.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))(\.[a-zA-Z]+[a-zA-Z0-9_]*)(\.[a-zA-Z0-9_]*)*\s*([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:)</string>
+			<key>captures</key>
+			<dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.assignment.q</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.assignment.q</string>
+				</dict>
+			</dict>
+		</dict>
+
+		<!-- built-in namespaces -->
+		<dict>
+			<key>comment</key>
+			<string>Built-in namespaces</string>
+			<key>name</key>
+			<string>support.function.namespace.q</string>
+			<key>match</key>
+			<string>\.[qQhkozj]\.\w+</string>
+		</dict>
+
+		<!-- other (i.e. user-defined) namespaces -->
+		<dict>
+			<key>comment</key>
+			<string>other namespaces</string>
+			<key>name</key>
+			<string>source.other_namespaces.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))(\.[a-zA-Z]+[a-zA-Z0-9_]*)(\.[a-zA-Z0-9_]*)*(?=(\W|\b))</string>
+		</dict>
+
+		<!-- variable assignment (including compound assignment) -->
+		<dict>
+			<key>comment</key>
+			<string>variable assignment</string>
+			<key>name</key>
+			<string>other.assignment.q</string>
+			<key>match</key>
+			<string>(?=([^a-zA-Z0-9]|\b))([a-zA-Z]+[a-zA-Z0-9_]*)\s*([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:)</string>
+			<!-- <string>(?=([^a-zA-Z0-9]|\b))(\.?[a-zA-Z]+[a-zA-Z0-9_]*)(\.[a-zA-Z0-9_]*)*\s*([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:)\s*</string> -->
 			<key>captures</key>
 			<dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>variable.parameter.complex.source.q</string>
+					<string>variable.parameter.complex.assignment.q</string>
 				</dict>
 				<key>3</key>
 				<dict>
 					<key>name</key>
 					<string>support.function.q</string>
 				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.q</string>
+				</dict>
 			</dict>
-			<key>comment</key>
-			<string>Variable Definition</string>
-			<key>match</key>
-			<string>(?=([^a-zA-Z0-9]|\b))(\.?[a-zA-Z]+[a-zA-Z0-9_\.]*\s*)(:)\s*</string>
-			<key>name</key>
-			<string>other.source.q</string>
 		</dict>
+
+		<!-- dictionary assignment -->
 		<dict>
 			<key>comment</key>
-			<string>q adverbs and shortcut</string>
-			<key>match</key>
-			<string>[!$@\\/_#?|',`(\\:)]</string>
-			<key>name</key>
-			<string>support.function.q</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>dot notation</string>
-			<key>match</key>
-			<string>\.(?=\W)</string>
-			<key>name</key>
-			<string>support.function.q</string>
-		</dict>
-		<dict>
+			<string>dict_assign</string>
 			<key>begin</key>
-			<string>(\{\s*\[)</string>
-			<key>contentName</key>
-			<string>meta.function.parameters.q</string>
-			<key>end</key>
-			<string>(?=\]\s*)</string>
+			<string>(?=([^a-zA-Z0-9]|\b))([a-zA-Z]+[a-zA-Z0-9_]*)\s*\[(?=.*\]\s*([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:))</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.complex.dict_assign.q</string>
+				</dict>
+			</dict>
 			<key>patterns</key>
 			<array>
 				<dict>
+					<!-- Recursion ooooOOOOOOooooh ⊂(･∘･⊂)∘˚˳° -->
+					<key>include</key>
+					<string>$self</string>
+				</dict>
+			</array>
+			<key>end</key>
+			<string>\]([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.assignment.q</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>support.function.assignment.q</string>
+				</dict>
+			</dict>
+		</dict>
+
+		<!-- functions and function arguments -->
+		<dict>
+			<key>contentName</key>
+			<string>meta.function.parameters.q</string>
+			<key>begin</key>
+			<string>(\{\s*\[)</string>
+			<key>end</key>
+			<string>]</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\b([a-zA-Z_][a-zA-Z0-9_]*)\s*(?:(;)|(?=[\]\)]))</string>
 					<key>captures</key>
 					<dict>
 						<key>1</key>
@@ -134,95 +268,159 @@
 							<string>punctuation.separator.parameters.q</string>
 						</dict>
 					</dict>
-					<key>match</key>
-					<string>\b([a-zA-Z_][a-zA-Z_0-9]*)\s*(?:(;)|(?=[\]\)]))</string>
 				</dict>
 			</array>
 		</dict>
+
+		<!-- q reserved words -->
 		<dict>
-			<key>captures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.complex.source.q</string>
-				</dict>
-			</dict>
 			<key>comment</key>
 			<string>q keywords</string>
-			<key>match</key>
-			<string>(?=(\W|\b))(prd|while|wavg|delete|min|like|exp|abs|insert|wsum|last|log|div|cos|sin|sqrt|max|in|exec|within|xexp|avg|second|hour|minute|update|sum|by|from|select|neg|not|null|string|reciprocal|floor|ceiling|signum|mod|xbar|xlog|and|or|each|scan|over|prior|mmu|lsq|inv|md5|ltime|gtime|count|first|var|dev|med|cov|cor|all|any|rand|sums|prds|mins|maxs|fills|deltas|ratios|avgs|differ|prev|next|rank|reverse|iasc|idesc|asc|desc|msum|mcount|mavg|mdev|xrank|mmin|mmax|xprev|rotate|distinct|group|where|flip|type|key|til|get|value|attr|cut|set|upsert|raze|union|inter|except|cross|sv|vs|sublist|enlist|read0|read1|hopen|hclose|hdel|hsym|hcount|peach|system|ltrim|rtrim|trim|lower|upper|ssr|view|tables|views|cols|xcols|keys|xkey|xcol|xasc|xdesc|fkeys|meta|lj|aj|aj0|ij|pj|asof|uj|ww|wj|wj1|fby|xgroup|ungroup|ej|save|load|rsave|rload|show|csv|parse|eval)(?=(\W|\b))</string>
 			<key>name</key>
-			<string>other.source.q</string>
+			<string>keyword.other.complex.keyword.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))(abs|acos|aj|aj0|all|and|any|asc|asin|asof|atan|attr|avg|avgs|bin|binr|by|ceiling|cols|cor|cos|count|cov|cross|csv|cut|delete|deltas|desc|dev|differ|distinct|div|do|dsave|each|ej|ema|enlist|eval|except|exec|exit|exp|fby|fills|first|fkeys|flip|floor|from|get|getenv|group|gtime|hclose|hcount|hdel|hopen|hsym|iasc|idesc|if|ij|ijf|in|insert|inter|inv|key|keys|last|like|lj|ljf|load|log|lower|lsq|ltime|ltrim|mavg|max|maxs|mcount|md5|mdev|med|meta|min|mins|mmax|mmin|mmu|mod|msum|neg|next|not|null|or|over|parse|peach|pj|prd|prds|prev|prior|rand|rank|ratios|raze|read0|read1|reciprocal|reval|reverse|rload|rotate|rsave|rtrim|save|scan|scov|sdev|select|set|setenv|show|signum|sin|sqrt|ss|ssr|string|sublist|sum|sums|sv|svar|system|tables|tan|til|trim|type|uj|ujf|ungroup|union|update|upper|upsert|value|var|view|views|vs|wavg|where|while|within|wj|wj1|wsum|xasc|xbar|xcol|xcols|xdesc|xexp|xgroup|xkey|xlog|xprev|xrank)(?=(\W|\b))</string>
 		</dict>
+
+		<!-- timestamp (12) -->
 		<dict>
-			<key>captures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.complex.source.q</string>
-				</dict>
-			</dict>
+			<key>comment</key>
+			<string>timestamp</string>
+			<key>name</key>
+			<string>constant.numeric.complex.timestamp.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: 1st group: DT, 2nd group: eTisDdfhjzbmc -->
+			<string>(?=(\W|\b))([0-9]{4}\.[0-9]{2}\.[0-9]{2}D[0-9]{2}(:[0-5][0-9]){0,2}(\.[0-9]{3}([a-zA-CE-SU-Z0-9]*[ABCEFGHIJKLMNOPQRSUVWXYZagklnopqrtuvwxy0-9])?|\.[0-9]*|:)?)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- datetime (15) -->
+		<dict>
 			<key>comment</key>
 			<string>datetime</string>
-			<key>match</key>
-			<string>(?=(\W|\b))([0-9]{4}\.[0-9]{2}\.[0-9]{2}[TD]?[0-9]{2}:[0-9]{2}:[0-9]{2}(:[0-9]{2})?(\.[0-9]{3,6})?)(?=(\W|\b))</string>
 			<key>name</key>
-			<string>other.source.q</string>
+			<string>constant.numeric.complex.datetime.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: 1st group: D, 2nd group: eTisDdfhjzbmc -->
+			<string>(?=(\W|\b))([0-9]{4}\.[0-9]{2}\.[0-9]{2}T[0-9]{2}(:[0-5][0-9]){0,2}(\.[0-9]{3}([a-zA-CE-Z0-9]*[ABCEFGHIJKLMNOPQRSUVWXYZagklnopqrtuvwxy0-9])?|\.[0-9]*|:)?)(?=(\W|\b))</string>
 		</dict>
+
+		<!-- timespan (16) -->
 		<dict>
-			<key>captures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.complex.source.q</string>
-				</dict>
-			</dict>
+			<key>comment</key>
+			<string>datetime and timespan</string>
+			<key>name</key>
+			<string>constant.numeric.complex.timespan.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: 1st group: eisdfhjzbm, 2nd group: eTisDdfhjzbmc -->
+			<string>(?=(\W|\b))(([0-9]{1,6}D([0-9]{1,2})((:[0-5][0-9]){0,2}|:)(\.[0-9]{0,9}[a-zA-Z0-9]*[A-Zacgklnopqrtuvwxy0-9])?)|([0-9]{2}:[0-5][0-9](:[0-5][0-9]\.[0-9]{4,}|:[0-5][0-9]\.[0-9]{9,}[a-zA-Z0-9]*[ABCEFGHIJKLMNOPQRSUVWXYZagklnopqrtuvwxy0-9])|\.[0-9]{8,}))(?=(\W|\b))</string>
+		</dict>
+
+		<!-- time (19) -->
+		<dict>
 			<key>comment</key>
 			<string>time</string>
-			<key>match</key>
-			<string>(?=(\W|\b))([0-9]{4}\.[0-9]{2}\.[0-9]{2}[TD]?)(?=(\W|\b))</string>
 			<key>name</key>
-			<string>other.source.q</string>
+			<string>constant.numeric.complex.time.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: eTisDdfhjzbm -->
+			<string>(?=(\W|\b))([0-9]{2}:[0-5][0-9]((:[0-9]{2}(((([ABCEFGHIJKLMNOPQRSUVWXYZacgklnopqrtuvwxy0-9:]){1,2})?([0-5][0-9]){1,2})|\.[0-9]{3}[ABCEFGHIJKLMNOPQRSUVWXYZacgklnopqrtuvwxy0-9]?|\.[0-9]{0,3}))|\.[0-9]{4,7}))(?=(\W|\b))</string>
 		</dict>
+
+		<!-- second (18) -->
 		<dict>
-			<key>captures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.complex.source.q</string>
-				</dict>
-			</dict>
+			<key>comment</key>
+			<string>second</string>
+			<key>name</key>
+			<string>constant.numeric.complex.second.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))([0-9]{2}:[0-5][0-9]([0-5][0-9]([0-5][0-9])?|\.[0-9]{2}|:[0-9]{2}|([a-zA-Z]){0,2}[0-5][0-9]))(?=(\W|\b))</string>
+		</dict>
+
+		<!-- minute (17) -->
+		<dict>
+			<key>comment</key>
+			<string>minute</string>
+			<key>name</key>
+			<string>constant.numeric.complex.minute.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: eTisDdfhjzbm -->
+			<string>(?=(\W|\b))([0-9]{2}:([0-5][0-9]([ABCEFGHIJKLMNOPQRSUVWXYZacgklnopqrtuvwxy0-9:])?)?)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- date (14) -->
+		<dict>
 			<key>comment</key>
 			<string>date</string>
-			<key>match</key>
-			<string>(?=(\W|\b))([0-9]{2}:[0-9]{2}:[0-9]{2}(:[0-9]{2})?(\.[0-9]{3,6})?)(?=(\W|\b))</string>
 			<key>name</key>
-			<string>other.source.q</string>
+			<string>constant.numeric.complex.date.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))([0-9]{4}\.[0-9]{2}\.[0-9]{2})(?=(\W|\b))</string>
 		</dict>
+
+		<!-- month (13) -->
 		<dict>
-			<key>captures</key>
-			<dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.complex.source.q</string>
-				</dict>
-			</dict>
 			<key>comment</key>
-			<string>boolean,short,integer,long</string>
-			<key>match</key>
-			<string>(?=(\W|\b))([-]?[0-9]+[bhijef]{0,1}(\.[0-9]+[m]?)?|0x[a-f0-9]+)(?=(\W|\b))</string>
+			<string>month</string>
 			<key>name</key>
-			<string>other.source.q</string>
+			<string>constant.numeric.complex.month.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))([0-9]{4,}\.([0][1-9]|[1][0-2])m)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- special I/O functions -->
+		<dict>
+			<key>comment</key>
+			<string>special I/O functions</string>
+			<key>name</key>
+			<string>support.function.io.q</string>
+			<key>match</key>
+			<string>0:|1:|2:</string>
+		</dict>
+
+		<!-- boolean (binary) (1), byte (4), short (5), int (6), long (7), float (9) -->
+		<dict>
+			<key>comment</key>
+			<string>boolean, byte, short, int, long, float</string>
+			<key>name</key>
+			<string>constant.numeric.complex.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))([-]?[0-9]+[bhijf]?(\.[0-9]+[m]?)?|0x[a-fA-F0-9]+)(?=(\W|\b)|_)</string>
+		</dict>
+
+		<!-- real (8) -->
+		<dict>
+			<key>comment</key>
+			<string>real</string>
+			<key>name</key>
+			<string>constant.numeric.complex.real.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))([-]?[0-9]+e[-]?[0-9]+)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- nulls -->
+		<dict>
+			<key>comment</key>
+			<string>nulls</string>
+			<key>name</key>
+			<string>constant.numeric.complex.null.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))(0n|0N[ghijepmdznuvt]?)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- infinities -->
+		<dict>
+			<key>comment</key>
+			<string>infinities</string>
+			<key>name</key>
+			<string>constant.numeric.complex.inf.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))(0w|0W[hijepdznuvt]?)(?=(\W|\b))</string>
 		</dict>
 	</array>
+
 	<key>scopeName</key>
 	<string>source.q</string>
 	<key>uuid</key>
-	<string>ef19f88f-c8f2-4877-a39b-68259fdd0ded</string>
+	<string>6b28adea-f9ea-36f3-e98e-87a5599f915d</string>
 </dict>
 </plist>
