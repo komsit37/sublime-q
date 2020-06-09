@@ -4,6 +4,7 @@ import sublime_plugin
 from .qpython.qtype import QException
 from socket import error as socket_error
 import numpy
+import datetime
 
 from . import q_chain
 from . import QCon as Q
@@ -47,40 +48,26 @@ class QSendRawCommand(q_chain.QChainCommand):
           q = con.q
           q.open()
 
-          #bundle all pre/post q call to save round trip time
-          pre_exec = []
-          #pre_exec.append('if[not `st in key `; .st.tmp: `]')
-          pre_exec.append('.st.start:.z.T')   #start timing
-          pre_exec.append('.st.mem: @[{.Q.w[][`used]}; (); 0]')   #start timing
-          pre_exec = ';'.join(pre_exec)
-          #print(pre_exec)
-          q(pre_exec)
+          start_time = datetime.datetime.now()
 
-          res = q(input)
+          write_flag = q('@[{`.st.tmp set x;1b};();0b]')
+          input = input[:5] + ('.st.tmp:' + input[5:] if write_flag else input[5:])
 
-          post_exec = []
-          #get exec time, result dimensions
-          post_exec.append('res:`time`c`mem!((3_string `second$.st.execTime:.z.T-.st.start);(" x " sv string (count @[{$[0<=type x; cols x;()]};.st.tmp;()]),count .st.tmp); ((@[{.Q.w[][`used]}; (); 0]) - .st.mem))')
-          #post_exec.append('delete tmp, start, execTime from `.st') #clean up .st
-          post_exec.append('delete start, execTime from `.st') #clean up .st but keep tmp result, so we can use it to plot if needed
-          #post_exec.append('.st: ` _ .st') #clean up .st
-          post_exec.append('res')
-          post_exec = ';'.join(post_exec)
-          post_exec = '{' + post_exec + '}[]'   #exec in closure so we don't leave anything behind
-          #print(post_exec)
-          tc = q(post_exec)
+          mem = '@[{.Q.w[][`used]};();0]'
+          dims = '$[@[{`tmp in key x};`.st;0b];" x " sv string (count @[{$[0<=type x; cols x;()]};.st.tmp;()]),count .st.tmp;0]'
+          res = q('(' + ';'.join([dims, mem, input, mem]) + ')')
 
-          res = util.decode(res)
-          time = util.decode(tc[b'time'])
-          count = util.decode(tc[b'c'])
-          mem = util.decode(tc[b'mem'])
+          end_time = datetime.datetime.now()
+          time = str(end_time - start_time)[2:-3]
+
+          count, mem, res = [util.decode(x) for x in [res[0], res[1] - res[3], res[2]]]
           mem = int(mem)
           sign = '+' if mem>0 else '-'
-          mem = util.format_mem(abs(int(mem)))
+          mem = util.format_mem(abs(mem))
 
           #return input itself if query is define variable or function (and return no result)
           if res is None:
-            res = input
+              res = input
 
           status = 'Result: ' + count + ', ' + time + ', ' + sign + mem
           #self.view.set_status('result', 'Result: ' + count + ', ' + time + ', ' + sign + mem)
@@ -103,7 +90,7 @@ class QSendCommand(QSendRawCommand):
         if (input[0] == "\\"):
             input = "value\"\\" + input + "\""
 
-        input = ".Q.s .st.tmp:" + input  #save to temprary result, so we can get dimension later
+        input = ".Q.s " + input
         return super().do(input=input)
 
 class QSendJsonCommand(QSendRawCommand):
@@ -111,7 +98,7 @@ class QSendJsonCommand(QSendRawCommand):
         if (input[0] == "\\"):
             input = "value\"\\" + input + "\""
 
-        input = ".j.j .st.tmp:" + input  #save to temprary result, so we can get dimension later
+        input = ".j.j " + input  #save to temprary result, so we can get dimension later
         return super().do(input=input)
 
 

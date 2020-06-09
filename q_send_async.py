@@ -22,7 +22,7 @@ class QSendAsyncCommand(sublime_plugin.TextCommand):
       #print(s)
       if (s[0] == "\\"):
         s = "value\"\\" + s + "\""
-      s = ".Q.s .st.tmp:" + s  #save to temprary result, so we can get dimension later
+      s = ".Q.s " + s
 
       res = q_send.QSendRawCommand.sendAndUpdateStatus(self.view, con, s)
       if output:
