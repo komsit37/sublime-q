@@ -416,6 +416,25 @@
 			<key>match</key>
 			<string>(?=(\W|\b))(0w|0W[hijepdznuvt]?)(?=(\W|\b))</string>
 		</dict>
+
+		<!-- Various operators -->
+		<dict>
+			<key>comment</key>
+			<string>q adverbs and shortcut</string>
+			<key>name</key>
+			<string>support.function.q</string>
+			<key>match</key>
+			<string>[!$@\\/_#?|',`\\:]</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>dot notation</string>
+			<key>name</key>
+			<string>support.function.q</string>
+			<key>match</key>
+			<string>\.(?=\W)</string>
+		</dict>
+
 	</array>
 
 	<key>scopeName</key>
