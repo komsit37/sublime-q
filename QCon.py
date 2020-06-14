@@ -1,5 +1,6 @@
 import sublime, sublime_plugin
 from .qpython import qconnection
+from .qpython.qtype import QException
 from socket import error as socket_error
 from . import util
 
@@ -45,12 +46,12 @@ class QCon():
         #return QCon.fromDict(d)
         con = QCon.fromDict(d)
         if con:
-          return con
+            return con
         else:
-          #connect first
-          #sublime.message_dialog('Sublime-q: Choose your q connection first!')
-          view.window().run_command('q_show_connection_list')
-          return None
+            #connect first
+            #sublime.message_dialog('Sublime-q: Choose your q connection first!')
+            view.window().run_command('q_show_connection_list')
+            return None
 
     @classmethod
     def fromDict(cls, d):
@@ -117,11 +118,14 @@ class QCon():
 
     def status(self):
         status = 'OK' if self.checkOk() else 'FAIL'
-        name = (self.name) if self.name else ''
-        hdb = (' (HDB)') if self.hdb else ''
-        if self.mem:
-            mem = ' [' + util.format_mem(int(self.mem)) + ']'
-        else:
+        name = self.name if self.name else ''
+        hdb = ' (HDB)' if self.hdb else ''
+        try:
+            if self.mem:
+                mem = ' [' + util.format_mem(int(self.mem)) + ']'
+            else:
+                mem = ''
+        except:
             mem = ''
 
 
@@ -131,16 +135,15 @@ class QCon():
         try:
             self.q.open()
             if not self.init:
-              #only call at first time
-              print('init ' + self.h())
-              #self.q('system "c 2000 2000"')  #expand output to max 2000 chars
-              self.init = True
-            self.mem = self.q('@[{.Q.w[][`used]}; (); 0]')
+                #only call at first time
+                print('init ' + self.h())
+                #self.q('system "c 2000 2000"')  #expand output to max 2000 chars
+                self.init = True
+            self.mem = self.q('@[{.Q.w[][`used]};();0]')
+        except QException as e:
+            return False
         except socket_error as serr:
             return False
         finally:
             self.q.close()
         return True
-
-
-
