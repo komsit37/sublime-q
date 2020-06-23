@@ -1,23 +1,23 @@
 # q REPL for Sublime Text 3
-Connect to remote q session and execute q statements in Sublime Text
+Connect to remote q sessions and execute q statements in Sublime Text
 
 ![Image of screenshot](./resources/showcase.gif)
 
-* `Cmd + alt + q` to add q connections and quickly switch between them
-* `Cmd + Enter` to send highlighted line or block text to selected q session and show results in output panel
-* `Cmd + Shift + Enter` same as above, but show reult in phantom
-* `Cmd + e` same as above, but show reult in popup
-* `Cmd + j` same as above but get result as json (by calling .j.j to results - requires .j.j in kdb 3.x)
-* define and run custom routine with `Cmd + alt + r`
+* `Cmd + alt + q` to select/add/modify your q connections
+* `Cmd + Enter` to send current line or highlighted block of text to selected q session and show results in the output panel
+* `Cmd + Shift + Enter` send the command as above, but show results in Phantom
+* `Cmd + e` same as above, but show result in popup
+* `Cmd + j` same as above, but get result as json (requires .j.j from kdb 3.x/4.x)
+* Run custom routines with `Cmd + alt + r`
 * 3 result modes: **output panel**, **inline popup**, and **phantom** (inline block)
-* Syntax higlighing (based on kimtang's https://github.com/kimtang/sublime-q)
-* shows rows, column, time, mem usage at status bar
-* auto complete
-* plot table data in html/js chart (similar to Studio for Kdb+ - with a few customizations)
+* Syntax highlighting (from atf1206 https://github.com/atf1206/q-kdb-syntax, based on kimtang's https://github.com/kimtang/sublime-q)
+* Status bar with rows, column, time, mem usage
+* Syntax autocomplete
+* Plot table data in html/js (similar to Studio for Kdb+ - with a few customizations)
 
 [change Cmd to Ctrl for windows]
 
-### Shortcut
+### Shortcuts
 
 * `F1` open help at cursor
 * `F2` print variable at cursor
@@ -37,8 +37,8 @@ via package control https://packagecontrol.io/packages/q%20KDB
 
 ## Features
 
-### Chart
-Shortcut `F4` will plot html/js chart from the latest REPL result (the usage is similar to Studio for Kdb+ - with a few chart customizations). See [js/canvasjs/example.q](./js/canvasjs/example.q)
+### Charts
+Shortcut `F4` will plot an html/js chart from the latest REPL result (the usage is similar to Studio for Kdb+ - with a few chart customizations). See [js/canvasjs/example.q](./js/canvasjs/example.q)
 
 ```q
 /default is line chart
@@ -71,19 +71,19 @@ needAxis2Data: ([] time: "z"$2019.01.01 + til 3; a: 3?100; b: 3?1000; c: 3?100; 
 ![](./resources/charts.png)
 
 ### Output
-There are 3 output modes to show results from q statement:
+There are 3 output modes to show results from q queries:
 * `Cmd + Enter` output panel - I mostly use this
 * `Cmd + Shift + Enter` inline phantom - Use this when you need some reference data
 * `Cmd + e` overlay popup - I don't use this so much
 
 ![](./resources/output.png)
 
-Extra: shortcut `Shift + F2` let you browse table variable at cursor - by utilizing `.h.jx`
+Extra: shortcut `Shift + F2` lets you browse the table variable at cursor (utilizing `.h.jx`)
 
 ![](./resources/browse_phantom.png)
 
-### Custom Routine
-Define your own custom routine. Shortcut `Cmd + alt + r` will bring up custom routine option. For example:
+### Custom Routines
+Define your own custom routines. Shortcut `Cmd + alt + r` will bring up custom routine options. For example:
 
 ```json
   "routines": [
@@ -95,7 +95,7 @@ Define your own custom routine. Shortcut `Cmd + alt + r` will bring up custom ro
 	]
 ```
 
-Where `{0}` is the variable name at cursor. You can also define shortcut by referring to the routine by name:
+Where `{0}` is the variable name at cursor. You can also define shortcuts by referring to the routine by name:
 
 ```json
 { "keys": ["f2"],       "command": "q_routine", "args": {"name": "show"}, "context":[{ "key": "selector", "operator": "equal", "operand": "source.q" }]},
@@ -103,7 +103,7 @@ Where `{0}` is the variable name at cursor. You can also define shortcut by refe
 
 See more example in [settings/sublime-q.sublime-settings](./settings/sublime-q.sublime-settings)
 
-Please feel free to open issues for any feedback, bug, or feature requests.
+Please feel free to open issues for any feedback, bugs, or feature requests.
 
 ## Contribute
 
@@ -123,8 +123,8 @@ From sublime text, run package control: satisfy dependencies (you may need to op
 * windows_x64
 * linux_x64
 
-### Not supported OS
-Support can be easily extended by adding proper numpy 1.8 build with python 3.3 (see https://github.com/komsit37/sublime-q/issues/12). Please send PR if you can build any of these:
+### Unsupported OS
+Support could be extended by adding the proper numpy 1.8 build with python 3.3 (see https://github.com/komsit37/sublime-q/issues/12). Please send a PR if you can build any of these:
 * osx_x32
 * windows_x32
 * linux_x32
@@ -132,7 +132,7 @@ Support can be easily extended by adding proper numpy 1.8 build with python 3.3 
 This plugin is for Sublime Text 3. For Sublime Text 2, please use https://github.com/komsit37/sublime-q-2
 
 ### To build numpy
-Included numpy version should work for osx and windows 64bit, but if you need to build numpy
+The included numpy version should work for osx and windows 64bit, but if you need to build numpy:
 
 1. download python 3.3
 2. download http://sourceforge.net/projects/numpy/files/NumPy/1.8.1/
