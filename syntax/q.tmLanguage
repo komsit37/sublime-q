@@ -181,7 +181,7 @@
 			<key>name</key>
 			<string>other.assignment.q</string>
 			<key>match</key>
-			<string>(?=([^a-zA-Z0-9]|\b))([a-zA-Z]+[a-zA-Z0-9_]*)\s*([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:)</string>
+			<string>(?&lt;=([^a-zA-Z0-9])|(?&lt;=\b))([a-zA-Z]+[a-zA-Z0-9_]*)\s*([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:)</string>
 			<!-- <string>(?=([^a-zA-Z0-9]|\b))(\.?[a-zA-Z]+[a-zA-Z0-9_]*)(\.[a-zA-Z0-9_]*)*\s*([,+\-*%@$!?&lt;&gt;=~|&amp;\#]?)(::|:)\s*</string> -->
 			<key>captures</key>
 			<dict>
@@ -384,7 +384,7 @@
 			<key>name</key>
 			<string>constant.numeric.complex.q</string>
 			<key>match</key>
-			<string>(?=(\W|\b))([-]?[0-9]+[bhijf]?(\.[0-9]+[m]?)?|0x[a-fA-F0-9]+)(?=(\W|\b)|_)</string>
+			<string>((?&lt;=(\W))|(?&lt;=_)|(?&lt;=\b))([-]?[0-9]+[bhijf]?(\.[0-9]+[m]?)?|0x[a-fA-F0-9]+)(?=(\W|\b)|_)</string>
 		</dict>
 
 		<!-- real (8) -->
@@ -394,7 +394,7 @@
 			<key>name</key>
 			<string>constant.numeric.complex.real.q</string>
 			<key>match</key>
-			<string>(?=(\W|\b))([-]?[0-9]+e[-]?[0-9]+)(?=(\W|\b))</string>
+			<string>((?&lt;=\W)|(?&lt;=_)|(?&lt;=\b))([-]?[0-9]+e[-]?[0-9]+)(?=(\W|\b))</string>
 		</dict>
 
 		<!-- nulls -->
@@ -404,7 +404,7 @@
 			<key>name</key>
 			<string>constant.numeric.complex.null.q</string>
 			<key>match</key>
-			<string>(?=(\W|\b))(0n|0N[ghijepmdznuvt]?)(?=(\W|\b))</string>
+			<string>((?&lt;=\W)|(?&lt;=_)|(?&lt;=\b))(0n|0N[ghijepmdznuvt]?)(?=(\W|\b))</string>
 		</dict>
 
 		<!-- infinities -->
@@ -414,7 +414,7 @@
 			<key>name</key>
 			<string>constant.numeric.complex.inf.q</string>
 			<key>match</key>
-			<string>(?=(\W|\b))(0w|0W[hijepdznuvt]?)(?=(\W|\b))</string>
+			<string>((?&lt;=\W)|(?&lt;=_)|(?&lt;=\b))(0w|0W[hijepdznuvt]?)(?=(\W|\b))</string>
 		</dict>
 
 		<!-- Various operators -->
@@ -424,7 +424,7 @@
 			<key>name</key>
 			<string>support.function.q</string>
 			<key>match</key>
-			<string>[!$@\\/_#?|',`\\:]</string>
+			<string>[!$@\\/#?|',`\\:]</string>
 		</dict>
 		<dict>
 			<key>comment</key>
@@ -433,6 +433,22 @@
 			<string>support.function.q</string>
 			<key>match</key>
 			<string>\.(?=\W)</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>placeholder for variable names with underscores</string>
+			<key>name</key>
+			<string>source.q</string>
+			<key>match</key>
+			<string>[a-zA-Z][a-zA-Z0-9_]+</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>drop (underscore)</string>
+			<key>name</key>
+			<string>support.function.q</string>
+			<key>match</key>
+			<string>(?&lt;=[0-9\s])_</string>
 		</dict>
 
 	</array>
