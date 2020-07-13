@@ -62,6 +62,9 @@ class QConnection(object):
      - `username` (`string` or `None`) - username for q authentication/authorization
      - `password` (`string` or `None`) - password for q authentication/authorization
      - `timeout` (`nonnegative float` or `None`) - set a timeout on blocking socket operations
+     - `encoding` (`string`) - string encoding for data deserialization
+     - `reader_class` (subclass of `QReader`) - data deserializer
+     - `writer_class` (subclass of `QWriter`) - data serializer
     :Options: 
      - `raw` (`boolean`) - if ``True`` returns raw data chunk instead of parsed 
        data, **Default**: ``False``
@@ -74,18 +77,36 @@ class QConnection(object):
        strings are encoded as q strings instead of chars, **Default**: ``False``
     '''
 
-    def __init__(self, host, port, username = None, password = None, timeout = None, **options):
+
+    def __init__(self, host, port, username = None, password = None, timeout = None, encoding = 'latin-1', reader_class = None, writer_class = None, **options):
         self.host = host
         self.port = port
         self.username = username
         self.password = password
 
         self._connection = None
+        self._connection_file = None
         self._protocol_version = None
 
         self.timeout = timeout
 
+        self._encoding = encoding
+
         self._options = MetaData(**CONVERSION_OPTIONS.union_dict(**options))
+
+        try:
+            from qpython._pandas import PandasQReader, PandasQWriter
+            self._reader_class = PandasQReader
+            self._writer_class = PandasQWriter
+        except ImportError:
+            self._reader_class = QReader
+            self._writer_class = QWriter
+
+        if reader_class:
+            self._reader_class = reader_class
+
+        if writer_class:
+            self._writer_class = writer_class
 
 
     def __enter__(self):
@@ -122,8 +143,8 @@ class QConnection(object):
             self._init_socket()
             self._initialize()
 
-            self._writer = QWriter(self._connection, protocol_version = self._protocol_version)
-            self._reader = QReader(self._connection.makefile('b'))
+            self._writer = self._writer_class(self._connection, protocol_version = self._protocol_version, encoding = self._encoding)
+            self._reader = self._reader_class(self._connection_file, encoding = self._encoding)
 
 
     def _init_socket(self):
@@ -132,14 +153,18 @@ class QConnection(object):
             self._connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self._connection.connect((self.host, self.port))
             self._connection.settimeout(self.timeout)
+            self._connection_file = self._connection.makefile('b')
         except:
             self._connection = None
+            self._connection_file = None
             raise
 
 
     def close(self):
         '''Closes connection with the q service.'''
         if self._connection:
+            self._connection_file.close()
+            self._connection_file = None
             self._connection.close()
             self._connection = None
 
@@ -160,7 +185,7 @@ class QConnection(object):
     def _initialize(self):
         '''Performs a IPC protocol handshake.'''
         credentials = (self.username if self.username else '') + ':' + (self.password if self.password else '')
-        credentials = credentials.encode('latin-1')
+        credentials = credentials.encode(self._encoding)
         self._connection.send(credentials + b'\3\0')
         response = self._connection.recv(1)
 
@@ -220,7 +245,7 @@ class QConnection(object):
             self._writer.write([query] + list(parameters), msg_type, **self._options.union_dict(**options))
 
 
-    def sync(self, query, *parameters, **options):
+    def sendSync(self, query, *parameters, **options):
         '''Performs a synchronous query against a q service and returns parsed 
         data.
         
@@ -230,23 +255,23 @@ class QConnection(object):
         
         Executes a q expression:
         
-            >>> print(q.sync('til 10'))
+            >>> print(q.sendSync('til 10'))
             [0 1 2 3 4 5 6 7 8 9]
         
         Executes an anonymous q function with a single parameter:
         
-            >>> print(q.sync('{til x}', 10))
+            >>> print(q.sendSync('{til x}', 10))
             [0 1 2 3 4 5 6 7 8 9]
             
         Executes an anonymous q function with two parameters:
         
-            >>> print(q.sync('{y + til x}', 10, 1))
+            >>> print(q.sendSync('{y + til x}', 10, 1))
             [ 1  2  3  4  5  6  7  8  9 10]
             
-            >>> print(q.sync('{y + til x}', *[10, 1]))
+            >>> print(q.sendSync('{y + til x}', *[10, 1]))
             [ 1  2  3  4  5  6  7  8  9 10]
         
-        The :func:`.sync` is called from the overloaded :func:`.__call__` 
+        The :func:`.sendSync` is called from the overloaded :func:`.__call__`
         function. This allows :class:`.QConnection` instance to be called as 
         a function:
         
@@ -284,7 +309,7 @@ class QConnection(object):
             raise QReaderException('Received message of type: %s where response was expected')
 
 
-    def async(self, query, *parameters, **options):
+    def sendAsync(self, query, *parameters, **options):
         '''Performs an asynchronous query and returns **without** retrieving of 
         the response.
         
@@ -294,11 +319,11 @@ class QConnection(object):
         
         Calls a anonymous function with a single parameter:
         
-            >>> q.async('{til x}', 10)
+            >>> q.sendAsync('{til x}', 10)
         
         Executes a q expression:
         
-            >>> q.async('til 10')
+            >>> q.sendAsync('til 10')
         
         :Parameters:
          - `query` (`string`) - query to be executed
@@ -357,4 +382,4 @@ class QConnection(object):
 
 
     def __call__(self, *parameters, **options):
-        return self.sync(parameters[0], *parameters[1:], **options)
+        return self.sendSync(parameters[0], *parameters[1:], **options)
