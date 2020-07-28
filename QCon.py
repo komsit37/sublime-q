@@ -15,7 +15,7 @@ class QCon():
         self.port = port
         self.username = username
         self.password = password
-        self.q = qconnection.QConnection(host = self.host, port = self.getPort(), username = self.username, password = self.password)
+        self.q = qconnection.QConnection(host = self.host, port = self.getPort(), username = self.username, password = self.password, encoding = 'UTF-8')
 
     @classmethod
     def fromH(cls, h):
