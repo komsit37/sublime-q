@@ -1,6 +1,5 @@
 from . import q_chain
 import sublime
-import styled_popup
 #from qpython import qconnection
 #q = qconnection.QConnection(host = 'localhost', port = 5555)
 #q.open()
@@ -26,7 +25,7 @@ class QOutPopupBaseCommand(q_chain.QChainCommand):
 			self.rowcol = self.current_rowcol()
 			self.rowcol = [max(0, self.rowcol[0] - 2), self.rowcol[1] + 10]
 			self.to_rowcol(self.rowcol)
-			styled_popup.show_popup(self.view, self.html,on_hide=self.on_hide, on_navigate=self.on_navigate)
+			self.view.show_popup(self.html, on_hide=self.on_hide, on_navigate=self.on_navigate)
 			self.to_rowcol(current)
 			QOutPopupBaseCommand.TO_CLOSE = True
 			QOutPopupBaseCommand.ACTUALLY_CLOSED = False
@@ -56,7 +55,7 @@ class QOutPopupBaseCommand(q_chain.QChainCommand):
 				print('reopen')
 				rowcol = self.current_rowcol()
 				self.to_rowcol(self.rowcol)
-				styled_popup.show_popup(self.view, self.html, on_hide=self.on_hide, on_navigate=self.on_navigate)
+				self.view.show_popup(self.html, on_hide=self.on_hide, on_navigate=self.on_navigate)
 				self.to_rowcol(rowcol)
 			except Exception as e:
 				#will get exception when popup moves out of view, just close the pop up
