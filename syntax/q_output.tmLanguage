@@ -20,6 +20,131 @@ TODO: make actual syntax highlight for q
 	<string>q output</string>
 	<key>patterns</key>
 	<array>
+		<!-- timestamp (12) -->
+		<dict>
+			<key>comment</key>
+			<string>timestamp</string>
+			<key>name</key>
+			<string>constant.numeric.complex.timestamp.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: 1st group: DT, 2nd group: eTisDdfhjzbmc -->
+			<string>(?=(\W|\b))([0-9]{4}\.[0-9]{2}\.[0-9]{2}D[0-9]{2}(:[0-5][0-9]){0,2}(\.[0-9]{3}([a-zA-CE-SU-Z0-9]*[ABCEFGHIJKLMNOPQRSUVWXYZagklnopqrtuvwxy0-9])?|\.[0-9]*|:)?)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- datetime (15) -->
+		<dict>
+			<key>comment</key>
+			<string>datetime</string>
+			<key>name</key>
+			<string>constant.numeric.complex.datetime.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: 1st group: D, 2nd group: eTisDdfhjzbmc -->
+			<string>(?=(\W|\b))([0-9]{4}\.[0-9]{2}\.[0-9]{2}T[0-9]{2}(:[0-5][0-9]){0,2}(\.[0-9]{3}([a-zA-CE-Z0-9]*[ABCEFGHIJKLMNOPQRSUVWXYZagklnopqrtuvwxy0-9])?|\.[0-9]*|:)?)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- timespan (16) -->
+		<dict>
+			<key>comment</key>
+			<string>datetime and timespan</string>
+			<key>name</key>
+			<string>constant.numeric.complex.timespan.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: 1st group: eisdfhjzbm, 2nd group: eTisDdfhjzbmc -->
+			<string>(?=(\W|\b))(([0-9]{1,6}D([0-9]{1,2})((:[0-5][0-9]){0,2}|:)(\.[0-9]{0,9}[a-zA-Z0-9]*[A-Zacgklnopqrtuvwxy0-9])?)|([0-9]{2}:[0-5][0-9](:[0-5][0-9]\.[0-9]{4,}|:[0-5][0-9]\.[0-9]{9,}[a-zA-Z0-9]*[ABCEFGHIJKLMNOPQRSUVWXYZagklnopqrtuvwxy0-9])|\.[0-9]{8,}))(?=(\W|\b))</string>
+		</dict>
+
+		<!-- time (19) -->
+		<dict>
+			<key>comment</key>
+			<string>time</string>
+			<key>name</key>
+			<string>constant.numeric.complex.time.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: eTisDdfhjzbm -->
+			<string>(?=(\W|\b))([0-9]{2}:[0-5][0-9]((:[0-9]{2}(((([ABCEFGHIJKLMNOPQRSUVWXYZacgklnopqrtuvwxy0-9:]){1,2})?([0-5][0-9]){1,2})|\.[0-9]{3}[ABCEFGHIJKLMNOPQRSUVWXYZacgklnopqrtuvwxy0-9]?|\.[0-9]{0,3}))|\.[0-9]{4,7}))(?=(\W|\b))</string>
+		</dict>
+
+		<!-- second (18) -->
+		<dict>
+			<key>comment</key>
+			<string>second</string>
+			<key>name</key>
+			<string>constant.numeric.complex.second.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))([0-9]{2}:[0-5][0-9]([0-5][0-9]([0-5][0-9])?|\.[0-9]{2}|:[0-9]{2}|([a-zA-Z]){0,2}[0-5][0-9]))(?=(\W|\b))</string>
+		</dict>
+
+		<!-- minute (17) -->
+		<dict>
+			<key>comment</key>
+			<string>minute</string>
+			<key>name</key>
+			<string>constant.numeric.complex.minute.q</string>
+			<key>match</key>
+			<!-- For convenience, here are the disallowed chars: eTisDdfhjzbm -->
+			<string>(?=(\W|\b))([0-9]{2}:([0-5][0-9]([ABCEFGHIJKLMNOPQRSUVWXYZacgklnopqrtuvwxy0-9:])?)?)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- date (14) -->
+		<dict>
+			<key>comment</key>
+			<string>date</string>
+			<key>name</key>
+			<string>constant.numeric.complex.date.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))([0-9]{4}\.[0-9]{2}\.[0-9]{2})(?=(\W|\b))</string>
+		</dict>
+
+		<!-- month (13) -->
+		<dict>
+			<key>comment</key>
+			<string>month</string>
+			<key>name</key>
+			<string>constant.numeric.complex.month.q</string>
+			<key>match</key>
+			<string>(?=(\W|\b))([0-9]{4,}\.([0][1-9]|[1][0-2])m)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- boolean (binary) (1), byte (4), short (5), int (6), long (7), float (9) -->
+		<dict>
+			<key>comment</key>
+			<string>boolean, byte, short, int, long, float</string>
+			<key>name</key>
+			<string>constant.numeric.complex.q</string>
+			<key>match</key>
+			<string>((?&lt;=(\W))|(?&lt;=_)|(?&lt;=\b))([-]?[0-9]+[bhijf]?(\.[0-9]+[m]?)?|0x[a-fA-F0-9]+)(?=(\W|\b)|_)</string>
+		</dict>
+
+		<!-- real (8) -->
+		<dict>
+			<key>comment</key>
+			<string>real</string>
+			<key>name</key>
+			<string>constant.numeric.complex.real.q</string>
+			<key>match</key>
+			<string>((?&lt;=\W)|(?&lt;=_)|(?&lt;=\b))([-]?[0-9]+e[-]?[0-9]+)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- nulls -->
+		<dict>
+			<key>comment</key>
+			<string>nulls</string>
+			<key>name</key>
+			<string>constant.numeric.complex.null.q</string>
+			<key>match</key>
+			<string>((?&lt;=\W)|(?&lt;=_)|(?&lt;=\b))(0n|0N[ghijepmdznuvt]?)(?=(\W|\b))</string>
+		</dict>
+
+		<!-- uuid -->
+		<dict>
+			<key>comment</key>
+			<string>uuid</string>
+			<key>name</key>
+			<string>source.q</string>
+			<key>match</key>
+			<string>([0-9a-z][-]*)</string>
+		</dict>
+
 		<dict>
 			<key>captures</key>
 			<dict>
