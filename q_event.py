@@ -19,7 +19,13 @@ class QEvent(sublime_plugin.EventListener):
       return []
     compl = view.settings().get('q_compl')
     #print(compl)
-    return compl or []
+    # sublime uses '.'to seperate words so dot will be replaced in autocomplete
+    # we can work around this by guessing what the user wants, if the '.' is missing suggest dot completions
+    cw = view.substr(sublime.Region(
+        view.find_by_class(locations[0], False, 1, " "),locations[0]))
+    nscompl = view.settings().get(
+        'q_nscompl') if cw[0] == "." else view.settings().get('q_nscomplwdot')
+    return compl+nscompl or []
 
 #put this class in this file because it updates view settings 'q_compl'
 class QUpdateCompletionsCommand(q_send.QSendRawCommand):
@@ -57,18 +63,22 @@ class QUpdateCompletionsCommand(q_send.QSendRawCommand):
       compl.extend(self.makeCompletions(res[b'f'], 'Function'))
       compl.extend(self.makeCompletions(res[b'q'], 'q'))
       compl.extend(self.makeCompletions(['select', 'from', 'update', 'delete'], 'q'))
-
+      nscompl=[]
+      nscomplwdot=[]
       ns = res[b'ns']
       for x in ns.iteritems():
         n = x[0].decode('utf-8')
-        compl.append((n + '\tNamespace', n[1:]))
+        nscompl.append((n[1:] + '\tNamespace', n[1:]))
+        nscomplwdot.append((n + '\tNamespace', n))
         for c in x[1]:
           c = c.decode('utf-8')
           #print(c)
           f = n + '.' + c
-          compl.append((f + '\t' + n, f[1:]))
-
+          nscompl.append((f[1:] + '\t' + n, f[1:]))
+          nscomplwdot.append((f + '\t' + n, f))
       self.view.settings().set('q_compl', compl)
+      self.view.settings().set('q_nscompl', nscompl)
+      self.view.settings().set('q_nscomplwdot', nscomplwdot)
     finally:
       q.close()
 
