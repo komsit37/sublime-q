@@ -15,7 +15,8 @@ class QOutPanelCommand(q_chain.QChainCommand):
 		panel.settings().set("word_wrap", False)
 
 		panel.set_read_only(False)
-		panel.insert(edit, panel.size(), input)
+		# panel.insert(edit, panel.size(), input)
+		panel.run_command("append", {"characters": input})
 		panel.set_read_only(True)
 		self.view.window().run_command("show_panel", {"panel": "output.q"})
 		return '' #return something so that the chain will continue
