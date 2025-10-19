@@ -102,7 +102,7 @@ class QCon():
     def hstatus(self):
         s = self.host + ':' + str(self.getPort())
         if self.username: s+= ':' + self.username
-        if self.password: s+= ':' + self.password
+        if self.password: s+= ':****'
         return s
 
     def getPort(self):
