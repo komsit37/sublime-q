@@ -93,6 +93,9 @@ from functools import reduce
 if sys.version > '3':
     long = int
 
+if not hasattr(numpy, "bool"):
+    numpy.bool = numpy.bool_
+
 # qtype constants:
 QNULL               =  0x65
 QGENERAL_LIST       =  0x00
