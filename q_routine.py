@@ -140,13 +140,8 @@ class QRoutineCommand(sublime_plugin.TextCommand):
         print("rendered chart to " + chart_file)
         write_file(chart_file, res)
 
-        url = "file://" + chart_file
-        #new=1 open in new window
-        #autoraise=False do not focus note: this setting doesn't work on my MAC
-        #see https://docs.python.org/2/library/webbrowser.html
-        webbrowser.open(url, new=1, autoraise=False)
-        #webbrowser.open_new(url)
-        #print(os.getcwd()) #/Users/pkomsit/Applications/Sublime Text.app/Contents/MacOS
+        self.open_browser("file://" + chart_file)
+
     #todo: these two error handlings are duplicated from QSendRaw.executeRaw. try to refactor them
     except QException as e:
         error = "error: `" + util.decode(e)
@@ -163,6 +158,16 @@ class QRoutineCommand(sublime_plugin.TextCommand):
       raise e
     finally:
       q.close()
+
+  def open_browser(self, url):
+    #see https://docs.python.org/2/library/webbrowser.html
+    browser_settings = sublime.load_settings("sublime-q.sublime-settings").get("browser")
+    browser_type = browser_settings.get("browser_type", None)
+    if browser_type == "default": #we need to put in None to use system default browser
+      browser_type = None
+    browser_new = browser_settings.get("new", 2) #new=2 open in new tab
+    browser_autoraise = browser_settings["autoraise"] == "True" #autoraise=False do not focus note: this setting doesn't work on my mac
+    webbrowser.get(browser_type).open(url, new=browser_new, autoraise=browser_autoraise)
 
 
 
