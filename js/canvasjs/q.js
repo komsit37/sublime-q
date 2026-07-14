@@ -35,7 +35,10 @@ function parseTime(x, y) {
 function guessDataType(x){
   //console.log(x);
   if (dateReg.test(x)){
-    return function(x){return new Date(x)};
+    return function(x){
+      var p = x.split("-");
+      return new Date(p[0], p[1], p[2]);
+    };
   } else if (timeReg.test(x)){
     return parseTime;
   } else if (timestampReg.test(x)){

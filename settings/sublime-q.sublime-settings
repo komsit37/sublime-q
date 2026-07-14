@@ -8,6 +8,11 @@
     "Packages/q KDB/js/canvasjs/canvasjs.min.js",
     "Packages/q KDB/js/canvasjs/q.js"
   ],
+  "browser": { //for meaning of this settings, see https://docs.python.org/2/library/webbrowser.html
+    "browser_type": "default", //for charting: you can change browser here. values are mozilla, firefox, windows-default, safari, chrome, etc. value 'default' will use system default
+    "new": 2,
+    "autoraise": "False", //setting this to False should have kept focus on sublime, but it doesn't work on my mac. I leave it here anyway in case it works on your system
+  },
   //custom q routines - you should not edit this file directly, but add your routine to ${sublime-dir}/Packages/User/sublime-q.sublime-settings instead
   "routines": [
     {
