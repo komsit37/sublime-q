@@ -249,7 +249,7 @@ class QReader(object):
 
     @parse(QSYMBOL)
     def _read_symbol(self, qtype = QSYMBOL):
-        return numpy.string_(self._buffer.get_symbol())
+        return numpy.bytes_(self._buffer.get_symbol())
 
 
     @parse(QCHAR)
@@ -289,7 +289,7 @@ class QReader(object):
 
         if qtype == QSYMBOL_LIST:
             symbols = self._buffer.get_symbols(length)
-            data = numpy.array(symbols, dtype = numpy.string_)
+            data = numpy.array(symbols, dtype = numpy.bytes_)
             return qlist(data, qtype = qtype, adjust_dtype = False)
         elif qtype == QGUID_LIST:
             data = numpy.array([self._read_guid() for x in range(length)])
