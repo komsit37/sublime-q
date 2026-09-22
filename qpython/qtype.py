@@ -173,7 +173,7 @@ PY_TYPE = {
     QFLOAT:         numpy.float32,
     QDOUBLE:        numpy.float64,
     QCHAR:          numpy.byte,
-    QSYMBOL:        numpy.string_,
+    QSYMBOL:        numpy.bytes_,
     QMONTH:         numpy.int32,
     QDATE:          numpy.int32,
     QDATETIME:      numpy.float64,

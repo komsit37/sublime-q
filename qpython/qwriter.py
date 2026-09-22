@@ -171,7 +171,7 @@ class QWriter(object):
                 self._buffer.write(data)
 
 
-    @serialize(numpy.string_)
+    @serialize(numpy.bytes_)
     def _write_symbol(self, data):
         self._buffer.write(struct.pack('=b', QSYMBOL))
         if data:
