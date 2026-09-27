@@ -203,7 +203,7 @@ Q_TYPE = {
     numpy.float64    : QDOUBLE,
     str              : QSTRING,
     bytes            : QSTRING,
-    numpy.string_    : QSYMBOL,
+    numpy.bytes_     : QSYMBOL,
     uuid.UUID        : QGUID,
     }
 
@@ -265,7 +265,7 @@ _QNULL8 = numpy.int64(-2**63)
 _QNAN32 = numpy.frombuffer(b'\x00\x00\xc0\x7f', dtype=numpy.float32)[0]
 _QNAN64 = numpy.frombuffer(b'\x00\x00\x00\x00\x00\x00\xf8\x7f', dtype=numpy.float64)[0]
 _QNULL_BOOL = numpy.bool_(False)
-_QNULL_SYM = numpy.string_('')
+_QNULL_SYM = numpy.bytes_('')
 _QNULL_GUID = uuid.UUID('00000000-0000-0000-0000-000000000000')
 
 
@@ -278,7 +278,7 @@ QNULLMAP = {
     QLONG:       ('0Nj',    _QNULL8,             lambda v: v == _QNULL8),
     QFLOAT:      ('0Ne',    _QNAN32,             lambda v: numpy.isnan(v)),
     QDOUBLE:     ('0n',     _QNAN64,             lambda v: numpy.isnan(v)),
-    QSTRING:     ('" "',    b' ',                 lambda v: v == b' '),
+    QSTRING:     ('" "',    b' ',                lambda v: v == b' '),
     QSYMBOL:     ('`',      _QNULL_SYM,          lambda v: v == _QNULL_SYM),
     QMONTH:      ('0Nm',    _QNULL4,             lambda v: v == _QNULL4),
     QDATE:       ('0Nd',    _QNULL4,             lambda v: v == _QNULL4),
