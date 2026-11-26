@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 1
       - uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # Empty on comment events, so the action answers the @claude mention instead.
           prompt: ${{ github.event_name == 'pull_request' && format('Review PR {0} in {1}. Report bugs, risky changes and broken CLAUDE.md rules as inline comments, then one short summary comment. Do not comment on style.', github.event.pull_request.number, github.repository) || '' }}
           claude_args: |
